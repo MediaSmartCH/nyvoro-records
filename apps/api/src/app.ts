@@ -1,5 +1,7 @@
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -162,8 +164,12 @@ export function createApp(options: CreateAppOptions = {}) {
     }
   });
 
-  if (config.serveWebDist) {
-    app.use(express.static(config.webDistDir, { index: false }));
+  const runtimeDir = path.dirname(fileURLToPath(import.meta.url));
+  const webDistDir = path.resolve(runtimeDir, '../../web/dist');
+  const webIndexPath = path.resolve(webDistDir, 'index.html');
+
+  if (existsSync(webIndexPath)) {
+    app.use(express.static(webDistDir, { index: false }));
 
     app.get('*', (req, res, next) => {
       if (req.path.startsWith('/api/')) {
@@ -171,13 +177,14 @@ export function createApp(options: CreateAppOptions = {}) {
         return;
       }
 
-      const indexPath = path.resolve(config.webDistDir, 'index.html');
-      res.sendFile(indexPath, (error) => {
+      res.sendFile(webIndexPath, (error) => {
         if (error) {
           next();
         }
       });
     });
+  } else if (config.nodeEnv !== 'test') {
+    console.warn(`[api] web dist not found at ${webDistDir}. Only API routes will be served.`);
   }
 
   app.use((error: Error, _req: express.Request, res: express.Response, next: express.NextFunction) => {
