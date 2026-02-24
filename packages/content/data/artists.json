@@ -2,9 +2,12 @@
   {
     "id": "lumeno",
     "name": "Lúmeno",
-    "genres": ["Latin Pop", "Reggaeton Suave"],
+    "genres": [
+      "Latin Pop",
+      "Reggaeton Suave"
+    ],
     "basedIn": "Latino market / international Spanish-speaking",
-    "portrait": "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1600&q=80",
+    "portrait": "/images/lumeno-profile.png",
     "profile": {
       "mainLanguage": {
         "en": "Spanish",
@@ -94,12 +97,13 @@
       "fr": "Lúmeno est un projet Latin Pop / Reggaeton suave orienté narration émotionnelle nocturne. Ce n'est pas un reggaeton agressif, ni un projet de club bruyant. C'est un projet de sensation, construit autour d'un rythme minimal, d'une tension maîtrisée et d'une mise en scène cinématographique cohérente."
     },
     "links": {
-      "spotify": "https://open.spotify.com/",
-      "appleMusic": "https://music.apple.com/",
-      "youtube": "https://youtube.com/",
-      "instagram": "https://instagram.com/",
-      "tiktok": "https://tiktok.com/",
-      "soundCloud": "https://soundcloud.com/"
+      "youtube": "https://www.youtube.com/@lumeno_music",
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+      "tidal": "https://tidal.com/artist/73328686",
+      "deezer": "https://www.deezer.com/fr/album/901208792",
+      "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
     },
     "discography": [
       {
@@ -107,9 +111,12 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/watch?v=FGTHtjt3zSQ",
+          "spotify": "https://open.spotify.com/intl-fr/track/4UucsW9j0SOydbJw4MnLMO",
+          "appleMusic": "https://music.apple.com/us/song/noche-que-se-repite/1870574254",
+          "tidal": "https://tidal.com/album/491069291",
+          "amazonMusic": "https://music.amazon.fr/tracks/B0GHS8999D",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j"
         }
       },
       {
@@ -117,9 +124,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -127,9 +138,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -137,9 +152,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -147,9 +166,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -157,9 +180,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -167,9 +194,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -177,9 +208,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -187,9 +222,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -197,9 +236,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -207,9 +250,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       },
       {
@@ -217,9 +264,13 @@
         "year": 2026,
         "format": "Single",
         "platforms": {
-          "spotify": "https://open.spotify.com/",
-          "appleMusic": "https://music.apple.com/",
-          "youtube": "https://youtube.com/"
+          "youtube": "https://www.youtube.com/@lumeno_music",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "tidal": "https://tidal.com/artist/73328686",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
         }
       }
     ]

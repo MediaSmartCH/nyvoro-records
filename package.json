@@ -24,7 +24,15 @@
     "format": "prettier --write .",
     "typecheck": "pnpm -r --if-present typecheck",
     "env": "node scripts/check-env.mjs",
-    "check-env": "node scripts/check-env.mjs"
+    "check-env": "node scripts/check-env.mjs",
+    "vercel:link": "pnpm dlx vercel@latest link",
+    "vercel:env:pull": "pnpm dlx vercel@latest env pull apps/web/.env.local --environment=development",
+    "vercel:env:pull:preview": "pnpm dlx vercel@latest env pull apps/web/.env.preview.local --environment=preview",
+    "vercel:env:pull:production": "pnpm dlx vercel@latest env pull apps/web/.env.production.local --environment=production",
+    "vercel:deploy:preview": "pnpm dlx vercel@latest deploy",
+    "vercel:deploy:production": "pnpm dlx vercel@latest deploy --prod",
+    "vercel:pull:preview": "pnpm dlx vercel@latest pull --environment=preview",
+    "vercel:pull:production": "pnpm dlx vercel@latest pull --environment=production"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",

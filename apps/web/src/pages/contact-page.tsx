@@ -1,9 +1,10 @@
-import { artists, labelMetadata } from '@nyvoro/content';
+import { artists, labelMetadata, releases } from '@nyvoro/content';
 import { useLocaleContext } from '../context/locale-context';
 
 export function ContactPage() {
   const { locale, messages } = useLocaleContext();
 
+  const distroKidUrl = 'https://distrokid.com';
   const contactEmail = import.meta.env.VITE_CONTACT_EMAIL ?? 'contact@nyvoro-records.com';
   const pressEmail = import.meta.env.VITE_PRESS_EMAIL ?? 'press@nyvoro-records.com';
   const demoEmail = import.meta.env.VITE_DEMO_EMAIL ?? 'demo@nyvoro-records.com';
@@ -84,11 +85,19 @@ export function ContactPage() {
 
         <article className="card contact-card contact-card--muted">
           <p className="contact-channel-label">{messages.contact.distributor}</p>
-          <p className="contact-address">{labelMetadata.distributor}</p>
+          <p className="contact-address">
+            <a href={distroKidUrl} target="_blank" rel="noreferrer">
+              {labelMetadata.distributor}
+            </a>
+          </p>
           <p className="contact-channel-hint">
             {locale === 'fr'
-              ? 'Distribution digitale centralisée via DistroKid.'
-              : 'Digital distribution workflow centralized with DistroKid.'}
+              ? 'Distribution digitale centralisée via '
+              : 'Digital distribution workflow centralized with '}
+            <a className="contact-inline-link" href={distroKidUrl} target="_blank" rel="noreferrer">
+              DistroKid
+            </a>
+            .
           </p>
         </article>
 
@@ -98,10 +107,21 @@ export function ContactPage() {
           <div className="artist-mail-list">
             {artists.map((artist) => {
               const inbox = `${artist.id}@nyvoro-records.com`;
+              const avatar = artist.portrait ?? releases.find((release) => release.artistId === artist.id)?.artwork ?? '';
               return (
                 <p key={artist.id} className="artist-mail-item">
-                  <span>
-                    <strong>{artist.name}</strong> · {artistEmailLabel}
+                  <span className="artist-mail-profile">
+                    <span
+                      className={`artist-mail-avatar ${avatar ? '' : 'fallback'}`.trim()}
+                      role="img"
+                      aria-label={artist.name}
+                      style={avatar ? { backgroundImage: `url(${avatar})` } : undefined}
+                    >
+                      {!avatar ? artist.name.slice(0, 1).toUpperCase() : null}
+                    </span>
+                    <span>
+                      <strong>{artist.name}</strong> · {artistEmailLabel}
+                    </span>
                   </span>
                   <a href={`mailto:${inbox}`}>{inbox}</a>
                 </p>

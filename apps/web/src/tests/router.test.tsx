@@ -31,4 +31,13 @@ describe('localized routing', () => {
 
     expect(await findByRole('heading', { name: 'Politique de confidentialité' })).toBeInTheDocument();
   });
+
+  it('renders artist detail page', async () => {
+    const router = createNyvoroMemoryRouter(['/fr/artists/lumeno']);
+    const { findByRole } = render(
+      <RouterProvider router={router} future={{ v7_startTransition: true }} />
+    );
+
+    expect(await findByRole('heading', { level: 1, name: /Lúmeno/i })).toBeInTheDocument();
+  });
 });

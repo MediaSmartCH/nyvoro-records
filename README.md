@@ -118,24 +118,81 @@ Primary Make targets:
 - `make docker-reset`
 - `make env`
 - `make check-env`
+- `make vercel-link`
+- `make vercel-env-pull`
+- `make vercel-env-pull-preview`
+- `make vercel-env-pull-production`
+- `make vercel-pull-preview`
+- `make vercel-pull-production`
+- `make vercel-deploy-preview`
+- `make vercel-deploy-production`
+
+## Deployment (Vercel + GitHub)
+The repository now includes `vercel.json` at root to lock build/runtime behavior for Vercel:
+- install: `pnpm install --frozen-lockfile`
+- build: `pnpm --filter @nyvoro/web build`
+- output: `apps/web/dist`
+
+Important project settings in Vercel:
+1. Root Directory: repository root (`.`)
+2. Production Branch: `main`
+3. Node.js version: `20.x` or `22.x` LTS
+
+### Environment model on Vercel
+Vercel uses Local, Preview, and Production environments by default.
+
+1. Local development:
+   ```bash
+   make vercel-link
+   make vercel-env-pull
+   make dev
+   ```
+   This links your local folder and pulls variables into `apps/web/.env.local`.
+
+   Optional local files for parity checks:
+   ```bash
+   make vercel-env-pull-preview
+   make vercel-env-pull-production
+   ```
+
+2. Preview deployments:
+   - automatic on pull requests and non-`main` branch pushes
+   - manual with:
+     ```bash
+     make vercel-deploy-preview
+     ```
+
+3. Production deployments:
+   - automatic on push/merge to `main`
+   - manual with:
+     ```bash
+     make vercel-deploy-production
+     ```
+
+4. Custom environments (`staging`, `qa`, etc.):
+   - available on Pro and Enterprise plans
+   - CLI examples:
+     ```bash
+     pnpm dlx vercel@latest deploy --target=staging
+     pnpm dlx vercel@latest pull --environment=staging
+     pnpm dlx vercel@latest env add MY_KEY staging
+     ```
+
+### Variables to set in Vercel (Web project)
+These variables should be set per environment (Preview and Production can have different values):
+- `VITE_API_BASE_URL`
+- `VITE_TURNSTILE_SITE_KEY`
+- `VITE_CONTACT_EMAIL`
+- `VITE_PRESS_EMAIL`
+- `VITE_DEMO_EMAIL`
+- `VITE_APPLICATION_RECIPIENT_EMAIL`
+
+Notes:
+- `VITE_API_BASE_URL` should point to your live API base URL.
+- Keep Turnstile production keys only in the Production environment.
 
 ## Deployment (Infomaniak + GitHub)
-This repository is compatible with Infomaniak Node.js advanced install via Git.
-
-Suggested production flow:
-1. Push `main` branch to GitHub.
-2. In Infomaniak Node setup, choose **Git** source and link repository.
-3. Use Node 20 LTS.
-4. Build command:
-   ```bash
-   pnpm install --frozen-lockfile && pnpm build
-   ```
-5. Start command:
-   ```bash
-   pnpm start
-   ```
-6. Set `SERVE_WEB_DIST=true` in Infomaniak environment variables.
-7. Configure all production secrets (Turnstile + SMTP + IP salt).
+Infomaniak instructions are kept for reference (legacy deployment path).
 
 ## Testing
 Run all checks:

@@ -64,14 +64,13 @@ export function PageShell({ children }: { children: React.ReactNode }) {
     getInitialThemePreference()
   );
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() => getSystemTheme());
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const resolvedTheme = resolveThemePreference(themePreference, systemTheme);
 
   const navigation = [
     { key: 'home', path: '', label: messages.nav.home },
     { key: 'artists', path: 'artists', label: messages.nav.artists },
-    { key: 'releases', path: 'releases', label: messages.nav.releases },
-    { key: 'join', path: 'join', label: messages.nav.join },
     { key: 'contact', path: 'contact', label: messages.nav.contact }
   ];
 
@@ -105,6 +104,23 @@ export function PageShell({ children }: { children: React.ReactNode }) {
     persistThemePreference(themePreference);
   }, [resolvedTheme, themePreference]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   const themeAriaLabel = locale === 'fr' ? 'Choix du thème' : 'Theme selection';
   const themeOptions: { mode: ThemePreference; label: string }[] =
     locale === 'fr'
@@ -121,13 +137,14 @@ export function PageShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="site-root">
-      <header className="site-header">
+      <header className={`site-header ${isScrolled ? 'is-scrolled' : ''}`}>
         <div className="brand-block">
           <p className="brand-kicker">
             {locale === 'fr' ? 'Label indépendant' : 'Independent Label'} · {labelMetadata.foundedYear}
           </p>
           <Link to={`/${locale}`} className="brand-title">
-            {labelMetadata.name}
+            <img className="brand-logo" src="/favicon.svg" alt="" aria-hidden="true" />
+            <span>{labelMetadata.name}</span>
           </Link>
           <p className="brand-subtitle">{labelMetadata.mission[locale]}</p>
         </div>
@@ -171,6 +188,18 @@ export function PageShell({ children }: { children: React.ReactNode }) {
             {labelMetadata.name} · {labelMetadata.foundedYear}
           </p>
           <p>{messages.footer.rights}</p>
+          <p className="site-credit">
+            {locale === 'fr' ? 'Site créé par ' : 'Site created by '}
+            <a
+              className="site-credit-link"
+              href="https://www.mediasmart.ch/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              MediaSmart
+            </a>
+            .
+          </p>
         </div>
         <div className="footer-legal-links">
           <Link to={`/${locale}/legal/imprint`}>{messages.legal.imprint}</Link>

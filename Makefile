@@ -3,7 +3,7 @@ SHELL := /bin/sh
 PNPM := pnpm
 DC := docker compose -f compose.yaml
 
-.PHONY: help setup install update dev start build clean test lint format typecheck docker-up docker-down docker-logs docker-rebuild docker-reset env check-env
+.PHONY: help setup install update dev start build clean test lint format typecheck docker-up docker-down docker-logs docker-rebuild docker-reset env check-env vercel-link vercel-env-pull vercel-env-pull-preview vercel-env-pull-production vercel-pull-preview vercel-pull-production vercel-deploy-preview vercel-deploy-production
 
 help: ## Show available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "%-16s %s\n", $$1, $$2}'
@@ -60,3 +60,27 @@ env: ## Create .env from .env.example when absent
 
 check-env: ## Validate required environment variables
 	$(PNPM) check-env
+
+vercel-link: ## Link local repository to a Vercel project
+	$(PNPM) vercel:link
+
+vercel-env-pull: ## Pull Vercel Development variables into apps/web/.env.local
+	$(PNPM) vercel:env:pull
+
+vercel-env-pull-preview: ## Pull Vercel Preview variables into apps/web/.env.preview.local
+	$(PNPM) vercel:env:pull:preview
+
+vercel-env-pull-production: ## Pull Vercel Production variables into apps/web/.env.production.local
+	$(PNPM) vercel:env:pull:production
+
+vercel-pull-preview: ## Pull Vercel project settings for Preview environment
+	$(PNPM) vercel:pull:preview
+
+vercel-pull-production: ## Pull Vercel project settings for Production environment
+	$(PNPM) vercel:pull:production
+
+vercel-deploy-preview: ## Create a Preview deployment on Vercel
+	$(PNPM) vercel:deploy:preview
+
+vercel-deploy-production: ## Create a Production deployment on Vercel
+	$(PNPM) vercel:deploy:production

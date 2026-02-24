@@ -5,6 +5,7 @@ import {
   Navigate
 } from 'react-router-dom';
 import { LocaleLayout } from './components/locale-layout';
+import { ArtistDetailPage } from './pages/artist-detail-page';
 import { ArtistsPage } from './pages/artists-page';
 import { ContactPage } from './pages/contact-page';
 import { HomePage } from './pages/home-page';
@@ -29,6 +30,10 @@ export const routeTree: RouteObject[] = [
       {
         path: 'artists',
         element: <ArtistsPage />
+      },
+      {
+        path: 'artists/:artistId',
+        element: <ArtistDetailPage />
       },
       {
         path: 'releases',

@@ -62,9 +62,6 @@ export function HomePage() {
             <h1>{messages.home.headline}</h1>
             <p>{messages.home.intro}</p>
             <div className="hero-actions">
-              <Link className="btn primary" to={`/${locale}/join`}>
-                {messages.home.ctaPrimary}
-              </Link>
               <Link className="btn secondary" to={`/${locale}/artists`}>
                 {messages.home.ctaSecondary}
               </Link>

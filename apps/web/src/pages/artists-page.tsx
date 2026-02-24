@@ -1,160 +1,133 @@
+import { Link } from 'react-router-dom';
 import { artists, releases } from '@nyvoro/content';
+import { compareReleaseDatesAsc, compareReleaseDatesDesc, formatReleaseDate, getLocalDateKey } from '../lib/date';
 import { useLocaleContext } from '../context/locale-context';
-import { compareReleaseDatesAsc, formatReleaseDate } from '../lib/date';
+
+const artistNameById = new Map(artists.map((artist) => [artist.id, artist.name]));
 
 export function ArtistsPage() {
   const { locale, messages } = useLocaleContext();
+  const localDateKey = getLocalDateKey();
+
+  const releasedReleases = [...releases]
+    .filter((release) => compareReleaseDatesAsc(release.releaseDate, localDateKey) <= 0)
+    .sort((left, right) => compareReleaseDatesDesc(left.releaseDate, right.releaseDate));
+
+  const upcomingReleases = [...releases]
+    .filter((release) => compareReleaseDatesAsc(release.releaseDate, localDateKey) > 0)
+    .sort((left, right) => compareReleaseDatesAsc(left.releaseDate, right.releaseDate));
+
+  const latestSectionReleases =
+    releasedReleases.length > 0
+      ? releasedReleases.slice(0, 4)
+      : [...releases].sort((left, right) => compareReleaseDatesDesc(left.releaseDate, right.releaseDate)).slice(0, 4);
+
   const labels =
     locale === 'fr'
       ? {
-          mainLanguage: 'Langue principale',
-          territory: 'Territoire cible',
-          positioning: 'Positionnement',
-          artistFile: 'Fiche Artiste',
-          concept: 'Concept artistique',
-          conceptAxes: 'Tensions narratives',
-          soundDna: 'ADN sonore',
-          visualUniverse: 'Univers visuel',
-          keyThemes: 'Thématiques',
-          releaseTimeline: 'Calendrier des sorties'
+          openProfile: 'Voir la fiche artiste',
+          latestSection: 'Les dernières sorties',
+          upcomingSection: 'Prochaines sorties',
+          openReleases: 'Voir plus',
+          statusLive: 'Disponible',
+          statusUpcoming: 'À venir',
+          noUpcoming: "Aucune sortie à venir pour l'instant."
         }
       : {
-          mainLanguage: 'Main language',
-          territory: 'Target territory',
-          positioning: 'Positioning',
-          artistFile: 'Artist File',
-          concept: 'Artistic concept',
-          conceptAxes: 'Narrative tensions',
-          soundDna: 'Sound DNA',
-          visualUniverse: 'Visual Universe',
-          keyThemes: 'Main Themes',
-          releaseTimeline: 'Release timeline'
+          openProfile: 'Open artist profile',
+          latestSection: 'Latest releases',
+          upcomingSection: 'Upcoming releases',
+          openReleases: 'View more',
+          statusLive: 'Available',
+          statusUpcoming: 'Upcoming',
+          noUpcoming: 'No upcoming releases yet.'
         };
 
   return (
-    <section className="stacked-section">
+    <section className="stacked-section artists-page-shell">
       <header className="section-header">
         <h1>{messages.artists.title}</h1>
         <p>{messages.artists.subtitle}</p>
       </header>
 
-      <div className="artist-list">
+      <section className="artists-roster-grid">
         {artists.map((artist) => {
-          const artistReleases = [...releases]
-            .filter((release) => release.artistId === artist.id)
-            .sort((a, b) => compareReleaseDatesAsc(a.releaseDate, b.releaseDate));
-          const featureImage = artist.portrait ?? artistReleases[0]?.artwork ?? '';
+          const preview = artist.portrait ?? releases.find((release) => release.artistId === artist.id)?.artwork ?? '';
 
           return (
-            <article key={artist.id} className="artist-feature">
-              <div
-                className="artist-feature-media"
+            <Link key={artist.id} to={`/${locale}/artists/${artist.id}`} className="artist-roster-card card">
+              <span
+                className="artist-roster-image"
                 role="img"
                 aria-label={artist.name}
-                style={{ backgroundImage: `url(${featureImage})` }}
-              >
-                <div className="artist-feature-media-overlay">
-                  <p className="artist-media-kicker">{labels.artistFile}</p>
-                  <h2>{artist.name}</h2>
-                  <p>{artist.profile.positioning[locale]}</p>
-                </div>
-              </div>
-
-              <div className="artist-feature-copy">
-                <div className="artist-meta-strip">
-                  <p>
-                    <span>{labels.mainLanguage}</span>
-                    {artist.profile.mainLanguage[locale]}
-                  </p>
-                  <p>
-                    <span>{labels.territory}</span>
-                    {artist.profile.targetTerritory[locale]}
-                  </p>
-                  <p>
-                    <span>{labels.positioning}</span>
-                    {artist.profile.positioning[locale]}
-                  </p>
-                </div>
-
-                <p className="artist-lead">{artist.bio[locale]}</p>
-
-                <section className="artist-concept-block">
-                  <h3>{labels.concept}</h3>
-                  <p>{artist.profile.conceptSummary[locale]}</p>
-                </section>
-
-                <div className="artist-detail-grid">
-                  <section className="artist-detail-panel">
-                    <h3>{labels.conceptAxes}</h3>
-                    <ul className="artist-plain-list">
-                      {artist.profile.conceptAxes[locale].map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </section>
-
-                  <section className="artist-detail-panel">
-                    <h3>{labels.soundDna}</h3>
-                    <ul className="artist-plain-list">
-                      {artist.profile.soundDna[locale].map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </section>
-
-                  <section className="artist-detail-panel">
-                    <h3>{labels.visualUniverse}</h3>
-                    <ul className="artist-plain-list">
-                      {artist.profile.visualUniverse[locale].map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </section>
-
-                  <section className="artist-detail-panel">
-                    <h3>{labels.keyThemes}</h3>
-                    <ul className="artist-plain-list">
-                      {artist.profile.keyThemes[locale].map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </section>
-                </div>
-
-                <div className="artist-external">
-                  {Object.entries(artist.links).map(([platform, url]) => (
-                    <a key={platform} href={url} target="_blank" rel="noreferrer">
-                      {platform}
-                    </a>
-                  ))}
-                </div>
-
-                <section className="artist-release-section">
-                  <h3>{labels.releaseTimeline}</h3>
-                  <ul className="artist-release-timeline">
-                    {artistReleases.map((release) => (
-                      <li key={release.id} className="artist-release-item">
-                        <p className="artist-release-date">{formatReleaseDate(release.releaseDate, locale)}</p>
-                        <div className="artist-release-main">
-                          <h4>{release.title[locale]}</h4>
-                          <p className="muted">{release.description[locale]}</p>
-                          <div className="platform-links">
-                            {Object.entries(release.links).map(([platform, url]) => (
-                              <a key={platform} href={url} target="_blank" rel="noreferrer">
-                                {platform}
-                              </a>
-                            ))}
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              </div>
-            </article>
+                style={preview ? { backgroundImage: `url(${preview})` } : undefined}
+              />
+              <span className="artist-roster-body">
+                <span className="artist-roster-name">{artist.name}</span>
+                <span className="artist-roster-meta">{artist.profile.targetTerritory[locale]}</span>
+                <span className="artist-roster-genres">{artist.genres.join(' · ')}</span>
+                <span className="artist-roster-cta">{labels.openProfile}</span>
+              </span>
+            </Link>
           );
         })}
-      </div>
+      </section>
+
+      <section className="artist-latest-stream card">
+        <header className="artist-latest-header">
+          <h2>{labels.latestSection}</h2>
+          <Link className="text-link" to={`/${locale}/releases`}>
+            {labels.openReleases}
+          </Link>
+        </header>
+
+        <div className="artist-latest-stream-list">
+          {latestSectionReleases.map((release) => (
+            <article key={release.id} className="artist-latest-stream-item">
+              <figure className="artist-latest-stream-thumb">
+                <img src={release.artwork} alt={release.title[locale]} loading="lazy" />
+              </figure>
+
+              <div className="artist-latest-stream-body">
+                <p className="artist-latest-stream-artist">{artistNameById.get(release.artistId) ?? ''}</p>
+                <h3>{release.title[locale]}</h3>
+                <p className="muted">{formatReleaseDate(release.releaseDate, locale)}</p>
+                <p className="artist-latest-stream-status is-live">{labels.statusLive}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="artist-latest-stream artist-upcoming-stream card">
+        <header className="artist-latest-header">
+          <h2>{labels.upcomingSection}</h2>
+          <Link className="text-link" to={`/${locale}/releases`}>
+            {labels.openReleases}
+          </Link>
+        </header>
+
+        <div className="artist-latest-stream-list">
+          {upcomingReleases.length > 0 ? (
+            upcomingReleases.slice(0, 4).map((release) => (
+              <article key={release.id} className="artist-latest-stream-item upcoming">
+                <figure className="artist-latest-stream-thumb">
+                  <img src={release.artwork} alt={release.title[locale]} loading="lazy" />
+                </figure>
+
+                <div className="artist-latest-stream-body">
+                  <p className="artist-latest-stream-artist">{artistNameById.get(release.artistId) ?? ''}</p>
+                  <h3>{release.title[locale]}</h3>
+                  <p className="muted">{formatReleaseDate(release.releaseDate, locale)}</p>
+                  <p className="artist-latest-stream-status is-upcoming">{labels.statusUpcoming}</p>
+                </div>
+              </article>
+            ))
+          ) : (
+            <p className="artist-calendar-empty">{labels.noUpcoming}</p>
+          )}
+        </div>
+      </section>
     </section>
   );
 }
