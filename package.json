@@ -2,6 +2,10 @@
   "name": "nyvoro-records",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "packageManager": "pnpm@10.6.1",
   "engines": {
     "node": ">=20.11.0"
