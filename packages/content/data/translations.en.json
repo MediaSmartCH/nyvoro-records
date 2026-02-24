@@ -1,0 +1,95 @@
+{
+  "nav": {
+    "home": "Home",
+    "artists": "Artists",
+    "releases": "Releases",
+    "join": "Join",
+    "contact": "Contact",
+    "legal": "Legal"
+  },
+  "home": {
+    "eyebrow": "Independent Label",
+    "headline": "Nyvoro Records builds long-term careers for bold electronic artists.",
+    "intro": "Founded in 2026 and distributed through DistroKid, Nyvoro Records combines artistic direction, release strategy, and measurable growth.",
+    "ctaPrimary": "Apply to Join",
+    "ctaSecondary": "Explore Artists",
+    "stats": {
+      "founded": "Founded 2026",
+      "distributor": "Distributed by DistroKid",
+      "languages": "English and French available"
+    }
+  },
+  "artists": {
+    "title": "Artists",
+    "subtitle": "Current roster and deep artist profiles.",
+    "discography": "Discography"
+  },
+  "releases": {
+    "title": "Releases",
+    "subtitle": "Recent records and platform links.",
+    "releasedOn": "Released on"
+  },
+  "join": {
+    "title": "Join Nyvoro Records",
+    "subtitle": "Tell us your project in detail so we can evaluate strategic fit.",
+    "submit": "Send Application",
+    "success": "Application submitted successfully.",
+    "storedWithEmailError": "Application stored. Notification email failed, but your submission is safe.",
+    "error": "Submission failed. Please verify your inputs and try again.",
+    "captchaError": "Captcha verification failed. Please try again.",
+    "consent": "I agree to the processing of my application data for recruitment and collaboration purposes."
+  },
+  "joinFields": {
+    "legalName": "Legal full name",
+    "artistName": "Artist name",
+    "email": "Email",
+    "phone": "Phone (optional)",
+    "city": "City",
+    "country": "Country",
+    "projectType": "Project type",
+    "yearsActive": "Years active",
+    "primaryGenre": "Primary genre",
+    "secondaryGenres": "Secondary genres (comma separated)",
+    "instagram": "Instagram URL",
+    "tiktok": "TikTok URL",
+    "youtube": "YouTube URL",
+    "x": "X / Twitter URL",
+    "website": "Website URL",
+    "spotify": "Spotify URL",
+    "appleMusic": "Apple Music URL",
+    "soundCloud": "SoundCloud URL",
+    "deezer": "Deezer URL",
+    "beatport": "Beatport URL",
+    "notableReleases": "Notable releases (comma separated)",
+    "releaseSummary": "Release history summary",
+    "monthlyListeners": "Monthly listeners",
+    "totalFollowers": "Total followers",
+    "averageStreamsPerRelease": "Average streams per release",
+    "topMarkets": "Top markets (comma separated)",
+    "monthlyMarketingBudgetEur": "Monthly marketing budget (EUR)",
+    "productionBudgetPerTrackEur": "Production budget per track (EUR)",
+    "teamDescription": "Team and resources",
+    "releaseFrequency": "Release frequency",
+    "roadmap90Days": "Roadmap for the next 90 days",
+    "goals12Months": "Goals for the next 12 months",
+    "whyNyvoro": "Why Nyvoro Records",
+    "message": "Additional context"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "For demos, partnerships, and operational requests.",
+    "general": "General contact",
+    "press": "Press",
+    "demos": "Demos",
+    "artistInboxes": "Artist inboxes",
+    "distributor": "Distribution partner"
+  },
+  "legal": {
+    "imprint": "Legal Notice",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}

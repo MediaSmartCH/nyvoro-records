@@ -1,0 +1,227 @@
+[
+  {
+    "id": "lumeno",
+    "name": "Lúmeno",
+    "genres": ["Latin Pop", "Reggaeton Suave"],
+    "basedIn": "Latino market / international Spanish-speaking",
+    "portrait": "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1600&q=80",
+    "profile": {
+      "mainLanguage": {
+        "en": "Spanish",
+        "fr": "Espagnol"
+      },
+      "targetTerritory": {
+        "en": "Latino market / international Spanish-speaking",
+        "fr": "Marché latino / international hispanophone"
+      },
+      "positioning": {
+        "en": "Nocturnal, sensual, emotional, cinematic.",
+        "fr": "Nocturne, sensuel, émotionnel, cinématographique."
+      },
+      "conceptSummary": {
+        "en": "Lúmeno is a contemporary Latin project built around nocturnal emotions and unfinished connections. Each release lives in the same city-at-night narrative: neon light, controlled melancholy, and unresolved tension.",
+        "fr": "Lúmeno est un projet latin contemporain centré sur les émotions nocturnes et les connexions incomplètes. Chaque morceau s'inscrit dans un même récit urbain de nuit : lumière néon, mélancolie maîtrisée et tension contenue."
+      },
+      "conceptAxes": {
+        "en": [
+          "Desire vs restraint",
+          "Physical proximity vs emotional distance",
+          "Repetition vs attachment",
+          "Impulse vs control"
+        ],
+        "fr": [
+          "Désir et retenue",
+          "Proximité physique et distance émotionnelle",
+          "Répétition et attachement",
+          "Impulsion et contrôle"
+        ]
+      },
+      "soundDna": {
+        "en": [
+          "Modern mid-tempo reggaeton",
+          "Clean, minimal dembow",
+          "Warm rounded sub bass",
+          "Atmospheric synth pads",
+          "Stripped cinematic production",
+          "Soft and confident male vocals"
+        ],
+        "fr": [
+          "Mid-tempo reggaeton moderne",
+          "Dembow propre et minimal",
+          "Sub bass ronde et chaleureuse",
+          "Synth pads atmosphériques",
+          "Production épurée et cinématographique",
+          "Voix masculine douce, proche et confiante"
+        ]
+      },
+      "visualUniverse": {
+        "en": [
+          "Night blue, violet, and neon red palette",
+          "Urban night aesthetic",
+          "Silhouettes and blurred light",
+          "Elegant minimalism",
+          "Tight frames and breathing space"
+        ],
+        "fr": [
+          "Palette bleu nuit, violet, rouge néon",
+          "Esthétique urbaine nocturne",
+          "Silhouettes et lumières floues",
+          "Minimalisme élégant",
+          "Plans serrés et respiration visuelle"
+        ]
+      },
+      "keyThemes": {
+        "en": [
+          "Ambiguous relationships",
+          "Unspoken attraction",
+          "Messages sent too late",
+          "Shared secrets",
+          "Immediate nostalgia",
+          "Crossed boundaries"
+        ],
+        "fr": [
+          "Relations ambiguës",
+          "Attirance non assumée",
+          "Messages envoyés trop tard",
+          "Secrets partagés",
+          "Nostalgie immédiate",
+          "Limites franchies"
+        ]
+      }
+    },
+    "bio": {
+      "en": "Lúmeno is a Latin Pop and soft reggaeton project focused on late-night emotional storytelling. This is not aggressive reggaeton and not loud club music. It is a sensation-driven project where minimal rhythm, controlled tension, and cinematic space shape a coherent identity from track to track.",
+      "fr": "Lúmeno est un projet Latin Pop / Reggaeton suave orienté narration émotionnelle nocturne. Ce n'est pas un reggaeton agressif, ni un projet de club bruyant. C'est un projet de sensation, construit autour d'un rythme minimal, d'une tension maîtrisée et d'une mise en scène cinématographique cohérente."
+    },
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/",
+      "instagram": "https://instagram.com/",
+      "tiktok": "https://tiktok.com/",
+      "soundCloud": "https://soundcloud.com/"
+    },
+    "discography": [
+      {
+        "title": "Noche Que Se Repite",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Media Noche con Lúmeno",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Entre Tú y Yo",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Conexión De Madrugada",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Línea Roja",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Título por anunciar (Junio 2026)",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Título por anunciar (Julio 2026)",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Título por anunciar (Agosto 2026)",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Título por anunciar (Septiembre 2026)",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Título por anunciar (Octubre 2026)",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Título por anunciar (Noviembre 2026)",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      },
+      {
+        "title": "Título por anunciar (Décembre 2026)",
+        "year": 2026,
+        "format": "Single",
+        "platforms": {
+          "spotify": "https://open.spotify.com/",
+          "appleMusic": "https://music.apple.com/",
+          "youtube": "https://youtube.com/"
+        }
+      }
+    ]
+  }
+]

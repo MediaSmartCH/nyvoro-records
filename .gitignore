@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build artifacts
+dist/
+coverage/
+*.tsbuildinfo
+
+# Local environment
+.env
+.env.local
+
+# Runtime data
+apps/api/data/
+apps/api/apps/api/data/
+
+# Logs
+*.log
+
+# IDE
+.DS_Store
+.vscode/
+.idea/

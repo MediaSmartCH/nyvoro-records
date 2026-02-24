@@ -1,0 +1,52 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    env_file:
+      - .env
+    environment:
+      TURNSTILE_BYPASS: "true"
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      SMTP_SECURE: "false"
+      API_ALLOWED_ORIGINS: http://localhost:5173,http://localhost:4173
+    working_dir: /workspace
+    command: >
+      sh -c "pnpm install && pnpm --filter @nyvoro/api dev"
+    volumes:
+      - .:/workspace
+      - api_node_modules:/workspace/node_modules
+    ports:
+      - '4000:4000'
+    depends_on:
+      - mailhog
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    env_file:
+      - .env
+    environment:
+      VITE_API_BASE_URL: http://localhost:4000
+    working_dir: /workspace
+    command: >
+      sh -c "pnpm install && pnpm --filter @nyvoro/web dev --host 0.0.0.0 --port 5173"
+    volumes:
+      - .:/workspace
+      - web_node_modules:/workspace/node_modules
+    ports:
+      - '5173:5173'
+    depends_on:
+      - api
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - '8025:8025'
+      - '1025:1025'
+
+volumes:
+  api_node_modules:
+  web_node_modules:

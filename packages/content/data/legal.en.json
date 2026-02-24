@@ -1,0 +1,79 @@
+{
+  "imprint": {
+    "title": "Legal Notice",
+    "sections": [
+      {
+        "heading": "Publisher",
+        "content": [
+          "Nyvoro Records",
+          "Independent label founded in 2026.",
+          "Contact email: contact@nyvoro-records.com"
+        ]
+      },
+      {
+        "heading": "Hosting",
+        "content": [
+          "Website hosted on Infomaniak.",
+          "Infrastructure and Node.js runtime managed through Infomaniak hosting services."
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "sections": [
+      {
+        "heading": "Data collected",
+        "content": [
+          "When you submit a label application, we collect profile, project, analytics, and contact information from the form.",
+          "We also process technical anti-spam data such as captcha verification result and an anonymized IP hash."
+        ]
+      },
+      {
+        "heading": "Purpose and legal basis",
+        "content": [
+          "Data is used to evaluate artist applications and communicate about potential collaboration.",
+          "Processing is based on legitimate interest and your explicit consent at submission time."
+        ]
+      },
+      {
+        "heading": "Retention",
+        "content": [
+          "Applications are stored in a secured SQLite archive for operational follow-up.",
+          "You may request deletion or export of your data by contacting the label email address."
+        ]
+      },
+      {
+        "heading": "Your rights",
+        "content": [
+          "You can request access, correction, deletion, or restriction regarding your personal data.",
+          "Requests are handled via contact@nyvoro-records.com."
+        ]
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms of Use",
+    "sections": [
+      {
+        "heading": "Scope",
+        "content": [
+          "These terms govern access to the Nyvoro Records website and related application services."
+        ]
+      },
+      {
+        "heading": "User responsibilities",
+        "content": [
+          "You agree to provide accurate information when submitting an application.",
+          "Automated abuse, spam, or malicious attempts are strictly prohibited."
+        ]
+      },
+      {
+        "heading": "Intellectual property",
+        "content": [
+          "Site content, branding, and editorial materials are protected and remain the property of Nyvoro Records or their respective owners."
+        ]
+      }
+    ]
+  }
+}

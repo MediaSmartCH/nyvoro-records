@@ -1,0 +1,230 @@
+[
+  {
+    "id": "noche-que-se-repite",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Noche Que Se Repite",
+      "fr": "Noche Que Se Repite"
+    },
+    "releaseDate": "2026-02-20",
+    "artwork": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Opening single of the 2026 cycle: nocturnal tension and controlled desire.",
+      "fr": "Single d'ouverture du cycle 2026 : tension nocturne et désir maîtrisé."
+    }
+  },
+  {
+    "id": "media-noche-con-lumeno",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Media Noche con Lúmeno",
+      "fr": "Media Noche con Lúmeno"
+    },
+    "releaseDate": "2026-03-06",
+    "artwork": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Second implantation release, focused on intimate late-night atmosphere.",
+      "fr": "Deuxième sortie d'implantation, centrée sur une intimité de fin de nuit."
+    }
+  },
+  {
+    "id": "entre-tu-y-yo",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Entre Tú y Yo",
+      "fr": "Entre Tú y Yo"
+    },
+    "releaseDate": "2026-03-20",
+    "artwork": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "A restrained track about closeness, distance, and unfinished conversations.",
+      "fr": "Un morceau retenu autour de la proximité, de la distance et des conversations inachevées."
+    }
+  },
+  {
+    "id": "conexion-de-madrugada",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Conexión De Madrugada",
+      "fr": "Conexión De Madrugada"
+    },
+    "releaseDate": "2026-04-06",
+    "artwork": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Last implantation single before the official monthly release cadence.",
+      "fr": "Dernier single d'implantation avant le rythme mensuel officiel."
+    }
+  },
+  {
+    "id": "linea-roja",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Línea Roja",
+      "fr": "Línea Roja"
+    },
+    "releaseDate": "2026-05-29",
+    "artwork": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "First official monthly single, marking the red-line moment in the narrative.",
+      "fr": "Premier single mensuel officiel, moment charnière de la narration."
+    }
+  },
+  {
+    "id": "tba-june-2026",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Title to be announced",
+      "fr": "Titre à venir"
+    },
+    "releaseDate": "2026-06-26",
+    "artwork": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Official monthly release in the 2026 cycle.",
+      "fr": "Sortie mensuelle officielle du cycle 2026."
+    }
+  },
+  {
+    "id": "tba-july-2026",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Title to be announced",
+      "fr": "Titre à venir"
+    },
+    "releaseDate": "2026-07-31",
+    "artwork": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Official monthly release in the 2026 cycle.",
+      "fr": "Sortie mensuelle officielle du cycle 2026."
+    }
+  },
+  {
+    "id": "tba-august-2026",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Title to be announced",
+      "fr": "Titre à venir"
+    },
+    "releaseDate": "2026-08-28",
+    "artwork": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Official monthly release in the 2026 cycle.",
+      "fr": "Sortie mensuelle officielle du cycle 2026."
+    }
+  },
+  {
+    "id": "tba-september-2026",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Title to be announced",
+      "fr": "Titre à venir"
+    },
+    "releaseDate": "2026-09-25",
+    "artwork": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Official monthly release in the 2026 cycle.",
+      "fr": "Sortie mensuelle officielle du cycle 2026."
+    }
+  },
+  {
+    "id": "tba-october-2026",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Title to be announced",
+      "fr": "Titre à venir"
+    },
+    "releaseDate": "2026-10-30",
+    "artwork": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Official monthly release in the 2026 cycle.",
+      "fr": "Sortie mensuelle officielle du cycle 2026."
+    }
+  },
+  {
+    "id": "tba-november-2026",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Title to be announced",
+      "fr": "Titre à venir"
+    },
+    "releaseDate": "2026-11-27",
+    "artwork": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Official monthly release in the 2026 cycle.",
+      "fr": "Sortie mensuelle officielle du cycle 2026."
+    }
+  },
+  {
+    "id": "tba-december-2026",
+    "artistId": "lumeno",
+    "title": {
+      "en": "Title to be announced",
+      "fr": "Titre à venir"
+    },
+    "releaseDate": "2026-12-18",
+    "artwork": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80",
+    "links": {
+      "spotify": "https://open.spotify.com/",
+      "appleMusic": "https://music.apple.com/",
+      "youtube": "https://youtube.com/"
+    },
+    "description": {
+      "en": "Final official release of the 2026 cycle.",
+      "fr": "Dernière sortie officielle du cycle 2026."
+    }
+  }
+]
