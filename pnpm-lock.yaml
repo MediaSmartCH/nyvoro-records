@@ -48,7 +48,7 @@ importers:
   apps/api:
     dependencies:
       '@nyvoro/shared-types':
-        specifier: workspace:*
+        specifier: file:../../packages/shared-types
         version: link:../../packages/shared-types
       better-sqlite3:
         specifier: ^11.8.1
@@ -99,6 +99,9 @@ importers:
       tsx:
         specifier: ^4.19.3
         version: 4.21.0
+      typescript:
+        specifier: ^5.8.2
+        version: 5.9.3
       vitest:
         specifier: ^3.0.7
         version: 3.2.4(@types/node@22.19.11)(jsdom@26.1.0)(tsx@4.21.0)
@@ -106,10 +109,10 @@ importers:
   apps/web:
     dependencies:
       '@nyvoro/content':
-        specifier: workspace:*
+        specifier: file:../../packages/content
         version: link:../../packages/content
       '@nyvoro/shared-types':
-        specifier: workspace:*
+        specifier: file:../../packages/shared-types
         version: link:../../packages/shared-types
       react:
         specifier: ^18.3.1
@@ -149,7 +152,7 @@ importers:
   packages/content:
     dependencies:
       '@nyvoro/shared-types':
-        specifier: workspace:*
+        specifier: file:../shared-types
         version: link:../shared-types
 
   packages/shared-types:
