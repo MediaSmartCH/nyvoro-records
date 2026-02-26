@@ -212,12 +212,12 @@ Optional secret:
 
 Default post-deploy command (used automatically when the secret is empty):
 ```bash
-npm install --prefix apps/api --include=dev && npm --prefix apps/api run build
+rm -rf apps/api/node_modules apps/api/package-lock.json && npm install --prefix apps/api --include=dev && npm --prefix apps/api run build
 ```
 
 Custom post-deploy command example:
 ```bash
-npm install --prefix apps/api --include=dev && npm --prefix apps/api run build
+rm -rf apps/api/node_modules apps/api/package-lock.json && npm install --prefix apps/api --include=dev && npm --prefix apps/api run build
 ```
 
 Then configure your Infomaniak Node.js runtime entrypoint to:

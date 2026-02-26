@@ -113,9 +113,9 @@ jobs:
 
           # npm workspace installs can fail on some Infomaniak Node runtimes.
           # Use a package-scoped install/build command by default.
-          DEFAULT_POST_DEPLOY_COMMAND="npm install --prefix apps/api --include=dev && npm --prefix apps/api run build"
+          DEFAULT_POST_DEPLOY_COMMAND="rm -rf apps/api/node_modules apps/api/package-lock.json && npm install --prefix apps/api --include=dev && npm --prefix apps/api run build"
 
-          if [ -z "${POST_DEPLOY_COMMAND}" ] || [ "${POST_DEPLOY_COMMAND}" = "npm install --include=dev && npm run --workspace @nyvoro/api build" ]; then
+          if [ -z "${POST_DEPLOY_COMMAND}" ] || printf '%s' "${POST_DEPLOY_COMMAND}" | grep -Eq -- '--workspace[[:space:]]+@nyvoro/api'; then
             POST_DEPLOY_COMMAND="${DEFAULT_POST_DEPLOY_COMMAND}"
           fi
 
