@@ -207,15 +207,7 @@ Authentication:
 - Recommended: `INFOMANIAK_SSH_PRIVATE_KEY` (private key for the SSH user)
 - Fallback: `INFOMANIAK_SSH_PASSWORD` (used only if private key is not set)
 
-Optional secret:
-- `INFOMANIAK_POST_DEPLOY_COMMAND` (executed over SSH after upload, from inside `INFOMANIAK_TARGET_DIR`)
-
-Default post-deploy command (used automatically when the secret is empty):
-```bash
-rm -rf apps/api/node_modules apps/api/package-lock.json && npm install --prefix apps/api --include=dev && npm --prefix apps/api run build
-```
-
-Custom post-deploy command example:
+Post-deploy command executed automatically over SSH:
 ```bash
 rm -rf apps/api/node_modules apps/api/package-lock.json && npm install --prefix apps/api --include=dev && npm --prefix apps/api run build
 ```

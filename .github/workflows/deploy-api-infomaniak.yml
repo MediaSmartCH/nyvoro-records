@@ -20,7 +20,6 @@ jobs:
       SSH_PRIVATE_KEY: ${{ secrets.INFOMANIAK_SSH_PRIVATE_KEY }}
       SSH_PASSWORD: ${{ secrets.INFOMANIAK_SSH_PASSWORD }}
       TARGET_DIR: ${{ secrets.INFOMANIAK_TARGET_DIR }}
-      POST_DEPLOY_COMMAND: ${{ secrets.INFOMANIAK_POST_DEPLOY_COMMAND }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -115,10 +114,7 @@ jobs:
           # Use a package-scoped install/build command by default.
           DEFAULT_POST_DEPLOY_COMMAND="rm -rf apps/api/node_modules apps/api/package-lock.json && npm install --prefix apps/api --include=dev && npm --prefix apps/api run build"
 
-          # Accept custom command only if it targets apps/api install+build.
-          if [ -z "${POST_DEPLOY_COMMAND}" ] || ! printf '%s' "${POST_DEPLOY_COMMAND}" | grep -Eq -- 'npm[[:space:]]+.*--prefix[[:space:]]+apps/api.*npm[[:space:]]+.*--prefix[[:space:]]+apps/api[[:space:]]+run[[:space:]]+build'; then
-            POST_DEPLOY_COMMAND="${DEFAULT_POST_DEPLOY_COMMAND}"
-          fi
+          POST_DEPLOY_COMMAND="${DEFAULT_POST_DEPLOY_COMMAND}"
 
           if [ -n "${SSH_PRIVATE_KEY}" ]; then
             ssh -i "${HOME}/.ssh/infomaniak_deploy_key" \
