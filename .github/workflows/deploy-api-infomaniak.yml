@@ -128,7 +128,7 @@ jobs:
               -p "${SSH_PORT}" \
               -o StrictHostKeyChecking=accept-new \
               "${SSH_USERNAME}@${SSH_HOST}" \
-              "'${TARGET_DIR}/.post-deploy.sh'"
+              "${TARGET_DIR}/.post-deploy.sh"
             exit 0
           fi
 
@@ -137,4 +137,4 @@ jobs:
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
             "${SSH_USERNAME}@${SSH_HOST}" \
-            "'${TARGET_DIR}/.post-deploy.sh'"
+            "${TARGET_DIR}/.post-deploy.sh"
