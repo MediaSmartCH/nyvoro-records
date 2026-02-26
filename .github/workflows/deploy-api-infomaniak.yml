@@ -50,8 +50,8 @@ jobs:
           set -eu
           rm -rf .deploy
           mkdir -p .deploy/api/apps .deploy/api/packages
-          rsync -a apps/api/ .deploy/api/apps/api/
-          rsync -a packages/shared-types/ .deploy/api/packages/shared-types/
+          rsync -a --exclude 'node_modules' --exclude 'coverage' --exclude 'dist' apps/api/ .deploy/api/apps/api/
+          rsync -a --exclude 'node_modules' packages/shared-types/ .deploy/api/packages/shared-types/
           cp package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json .deploy/api/
 
       - name: Validate deployment secrets
