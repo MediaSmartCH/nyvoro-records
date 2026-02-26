@@ -76,18 +76,20 @@ jobs:
           set ssl:verify-certificate no
           set sftp:auto-confirm yes
           mkdir -p ${SFTP_TARGET_DIR}
-          mirror -R --delete --verbose .deploy/api ${SFTP_TARGET_DIR}
+          mirror -R --verbose .deploy/api ${SFTP_TARGET_DIR}
           bye
           EOF
 
-      - name: Run optional post-deploy command over SSH
-        if: ${{ env.POST_DEPLOY_COMMAND != '' }}
-        continue-on-error: true
+      - name: Run post-deploy command over SSH
         run: |
           set -eu
 
           if [ -z "${SFTP_PORT}" ]; then
             SFTP_PORT="22"
+          fi
+
+          if [ -z "${POST_DEPLOY_COMMAND}" ]; then
+            POST_DEPLOY_COMMAND="npm install --include=dev && npm run --workspace @nyvoro/api build"
           fi
 
           sshpass -p "${SFTP_PASSWORD}" ssh \

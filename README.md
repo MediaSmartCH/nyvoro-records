@@ -207,9 +207,14 @@ Required GitHub repository secrets:
 Optional secret:
 - `INFOMANIAK_POST_DEPLOY_COMMAND` (executed over SSH after upload, from inside `INFOMANIAK_SFTP_TARGET_DIR`)
 
-Suggested post-deploy command example:
+Default post-deploy command (used automatically when the secret is empty):
 ```bash
-corepack enable && pnpm install --frozen-lockfile && pnpm --filter @nyvoro/api build
+npm install --include=dev && npm run --workspace @nyvoro/api build
+```
+
+Custom post-deploy command example:
+```bash
+npm install --include=dev && npm run --workspace @nyvoro/api build
 ```
 
 Then configure your Infomaniak Node.js runtime entrypoint to:
