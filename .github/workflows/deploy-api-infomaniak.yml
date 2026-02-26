@@ -121,15 +121,15 @@ jobs:
               -p "${SSH_PORT}" \
               -o StrictHostKeyChecking=accept-new \
               "${SSH_USERNAME}@${SSH_HOST}" /bin/bash -s -- "${TARGET_DIR}" "${POST_DEPLOY_COMMAND}" <<'EOF'
-set -euxo pipefail
-target_dir="$1"
-post_deploy_command="$2"
-cd "${target_dir}"
-echo "Running post-deploy in: $(pwd)"
-node -v
-npm -v
-bash -lc "${post_deploy_command}"
-EOF
+              set -euxo pipefail
+              target_dir="$1"
+              post_deploy_command="$2"
+              cd "${target_dir}"
+              echo "Running post-deploy in: $(pwd)"
+              node -v
+              npm -v
+              bash -lc "${post_deploy_command}"
+          EOF
             exit 0
           fi
 
@@ -138,12 +138,12 @@ EOF
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
             "${SSH_USERNAME}@${SSH_HOST}" /bin/bash -s -- "${TARGET_DIR}" "${POST_DEPLOY_COMMAND}" <<'EOF'
-set -euxo pipefail
-target_dir="$1"
-post_deploy_command="$2"
-cd "${target_dir}"
-echo "Running post-deploy in: $(pwd)"
-node -v
-npm -v
-bash -lc "${post_deploy_command}"
-EOF
+          set -euxo pipefail
+          target_dir="$1"
+          post_deploy_command="$2"
+          cd "${target_dir}"
+          echo "Running post-deploy in: $(pwd)"
+          node -v
+          npm -v
+          bash -lc "${post_deploy_command}"
+          EOF
