@@ -82,6 +82,7 @@ jobs:
 
       - name: Run optional post-deploy command over SSH
         if: ${{ env.POST_DEPLOY_COMMAND != '' }}
+        continue-on-error: true
         run: |
           set -eu
 
