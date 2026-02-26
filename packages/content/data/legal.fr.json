@@ -2,35 +2,36 @@
   "imprint": {
     "title": "Mentions légales",
     "summary": "Informations légales de l'éditeur, de l'hébergement et des responsabilités applicables au site Nyvoro Records.",
-    "lastUpdated": "2026-02-25",
-    "contactEmail": "contact@nyvoro-records.com",
+    "lastUpdated": "2026-02-26",
+    "contactEmail": "legal@nyvoro-records.com",
     "sections": [
       {
         "id": "publisher-identity",
         "heading": "Identité de l'éditeur",
         "content": [
-          "Raison sociale : [TO_COMPLETE_LEGAL_NAME]",
-          "Forme juridique : [TO_COMPLETE_LEGAL_FORM]",
-          "Adresse du siège : [TO_COMPLETE_ADDRESS]",
-          "Numéro d'immatriculation : [TO_COMPLETE_REGISTER_ID]",
-          "Numéro TVA intracommunautaire : [TO_COMPLETE_VAT_ID]"
+          "Raison sociale : Raphael Rouiller",
+          "Forme juridique : Entreprise individuelle (personne physique)",
+          "Adresse du siège : Rue des Prumus 21, 1994 Aproz (Nendaz)",
+          "Numéro d'immatriculation : Non inscrit au registre du commerce",
+          "Numéro TVA intracommunautaire : Non assujetti à la TVA"
         ]
       },
       {
         "id": "publishing-director",
         "heading": "Direction de publication",
         "content": [
-          "Directeur ou directrice de publication : [TO_COMPLETE_PUBLISHING_DIRECTOR].",
-          "Pour toute demande légale, conformité ou signalement, écrire à contact@nyvoro-records.com."
+          "Directeur de publication : Raphael Rouiller, Directeur de publication.",
+          "Pour toute demande légale, conformité ou signalement, écrire à legal@nyvoro-records.com."
         ]
       },
       {
         "id": "hosting-provider",
         "heading": "Hébergement",
         "content": [
-          "Hébergeur principal : Infomaniak.",
-          "Adresse de l'hébergeur : [TO_COMPLETE_HOST_ADDRESS].",
-          "L'infrastructure technique du site (runtime Node.js, stockage et services associés) est exploitée via cet hébergeur et des sous-traitants techniques nécessaires."
+          "Hébergeur principal (infrastructure et services techniques) : Infomaniak Network SA.",
+          "Adresse de l'hébergeur : Rue Eugène-Marziano 25, 1227 Les Acacias, Suisse.",
+          "Déploiement et CDN : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, United States.",
+          "L'infrastructure technique du site (runtime Node.js, stockage et services associés) est exploitée via ces prestataires et des sous-traitants techniques strictement nécessaires."
         ]
       },
       {
@@ -55,8 +56,9 @@
         "id": "governing-law",
         "heading": "Droit applicable",
         "content": [
-          "Les présentes mentions sont interprétées conformément aux règles européennes applicables et, lorsque pertinent, au droit français.",
-          "En cas de litige, une résolution amiable est recherchée avant toute procédure contentieuse."
+          "Les présentes mentions sont régies par le droit suisse.",
+          "En cas de litige, une résolution amiable est recherchée en priorité.",
+          "À défaut d'accord amiable, les juridictions suisses compétentes peuvent être saisies."
         ]
       }
     ]
@@ -64,15 +66,15 @@
   "privacy": {
     "title": "Politique de confidentialité",
     "summary": "Cette politique explique quelles données sont traitées via le site, pourquoi, pendant combien de temps et quels sont vos droits.",
-    "lastUpdated": "2026-02-25",
-    "contactEmail": "contact@nyvoro-records.com",
+    "lastUpdated": "2026-02-26",
+    "contactEmail": "privacy@nyvoro-records.com",
     "sections": [
       {
         "id": "data-controller",
         "heading": "Responsable du traitement",
         "content": [
-          "Le responsable du traitement des données du site est [TO_COMPLETE_LEGAL_NAME].",
-          "Pour toute question relative à la protection des données, vous pouvez écrire à contact@nyvoro-records.com."
+          "Le responsable du traitement des données du site est Raphael Rouiller.",
+          "Pour toute question relative à la protection des données, vous pouvez écrire à privacy@nyvoro-records.com."
         ]
       },
       {
@@ -91,7 +93,7 @@
         "content": [
           "Les données de candidature sont utilisées pour évaluer la compatibilité artistique, organiser le suivi éditorial et répondre aux candidats.",
           "Les traitements anti-spam et de sécurité servent à protéger le service contre les abus automatisés et les tentatives malveillantes.",
-          "La base légale principale est l'intérêt légitime de Nyvoro Records; le dépôt volontaire de candidature matérialise également votre demande explicite de contact."
+          "La base légale principale est l'intérêt légitime de Nyvoro Records au sens de la LPD suisse; lorsque le RGPD est applicable, les bases juridiques correspondantes sont mobilisées."
         ]
       },
       {
@@ -99,7 +101,7 @@
         "heading": "Destinataires et transferts",
         "content": [
           "Les données sont accessibles uniquement aux personnes habilitées au sein de Nyvoro Records et à ses sous-traitants techniques strictement nécessaires (hébergement, anti-spam, routage email).",
-          "Selon la configuration des prestataires, certains traitements peuvent impliquer des transferts hors EEE avec garanties appropriées (clauses contractuelles types ou mécanismes équivalents).",
+          "Selon la configuration des prestataires, certains traitements peuvent impliquer des transferts hors Suisse et/ou hors EEE avec garanties appropriées (clauses contractuelles types ou mécanismes équivalents).",
           "Aucune vente de données personnelles à des tiers n'est réalisée."
         ]
       },
@@ -123,16 +125,17 @@
         "id": "rights",
         "heading": "Vos droits",
         "content": [
-          "Conformément au RGPD et aux législations européennes applicables, vous pouvez demander l'accès, la rectification, l'effacement, la limitation, l'opposition et la portabilité de vos données selon les cas.",
+          "Conformément à la LPD suisse et, lorsqu'applicable, au RGPD, vous pouvez demander l'accès, la rectification, l'effacement, la limitation, l'opposition et la portabilité de vos données selon les cas.",
           "Vous pouvez aussi retirer votre consentement lorsqu'il constitue la base juridique du traitement, sans effet rétroactif sur les traitements déjà réalisés.",
-          "Pour exercer vos droits, contactez contact@nyvoro-records.com."
+          "Pour exercer vos droits, contactez privacy@nyvoro-records.com."
         ]
       },
       {
         "id": "complaints",
         "heading": "Réclamation",
         "content": [
-          "Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de l'autorité de contrôle compétente (en France, la CNIL) ou de votre autorité locale au sein de l'UE."
+          "Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès du Préposé fédéral à la protection des données et à la transparence (PFPDT/FDPIC).",
+          "Si le RGPD est applicable à votre situation, vous pouvez également saisir votre autorité locale compétente au sein de l'UE/EEE."
         ]
       },
       {
@@ -148,8 +151,8 @@
   "terms": {
     "title": "Conditions d'utilisation",
     "summary": "Règles d'accès et d'utilisation du site, limites de responsabilité et cadre applicable en cas de différend.",
-    "lastUpdated": "2026-02-25",
-    "contactEmail": "contact@nyvoro-records.com",
+    "lastUpdated": "2026-02-26",
+    "contactEmail": "legal@nyvoro-records.com",
     "sections": [
       {
         "id": "scope",
@@ -209,15 +212,16 @@
         "id": "governing-law-disputes",
         "heading": "Droit applicable et litiges",
         "content": [
-          "Ces conditions sont régies par les règles européennes applicables et, à titre supplétif, par le droit français.",
-          "En cas de litige, les parties s'efforcent de parvenir à une résolution amiable avant toute action judiciaire."
+          "Ces conditions sont régies par le droit suisse.",
+          "En cas de litige, les parties s'efforcent de parvenir à une résolution amiable avant toute action judiciaire.",
+          "À défaut d'accord amiable, les juridictions suisses compétentes peuvent être saisies."
         ]
       },
       {
         "id": "contact",
         "heading": "Contact",
         "content": [
-          "Pour toute question relative aux présentes conditions, vous pouvez nous écrire à contact@nyvoro-records.com."
+          "Pour toute question relative aux présentes conditions, vous pouvez nous écrire à legal@nyvoro-records.com."
         ]
       }
     ]

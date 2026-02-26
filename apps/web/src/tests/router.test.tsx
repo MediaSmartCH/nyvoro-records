@@ -40,11 +40,11 @@ describe('localized routing', () => {
       'href',
       '#data-collected'
     );
-    expect(getByRole('link', { name: 'contact@nyvoro-records.com' })).toHaveAttribute(
+    expect(getByRole('link', { name: 'privacy@nyvoro-records.com' })).toHaveAttribute(
       'href',
-      'mailto:contact@nyvoro-records.com'
+      'mailto:privacy@nyvoro-records.com'
     );
-    expect(container.querySelector('time[datetime=\"2026-02-25\"]')).toBeInTheDocument();
+    expect(container.querySelector('time[datetime=\"2026-02-26\"]')).toBeInTheDocument();
   });
 
   it('renders artist detail page', async () => {

@@ -2,35 +2,36 @@
   "imprint": {
     "title": "Legal Notice",
     "summary": "Legal identity, hosting, and responsibility details applicable to the Nyvoro Records website.",
-    "lastUpdated": "2026-02-25",
-    "contactEmail": "contact@nyvoro-records.com",
+    "lastUpdated": "2026-02-26",
+    "contactEmail": "legal@nyvoro-records.com",
     "sections": [
       {
         "id": "publisher-identity",
         "heading": "Publisher identity",
         "content": [
-          "Legal name: [TO_COMPLETE_LEGAL_NAME]",
-          "Legal form: [TO_COMPLETE_LEGAL_FORM]",
-          "Registered address: [TO_COMPLETE_ADDRESS]",
-          "Company register number: [TO_COMPLETE_REGISTER_ID]",
-          "EU VAT number: [TO_COMPLETE_VAT_ID]"
+          "Legal name: Raphael Rouiller",
+          "Legal form: Sole proprietorship (natural person)",
+          "Registered address: Rue des Prumus 21, 1994 Aproz (Nendaz)",
+          "Company register number: Not registered in the commercial register",
+          "EU VAT number: Not subject to VAT"
         ]
       },
       {
         "id": "publishing-director",
         "heading": "Publishing director",
         "content": [
-          "Publishing director: [TO_COMPLETE_PUBLISHING_DIRECTOR].",
-          "For legal, compliance, or notice requests, contact contact@nyvoro-records.com."
+          "Publishing director: Raphael Rouiller, Publishing Director.",
+          "For legal, compliance, or notice requests, contact legal@nyvoro-records.com."
         ]
       },
       {
         "id": "hosting-provider",
         "heading": "Hosting",
         "content": [
-          "Main hosting provider: Infomaniak.",
-          "Hosting provider address: [TO_COMPLETE_HOST_ADDRESS].",
-          "Website infrastructure (Node.js runtime, storage, and related services) is operated through this provider and strictly required technical subcontractors."
+          "Main hosting provider (infrastructure and technical services): Infomaniak Network SA.",
+          "Hosting provider address: Rue Eugène-Marziano 25, 1227 Les Acacias, Switzerland.",
+          "Deployment and CDN: Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, United States.",
+          "Website infrastructure (Node.js runtime, storage, and related services) is operated through these providers and strictly required technical subcontractors."
         ]
       },
       {
@@ -55,8 +56,9 @@
         "id": "governing-law",
         "heading": "Applicable law",
         "content": [
-          "This legal notice is interpreted according to applicable European rules and, where relevant, French law.",
-          "In case of dispute, amicable resolution is sought before any legal action."
+          "This legal notice is governed by Swiss law.",
+          "In case of dispute, an amicable resolution is sought first.",
+          "If no amicable solution is reached, competent Swiss courts may be seized."
         ]
       }
     ]
@@ -64,15 +66,15 @@
   "privacy": {
     "title": "Privacy Policy",
     "summary": "This policy explains which data is processed through the website, why it is processed, how long it is retained, and your rights.",
-    "lastUpdated": "2026-02-25",
-    "contactEmail": "contact@nyvoro-records.com",
+    "lastUpdated": "2026-02-26",
+    "contactEmail": "privacy@nyvoro-records.com",
     "sections": [
       {
         "id": "data-controller",
         "heading": "Data controller",
         "content": [
-          "The website data controller is [TO_COMPLETE_LEGAL_NAME].",
-          "For any data protection request, contact contact@nyvoro-records.com."
+          "The website data controller is Raphael Rouiller.",
+          "For any data protection request, contact privacy@nyvoro-records.com."
         ]
       },
       {
@@ -91,7 +93,7 @@
         "content": [
           "Application data is used to assess artistic fit, organize editorial follow-up, and reply to candidates.",
           "Security and anti-spam processing is used to protect the service against automated abuse and malicious attempts.",
-          "Primary legal basis is Nyvoro Records' legitimate interest; voluntary submission of an application also reflects your explicit request to be contacted."
+          "Primary legal basis is Nyvoro Records' legitimate interest under Swiss FADP; where GDPR applies, corresponding legal bases are used."
         ]
       },
       {
@@ -99,7 +101,7 @@
         "heading": "Recipients and international transfers",
         "content": [
           "Data is accessible only to authorized Nyvoro Records members and strictly required technical processors (hosting, anti-spam, email routing).",
-          "Depending on provider setup, some processing may involve transfers outside the EEA with appropriate safeguards (standard contractual clauses or equivalent mechanisms).",
+          "Depending on provider setup, some processing may involve transfers outside Switzerland and/or the EEA with appropriate safeguards (standard contractual clauses or equivalent mechanisms).",
           "No sale of personal data is carried out."
         ]
       },
@@ -123,16 +125,17 @@
         "id": "rights",
         "heading": "Your rights",
         "content": [
-          "Under GDPR and applicable European laws, you may request access, rectification, erasure, restriction, objection, and portability where applicable.",
+          "Under Swiss FADP and, where applicable, GDPR, you may request access, rectification, erasure, restriction, objection, and portability where applicable.",
           "You may also withdraw consent where consent is the legal basis, without affecting prior lawful processing.",
-          "To exercise your rights, contact contact@nyvoro-records.com."
+          "To exercise your rights, contact privacy@nyvoro-records.com."
         ]
       },
       {
         "id": "complaints",
         "heading": "Complaints",
         "content": [
-          "If you believe your rights are not respected, you may lodge a complaint with your competent supervisory authority (for France: CNIL) or your local EU authority."
+          "If you believe your rights are not respected, you may lodge a complaint with the Swiss Federal Data Protection and Information Commissioner (FDPIC/PFPDT).",
+          "If GDPR applies to your situation, you may also contact your competent local supervisory authority in the EU/EEA."
         ]
       },
       {
@@ -148,8 +151,8 @@
   "terms": {
     "title": "Terms of Use",
     "summary": "Rules for website access and use, liability boundaries, and legal framework for dispute handling.",
-    "lastUpdated": "2026-02-25",
-    "contactEmail": "contact@nyvoro-records.com",
+    "lastUpdated": "2026-02-26",
+    "contactEmail": "legal@nyvoro-records.com",
     "sections": [
       {
         "id": "scope",
@@ -209,15 +212,16 @@
         "id": "governing-law-disputes",
         "heading": "Applicable law and disputes",
         "content": [
-          "These terms are governed by applicable European rules and, subsidiarily, French law.",
-          "In case of dispute, parties will seek an amicable resolution before legal proceedings."
+          "These terms are governed by Swiss law.",
+          "In case of dispute, parties will seek an amicable resolution before legal proceedings.",
+          "If no amicable solution is reached, competent Swiss courts may be seized."
         ]
       },
       {
         "id": "contact",
         "heading": "Contact",
         "content": [
-          "For any question regarding these terms, contact contact@nyvoro-records.com."
+          "For any question regarding these terms, contact legal@nyvoro-records.com."
         ]
       }
     ]
