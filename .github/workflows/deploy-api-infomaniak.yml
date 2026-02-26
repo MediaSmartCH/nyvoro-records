@@ -53,7 +53,10 @@ jobs:
           rsync -a --exclude 'node_modules' packages/shared-types/ .deploy/api/packages/shared-types/
           cp package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json .deploy/api/
           cat > .deploy/api/.post-deploy.sh <<'EOF'
+          #!/usr/bin/env bash
           set -euxo pipefail
+          script_dir="$(cd "$(dirname "$0")" && pwd)"
+          cd "${script_dir}"
           echo "Running post-deploy in: $(pwd)"
           node -v
           npm -v
@@ -125,7 +128,7 @@ jobs:
               -p "${SSH_PORT}" \
               -o StrictHostKeyChecking=accept-new \
               "${SSH_USERNAME}@${SSH_HOST}" \
-              "cd '${TARGET_DIR}' && ./.post-deploy.sh"
+              "'${TARGET_DIR}/.post-deploy.sh'"
             exit 0
           fi
 
@@ -134,4 +137,4 @@ jobs:
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
             "${SSH_USERNAME}@${SSH_HOST}" \
-            "cd '${TARGET_DIR}' && ./.post-deploy.sh"
+            "'${TARGET_DIR}/.post-deploy.sh'"
