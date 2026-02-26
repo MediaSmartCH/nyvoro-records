@@ -115,7 +115,8 @@ jobs:
           # Use a package-scoped install/build command by default.
           DEFAULT_POST_DEPLOY_COMMAND="rm -rf apps/api/node_modules apps/api/package-lock.json && npm install --prefix apps/api --include=dev && npm --prefix apps/api run build"
 
-          if [ -z "${POST_DEPLOY_COMMAND}" ] || printf '%s' "${POST_DEPLOY_COMMAND}" | grep -Eq -- '--workspace[[:space:]]+@nyvoro/api'; then
+          # Accept custom command only if it targets apps/api install+build.
+          if [ -z "${POST_DEPLOY_COMMAND}" ] || ! printf '%s' "${POST_DEPLOY_COMMAND}" | grep -Eq -- 'npm[[:space:]]+.*--prefix[[:space:]]+apps/api.*npm[[:space:]]+.*--prefix[[:space:]]+apps/api[[:space:]]+run[[:space:]]+build'; then
             POST_DEPLOY_COMMAND="${DEFAULT_POST_DEPLOY_COMMAND}"
           fi
 
