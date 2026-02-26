@@ -1,0 +1,103 @@
+name: Deploy API to Infomaniak
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-api-infomaniak-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate API
+        run: |
+          pnpm --filter @nyvoro/api typecheck
+          pnpm --filter @nyvoro/api test
+          pnpm --filter @nyvoro/api build
+
+      - name: Prepare deployment payload
+        run: |
+          set -eu
+          rm -rf .deploy
+          mkdir -p .deploy/api/apps .deploy/api/packages
+          rsync -a apps/api/ .deploy/api/apps/api/
+          rsync -a packages/shared-types/ .deploy/api/packages/shared-types/
+          cp package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json .deploy/api/
+
+      - name: Install SFTP tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp sshpass
+
+      - name: Upload over SFTP
+        env:
+          SFTP_HOST: ${{ secrets.INFOMANIAK_SFTP_HOST }}
+          SFTP_PORT: ${{ secrets.INFOMANIAK_SFTP_PORT }}
+          SFTP_USERNAME: ${{ secrets.INFOMANIAK_SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.INFOMANIAK_SFTP_PASSWORD }}
+          SFTP_TARGET_DIR: ${{ secrets.INFOMANIAK_SFTP_TARGET_DIR }}
+        run: |
+          set -eu
+
+          if [ -z "${SFTP_HOST}" ] || [ -z "${SFTP_USERNAME}" ] || [ -z "${SFTP_PASSWORD}" ] || [ -z "${SFTP_TARGET_DIR}" ]; then
+            echo "Missing required Infomaniak SFTP secrets."
+            echo "Required: INFOMANIAK_SFTP_HOST, INFOMANIAK_SFTP_USERNAME, INFOMANIAK_SFTP_PASSWORD, INFOMANIAK_SFTP_TARGET_DIR"
+            exit 1
+          fi
+
+          if [ -z "${SFTP_PORT}" ]; then
+            SFTP_PORT="22"
+          fi
+
+          lftp -u "${SFTP_USERNAME},${SFTP_PASSWORD}" "sftp://${SFTP_HOST}:${SFTP_PORT}" <<EOF
+          set ssl:verify-certificate no
+          set sftp:auto-confirm yes
+          mkdir -p ${SFTP_TARGET_DIR}
+          mirror -R --delete --verbose .deploy/api ${SFTP_TARGET_DIR}
+          bye
+          EOF
+
+      - name: Run optional post-deploy command over SSH
+        if: ${{ secrets.INFOMANIAK_POST_DEPLOY_COMMAND != '' }}
+        env:
+          SSH_HOST: ${{ secrets.INFOMANIAK_SFTP_HOST }}
+          SSH_PORT: ${{ secrets.INFOMANIAK_SFTP_PORT }}
+          SSH_USERNAME: ${{ secrets.INFOMANIAK_SFTP_USERNAME }}
+          SSH_PASSWORD: ${{ secrets.INFOMANIAK_SFTP_PASSWORD }}
+          SSH_TARGET_DIR: ${{ secrets.INFOMANIAK_SFTP_TARGET_DIR }}
+          POST_DEPLOY_COMMAND: ${{ secrets.INFOMANIAK_POST_DEPLOY_COMMAND }}
+        run: |
+          set -eu
+
+          if [ -z "${SSH_PORT}" ]; then
+            SSH_PORT="22"
+          fi
+
+          sshpass -p "${SSH_PASSWORD}" ssh \
+            -p "${SSH_PORT}" \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            "${SSH_USERNAME}@${SSH_HOST}" \
+            "cd '${SSH_TARGET_DIR}' && ${POST_DEPLOY_COMMAND}"

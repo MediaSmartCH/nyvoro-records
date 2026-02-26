@@ -194,6 +194,29 @@ Notes:
 ## Deployment (Infomaniak + GitHub)
 Infomaniak instructions are kept for reference (legacy deployment path).
 
+### Automated API deployment to Infomaniak (SFTP on push)
+The repository includes `.github/workflows/deploy-api-infomaniak.yml` to upload the API workspace payload to Infomaniak over SFTP on every push to `main` (and via manual `workflow_dispatch`).
+
+Required GitHub repository secrets:
+- `INFOMANIAK_SFTP_HOST` (example: `57-108184.ssh.hosting-ik.com`)
+- `INFOMANIAK_SFTP_PORT` (usually `22`)
+- `INFOMANIAK_SFTP_USERNAME`
+- `INFOMANIAK_SFTP_PASSWORD`
+- `INFOMANIAK_SFTP_TARGET_DIR` (absolute path on remote host where files should be mirrored)
+
+Optional secret:
+- `INFOMANIAK_POST_DEPLOY_COMMAND` (executed over SSH after upload, from inside `INFOMANIAK_SFTP_TARGET_DIR`)
+
+Suggested post-deploy command example:
+```bash
+corepack enable && pnpm install --frozen-lockfile && pnpm --filter @nyvoro/api build
+```
+
+Then configure your Infomaniak Node.js runtime entrypoint to:
+```bash
+node apps/api/dist/server.js
+```
+
 ## Testing
 Run all checks:
 ```bash
