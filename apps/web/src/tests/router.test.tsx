@@ -44,7 +44,7 @@ describe('localized routing', () => {
       'href',
       'mailto:privacy@nyvoro-records.com'
     );
-    expect(container.querySelector('time[datetime=\"2026-02-26\"]')).toBeInTheDocument();
+    expect(container.querySelector('time[datetime="2026-02-26"]')).toBeInTheDocument();
   });
 
   it('renders artist detail page', async () => {
