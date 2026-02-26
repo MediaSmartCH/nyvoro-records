@@ -194,18 +194,21 @@ Notes:
 ## Deployment (Infomaniak + GitHub)
 Infomaniak instructions are kept for reference (legacy deployment path).
 
-### Automated API deployment to Infomaniak (SFTP on push)
-The repository includes `.github/workflows/deploy-api-infomaniak.yml` to upload the API workspace payload to Infomaniak over SFTP on every push to `main` (and via manual `workflow_dispatch`).
+### Automated API deployment to Infomaniak (SSH on push)
+The repository includes `.github/workflows/deploy-api-infomaniak.yml` to upload the API workspace payload to Infomaniak over SSH/rsync on every push to `main` (and via manual `workflow_dispatch`).
 
 Required GitHub repository secrets:
-- `INFOMANIAK_SFTP_HOST` (example: `57-108184.ssh.hosting-ik.com`)
-- `INFOMANIAK_SFTP_PORT` (usually `22`)
-- `INFOMANIAK_SFTP_USERNAME`
-- `INFOMANIAK_SFTP_PASSWORD`
-- `INFOMANIAK_SFTP_TARGET_DIR` (absolute path on remote host where files should be mirrored)
+- `INFOMANIAK_SSH_HOST` (example: `57-108184.ssh.hosting-ik.com`)
+- `INFOMANIAK_SSH_PORT` (usually `22`)
+- `INFOMANIAK_SSH_USERNAME`
+- `INFOMANIAK_TARGET_DIR` (absolute path on remote host where files should be mirrored, for example `/sites/api.nyvoro-records.com`)
+
+Authentication:
+- Recommended: `INFOMANIAK_SSH_PRIVATE_KEY` (private key for the SSH user)
+- Fallback: `INFOMANIAK_SSH_PASSWORD` (used only if private key is not set)
 
 Optional secret:
-- `INFOMANIAK_POST_DEPLOY_COMMAND` (executed over SSH after upload, from inside `INFOMANIAK_SFTP_TARGET_DIR`)
+- `INFOMANIAK_POST_DEPLOY_COMMAND` (executed over SSH after upload, from inside `INFOMANIAK_TARGET_DIR`)
 
 Default post-deploy command (used automatically when the secret is empty):
 ```bash

@@ -14,11 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      SFTP_HOST: ${{ secrets.INFOMANIAK_SFTP_HOST }}
-      SFTP_PORT: ${{ secrets.INFOMANIAK_SFTP_PORT }}
-      SFTP_USERNAME: ${{ secrets.INFOMANIAK_SFTP_USERNAME }}
-      SFTP_PASSWORD: ${{ secrets.INFOMANIAK_SFTP_PASSWORD }}
-      SFTP_TARGET_DIR: ${{ secrets.INFOMANIAK_SFTP_TARGET_DIR }}
+      SSH_HOST: ${{ secrets.INFOMANIAK_SSH_HOST }}
+      SSH_PORT: ${{ secrets.INFOMANIAK_SSH_PORT }}
+      SSH_USERNAME: ${{ secrets.INFOMANIAK_SSH_USERNAME }}
+      SSH_PRIVATE_KEY: ${{ secrets.INFOMANIAK_SSH_PRIVATE_KEY }}
+      SSH_PASSWORD: ${{ secrets.INFOMANIAK_SSH_PASSWORD }}
+      TARGET_DIR: ${{ secrets.INFOMANIAK_TARGET_DIR }}
       POST_DEPLOY_COMMAND: ${{ secrets.INFOMANIAK_POST_DEPLOY_COMMAND }}
     steps:
       - name: Checkout
@@ -53,48 +54,79 @@ jobs:
           rsync -a packages/shared-types/ .deploy/api/packages/shared-types/
           cp package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json .deploy/api/
 
-      - name: Install SFTP tooling
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y lftp sshpass
-
-      - name: Upload over SFTP
+      - name: Validate deployment secrets
         run: |
           set -eu
 
-          if [ -z "${SFTP_HOST}" ] || [ -z "${SFTP_USERNAME}" ] || [ -z "${SFTP_PASSWORD}" ] || [ -z "${SFTP_TARGET_DIR}" ]; then
-            echo "Missing required Infomaniak SFTP secrets."
-            echo "Required: INFOMANIAK_SFTP_HOST, INFOMANIAK_SFTP_USERNAME, INFOMANIAK_SFTP_PASSWORD, INFOMANIAK_SFTP_TARGET_DIR"
+          if [ -z "${SSH_HOST}" ] || [ -z "${SSH_USERNAME}" ] || [ -z "${TARGET_DIR}" ]; then
+            echo "Missing required Infomaniak SSH secrets."
+            echo "Required: INFOMANIAK_SSH_HOST, INFOMANIAK_SSH_USERNAME, INFOMANIAK_TARGET_DIR"
             exit 1
           fi
 
-          if [ -z "${SFTP_PORT}" ]; then
-            SFTP_PORT="22"
+          if [ -z "${SSH_PRIVATE_KEY}" ] && [ -z "${SSH_PASSWORD}" ]; then
+            echo "Provide INFOMANIAK_SSH_PRIVATE_KEY (recommended) or INFOMANIAK_SSH_PASSWORD."
+            exit 1
           fi
 
-          lftp -u "${SFTP_USERNAME},${SFTP_PASSWORD}" "sftp://${SFTP_HOST}:${SFTP_PORT}" <<EOF
-          set ssl:verify-certificate no
-          set sftp:auto-confirm yes
-          mkdir -p ${SFTP_TARGET_DIR}
-          mirror -R --verbose .deploy/api ${SFTP_TARGET_DIR}
-          bye
-          EOF
+          if [ -z "${SSH_PORT}" ]; then
+            SSH_PORT="22"
+          fi
+
+          echo "SSH_PORT=${SSH_PORT}" >> "${GITHUB_ENV}"
+
+      - name: Prepare SSH key authentication
+        if: ${{ env.SSH_PRIVATE_KEY != '' }}
+        run: |
+          set -eu
+          mkdir -p "${HOME}/.ssh"
+          chmod 700 "${HOME}/.ssh"
+          printf '%s\n' "${SSH_PRIVATE_KEY}" > "${HOME}/.ssh/infomaniak_deploy_key"
+          chmod 600 "${HOME}/.ssh/infomaniak_deploy_key"
+          ssh-keyscan -p "${SSH_PORT}" "${SSH_HOST}" >> "${HOME}/.ssh/known_hosts" 2>/dev/null || true
+          chmod 600 "${HOME}/.ssh/known_hosts"
+
+      - name: Install password fallback tooling
+        if: ${{ env.SSH_PRIVATE_KEY == '' && env.SSH_PASSWORD != '' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
+
+      - name: Upload over SSH
+        run: |
+          set -eu
+
+          if [ -n "${SSH_PRIVATE_KEY}" ]; then
+            REMOTE_SSH="ssh -i ${HOME}/.ssh/infomaniak_deploy_key -p ${SSH_PORT} -o StrictHostKeyChecking=accept-new"
+            ${REMOTE_SSH} "${SSH_USERNAME}@${SSH_HOST}" "mkdir -p '${TARGET_DIR}'"
+            rsync -az --omit-dir-times --no-perms -e "${REMOTE_SSH}" .deploy/api/ "${SSH_USERNAME}@${SSH_HOST}:${TARGET_DIR}/"
+            exit 0
+          fi
+
+          REMOTE_SSH="ssh -p ${SSH_PORT} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          sshpass -p "${SSH_PASSWORD}" ${REMOTE_SSH} "${SSH_USERNAME}@${SSH_HOST}" "mkdir -p '${TARGET_DIR}'"
+          sshpass -p "${SSH_PASSWORD}" rsync -az --omit-dir-times --no-perms -e "${REMOTE_SSH}" .deploy/api/ "${SSH_USERNAME}@${SSH_HOST}:${TARGET_DIR}/"
 
       - name: Run post-deploy command over SSH
         run: |
           set -eu
 
-          if [ -z "${SFTP_PORT}" ]; then
-            SFTP_PORT="22"
-          fi
-
           if [ -z "${POST_DEPLOY_COMMAND}" ]; then
             POST_DEPLOY_COMMAND="npm install --include=dev && npm run --workspace @nyvoro/api build"
           fi
 
-          sshpass -p "${SFTP_PASSWORD}" ssh \
-            -p "${SFTP_PORT}" \
+          if [ -n "${SSH_PRIVATE_KEY}" ]; then
+            ssh -i "${HOME}/.ssh/infomaniak_deploy_key" \
+              -p "${SSH_PORT}" \
+              -o StrictHostKeyChecking=accept-new \
+              "${SSH_USERNAME}@${SSH_HOST}" \
+              "cd '${TARGET_DIR}' && ${POST_DEPLOY_COMMAND}"
+            exit 0
+          fi
+
+          sshpass -p "${SSH_PASSWORD}" ssh \
+            -p "${SSH_PORT}" \
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
-            "${SFTP_USERNAME}@${SFTP_HOST}" \
-            "cd '${SFTP_TARGET_DIR}' && ${POST_DEPLOY_COMMAND}"
+            "${SSH_USERNAME}@${SSH_HOST}" \
+            "cd '${TARGET_DIR}' && ${POST_DEPLOY_COMMAND}"
