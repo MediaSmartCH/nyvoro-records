@@ -52,6 +52,16 @@ jobs:
           rsync -a --exclude 'node_modules' --exclude 'coverage' --exclude 'dist' apps/api/ .deploy/api/apps/api/
           rsync -a --exclude 'node_modules' packages/shared-types/ .deploy/api/packages/shared-types/
           cp package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json .deploy/api/
+          cat > .deploy/api/.post-deploy.sh <<'EOF'
+          set -euxo pipefail
+          echo "Running post-deploy in: $(pwd)"
+          node -v
+          npm -v
+          rm -rf apps/api/node_modules apps/api/package-lock.json
+          npm install --prefix apps/api --include=dev
+          npm --prefix apps/api run build
+          EOF
+          chmod +x .deploy/api/.post-deploy.sh
 
       - name: Validate deployment secrets
         run: |
@@ -110,19 +120,12 @@ jobs:
         run: |
           set -eu
 
-          # npm workspace installs can fail on some Infomaniak Node runtimes.
-          # Use a package-scoped install/build command by default.
-          DEFAULT_POST_DEPLOY_COMMAND="rm -rf apps/api/node_modules apps/api/package-lock.json && npm install --prefix apps/api --include=dev && npm --prefix apps/api run build"
-
-          POST_DEPLOY_COMMAND="${DEFAULT_POST_DEPLOY_COMMAND}"
-          REMOTE_POST_DEPLOY_COMMAND="set -euxo pipefail; cd '${TARGET_DIR}'; echo 'Running post-deploy in:' \"\$(pwd)\"; node -v; npm -v; ${POST_DEPLOY_COMMAND}"
-
           if [ -n "${SSH_PRIVATE_KEY}" ]; then
             ssh -i "${HOME}/.ssh/infomaniak_deploy_key" \
               -p "${SSH_PORT}" \
               -o StrictHostKeyChecking=accept-new \
               "${SSH_USERNAME}@${SSH_HOST}" \
-              "${REMOTE_POST_DEPLOY_COMMAND}"
+              "cd '${TARGET_DIR}' && ./.post-deploy.sh"
             exit 0
           fi
 
@@ -131,4 +134,4 @@ jobs:
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
             "${SSH_USERNAME}@${SSH_HOST}" \
-            "${REMOTE_POST_DEPLOY_COMMAND}"
+            "cd '${TARGET_DIR}' && ./.post-deploy.sh"
