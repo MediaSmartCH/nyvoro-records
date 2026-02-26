@@ -13,6 +13,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      SFTP_HOST: ${{ secrets.INFOMANIAK_SFTP_HOST }}
+      SFTP_PORT: ${{ secrets.INFOMANIAK_SFTP_PORT }}
+      SFTP_USERNAME: ${{ secrets.INFOMANIAK_SFTP_USERNAME }}
+      SFTP_PASSWORD: ${{ secrets.INFOMANIAK_SFTP_PASSWORD }}
+      SFTP_TARGET_DIR: ${{ secrets.INFOMANIAK_SFTP_TARGET_DIR }}
+      POST_DEPLOY_COMMAND: ${{ secrets.INFOMANIAK_POST_DEPLOY_COMMAND }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,12 +59,6 @@ jobs:
           sudo apt-get install -y lftp sshpass
 
       - name: Upload over SFTP
-        env:
-          SFTP_HOST: ${{ secrets.INFOMANIAK_SFTP_HOST }}
-          SFTP_PORT: ${{ secrets.INFOMANIAK_SFTP_PORT }}
-          SFTP_USERNAME: ${{ secrets.INFOMANIAK_SFTP_USERNAME }}
-          SFTP_PASSWORD: ${{ secrets.INFOMANIAK_SFTP_PASSWORD }}
-          SFTP_TARGET_DIR: ${{ secrets.INFOMANIAK_SFTP_TARGET_DIR }}
         run: |
           set -eu
 
@@ -80,24 +81,17 @@ jobs:
           EOF
 
       - name: Run optional post-deploy command over SSH
-        if: ${{ secrets.INFOMANIAK_POST_DEPLOY_COMMAND != '' }}
-        env:
-          SSH_HOST: ${{ secrets.INFOMANIAK_SFTP_HOST }}
-          SSH_PORT: ${{ secrets.INFOMANIAK_SFTP_PORT }}
-          SSH_USERNAME: ${{ secrets.INFOMANIAK_SFTP_USERNAME }}
-          SSH_PASSWORD: ${{ secrets.INFOMANIAK_SFTP_PASSWORD }}
-          SSH_TARGET_DIR: ${{ secrets.INFOMANIAK_SFTP_TARGET_DIR }}
-          POST_DEPLOY_COMMAND: ${{ secrets.INFOMANIAK_POST_DEPLOY_COMMAND }}
+        if: ${{ env.POST_DEPLOY_COMMAND != '' }}
         run: |
           set -eu
 
-          if [ -z "${SSH_PORT}" ]; then
-            SSH_PORT="22"
+          if [ -z "${SFTP_PORT}" ]; then
+            SFTP_PORT="22"
           fi
 
-          sshpass -p "${SSH_PASSWORD}" ssh \
-            -p "${SSH_PORT}" \
+          sshpass -p "${SFTP_PASSWORD}" ssh \
+            -p "${SFTP_PORT}" \
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
-            "${SSH_USERNAME}@${SSH_HOST}" \
-            "cd '${SSH_TARGET_DIR}' && ${POST_DEPLOY_COMMAND}"
+            "${SFTP_USERNAME}@${SFTP_HOST}" \
+            "cd '${SFTP_TARGET_DIR}' && ${POST_DEPLOY_COMMAND}"
