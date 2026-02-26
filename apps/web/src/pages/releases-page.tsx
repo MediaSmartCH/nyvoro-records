@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { releases, artists } from '@nyvoro/content';
 import { useLocaleContext } from '../context/locale-context';
 import { compareReleaseDatesAsc, compareReleaseDatesDesc, formatReleaseDate, getLocalDateKey } from '../lib/date';
@@ -140,6 +140,7 @@ function sortPlatformEntries(entries: [string, string][]) {
 
 export function ReleasesPage() {
   const { locale, messages } = useLocaleContext();
+  const [searchParams, setSearchParams] = useSearchParams();
   const localDateKey = getLocalDateKey();
 
   const releaseTimeline = useMemo(() => {
@@ -161,8 +162,10 @@ export function ReleasesPage() {
     releaseTimeline.find((release) => compareReleaseDatesAsc(release.releaseDate, localDateKey) <= 0)?.id ??
     releaseTimeline[0]?.id ??
     '';
-
-  const [activeReleaseId, setActiveReleaseId] = useState(defaultFeaturedReleaseId);
+  const requestedReleaseId = searchParams.get('release');
+  const isRequestedReleaseIdValid = releaseTimeline.some((release) => release.id === requestedReleaseId);
+  const activeReleaseId =
+    requestedReleaseId && isRequestedReleaseIdValid ? requestedReleaseId : defaultFeaturedReleaseId;
   const activeRelease = releaseTimeline.find((release) => release.id === activeReleaseId) ?? releaseTimeline[0];
 
   if (!activeRelease) {
@@ -300,7 +303,15 @@ export function ReleasesPage() {
                 className={`release-discover-item ${release.id === activeRelease.id ? 'active' : ''} ${
                   upcoming ? 'upcoming' : 'live'
                 }`}
-                onClick={() => setActiveReleaseId(release.id)}
+                onClick={() => {
+                  if (release.id === activeRelease.id) {
+                    return;
+                  }
+
+                  const nextSearchParams = new URLSearchParams(searchParams);
+                  nextSearchParams.set('release', release.id);
+                  setSearchParams(nextSearchParams);
+                }}
               >
                 <div
                   className="release-discover-artwork"

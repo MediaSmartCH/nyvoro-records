@@ -87,7 +87,26 @@
   "legal": {
     "imprint": "Mentions légales",
     "privacy": "Politique de confidentialité",
-    "terms": "Conditions d'utilisation"
+    "terms": "Conditions d'utilisation",
+    "tableOfContents": "Sommaire",
+    "lastUpdated": "Dernière mise à jour",
+    "legalContact": "Contact juridique"
+  },
+  "errors": {
+    "actions": {
+      "home": "Retour à l'accueil",
+      "contact": "Contacter le label"
+    },
+    "status403Title": "Accès refusé",
+    "status403Description": "Vous n'êtes pas autorisé à accéder à cette page.",
+    "status404Title": "Page introuvable",
+    "status404Description": "La page demandée n'existe pas ou a été déplacée.",
+    "status500Title": "Erreur serveur",
+    "status500Description": "Le serveur a rencontré une erreur inattendue.",
+    "status503Title": "Service indisponible",
+    "status503Description": "Le service est temporairement indisponible. Merci de réessayer bientôt.",
+    "statusDefaultTitle": "Une erreur est survenue",
+    "statusDefaultDescription": "Une erreur inattendue est survenue. Réessayez dans quelques instants."
   },
   "footer": {
     "rights": "Tous droits réservés."

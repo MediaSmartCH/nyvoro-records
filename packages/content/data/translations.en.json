@@ -87,7 +87,26 @@
   "legal": {
     "imprint": "Legal Notice",
     "privacy": "Privacy Policy",
-    "terms": "Terms of Use"
+    "terms": "Terms of Use",
+    "tableOfContents": "Table of contents",
+    "lastUpdated": "Last updated",
+    "legalContact": "Legal contact"
+  },
+  "errors": {
+    "actions": {
+      "home": "Back to home",
+      "contact": "Contact the label"
+    },
+    "status403Title": "Access denied",
+    "status403Description": "You are not authorized to access this page.",
+    "status404Title": "Page not found",
+    "status404Description": "The page you requested does not exist or has moved.",
+    "status500Title": "Server error",
+    "status500Description": "The server encountered an unexpected error.",
+    "status503Title": "Service unavailable",
+    "status503Description": "The service is temporarily unavailable. Please try again shortly.",
+    "statusDefaultTitle": "An error occurred",
+    "statusDefaultDescription": "An unexpected error occurred. Please try again in a moment."
   },
   "footer": {
     "rights": "All rights reserved."

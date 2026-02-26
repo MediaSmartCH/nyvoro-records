@@ -1,17 +1,20 @@
 import {
   createBrowserRouter,
   createMemoryRouter,
-  type RouteObject,
-  Navigate
+  type RouteObject
 } from 'react-router-dom';
+import { LocaleErrorBoundary } from './components/locale-error-boundary';
 import { LocaleLayout } from './components/locale-layout';
 import { ArtistDetailPage } from './pages/artist-detail-page';
 import { ArtistsPage } from './pages/artists-page';
 import { ContactPage } from './pages/contact-page';
+import { ErrorStatusPage } from './pages/error-status-page';
+import { GlobalNotFoundRedirectPage } from './pages/global-not-found-redirect';
 import { HomePage } from './pages/home-page';
 import { JoinPage } from './pages/join-page';
 import { LegalPage } from './pages/legal-page';
 import { LocaleRedirectPage } from './pages/locale-redirect';
+import { NotFoundPage } from './pages/not-found-page';
 import { ReleasesPage } from './pages/releases-page';
 
 export const routeTree: RouteObject[] = [
@@ -22,6 +25,7 @@ export const routeTree: RouteObject[] = [
   {
     path: '/:locale',
     element: <LocaleLayout />,
+    errorElement: <LocaleErrorBoundary />,
     children: [
       {
         index: true,
@@ -58,12 +62,20 @@ export const routeTree: RouteObject[] = [
       {
         path: 'legal/terms',
         element: <LegalPage documentKey="terms" />
+      },
+      {
+        path: 'error/:statusCode',
+        element: <ErrorStatusPage />
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />
       }
     ]
   },
   {
     path: '*',
-    element: <Navigate to="/" replace />
+    element: <GlobalNotFoundRedirectPage />
   }
 ];
 

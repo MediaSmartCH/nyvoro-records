@@ -1,77 +1,223 @@
 {
   "imprint": {
     "title": "Legal Notice",
+    "summary": "Legal identity, hosting, and responsibility details applicable to the Nyvoro Records website.",
+    "lastUpdated": "2026-02-25",
+    "contactEmail": "contact@nyvoro-records.com",
     "sections": [
       {
-        "heading": "Publisher",
+        "id": "publisher-identity",
+        "heading": "Publisher identity",
         "content": [
-          "Nyvoro Records",
-          "Independent label founded in 2026.",
-          "Contact email: contact@nyvoro-records.com"
+          "Legal name: [TO_COMPLETE_LEGAL_NAME]",
+          "Legal form: [TO_COMPLETE_LEGAL_FORM]",
+          "Registered address: [TO_COMPLETE_ADDRESS]",
+          "Company register number: [TO_COMPLETE_REGISTER_ID]",
+          "EU VAT number: [TO_COMPLETE_VAT_ID]"
         ]
       },
       {
+        "id": "publishing-director",
+        "heading": "Publishing director",
+        "content": [
+          "Publishing director: [TO_COMPLETE_PUBLISHING_DIRECTOR].",
+          "For legal, compliance, or notice requests, contact contact@nyvoro-records.com."
+        ]
+      },
+      {
+        "id": "hosting-provider",
         "heading": "Hosting",
         "content": [
-          "Website hosted on Infomaniak.",
-          "Infrastructure and Node.js runtime managed through Infomaniak hosting services."
+          "Main hosting provider: Infomaniak.",
+          "Hosting provider address: [TO_COMPLETE_HOST_ADDRESS].",
+          "Website infrastructure (Node.js runtime, storage, and related services) is operated through this provider and strictly required technical subcontractors."
+        ]
+      },
+      {
+        "id": "intellectual-property",
+        "heading": "Intellectual property",
+        "content": [
+          "Trademarks, copy, visuals, editorial assets, layouts, and audio materials available on the website are protected by applicable laws.",
+          "Unless explicitly stated otherwise, those assets remain the property of Nyvoro Records or their respective rights holders.",
+          "Any reproduction, distribution, or reuse without prior written authorization is prohibited."
+        ]
+      },
+      {
+        "id": "liability",
+        "heading": "Liability",
+        "content": [
+          "Nyvoro Records uses reasonable efforts to maintain website accuracy and availability.",
+          "No absolute warranty is provided regarding uninterrupted service or absence of technical errors.",
+          "Users remain responsible for how they use published information and for securing their own devices."
+        ]
+      },
+      {
+        "id": "governing-law",
+        "heading": "Applicable law",
+        "content": [
+          "This legal notice is interpreted according to applicable European rules and, where relevant, French law.",
+          "In case of dispute, amicable resolution is sought before any legal action."
         ]
       }
     ]
   },
   "privacy": {
     "title": "Privacy Policy",
+    "summary": "This policy explains which data is processed through the website, why it is processed, how long it is retained, and your rights.",
+    "lastUpdated": "2026-02-25",
+    "contactEmail": "contact@nyvoro-records.com",
     "sections": [
       {
-        "heading": "Data collected",
+        "id": "data-controller",
+        "heading": "Data controller",
         "content": [
-          "When you submit a label application, we collect profile, project, analytics, and contact information from the form.",
-          "We also process technical anti-spam data such as captcha verification result and an anonymized IP hash."
+          "The website data controller is [TO_COMPLETE_LEGAL_NAME].",
+          "For any data protection request, contact contact@nyvoro-records.com."
         ]
       },
       {
-        "heading": "Purpose and legal basis",
+        "id": "data-collected",
+        "heading": "Data we collect",
         "content": [
-          "Data is used to evaluate artist applications and communicate about potential collaboration.",
-          "Processing is based on legitimate interest and your explicit consent at submission time."
+          "When you submit an application, we process data you provide: artist identity, contact details, project information, release history, audience metrics, resources, and free-form message.",
+          "We also process technical anti-spam signals: Turnstile verification outcome (Cloudflare), honeypot value, and a pseudonymized IP hash (salted).",
+          "We do not run advertising pixels or marketing analytics tracking in the application workflow.",
+          "The website stores only a local theme preference (light/dark/auto) in your browser for display comfort."
         ]
       },
       {
-        "heading": "Retention",
+        "id": "purpose-legal-basis",
+        "heading": "Purposes and legal bases",
         "content": [
-          "Applications are stored in a secured SQLite archive for operational follow-up.",
-          "You may request deletion or export of your data by contacting the label email address."
+          "Application data is used to assess artistic fit, organize editorial follow-up, and reply to candidates.",
+          "Security and anti-spam processing is used to protect the service against automated abuse and malicious attempts.",
+          "Primary legal basis is Nyvoro Records' legitimate interest; voluntary submission of an application also reflects your explicit request to be contacted."
         ]
       },
       {
+        "id": "data-recipients-transfers",
+        "heading": "Recipients and international transfers",
+        "content": [
+          "Data is accessible only to authorized Nyvoro Records members and strictly required technical processors (hosting, anti-spam, email routing).",
+          "Depending on provider setup, some processing may involve transfers outside the EEA with appropriate safeguards (standard contractual clauses or equivalent mechanisms).",
+          "No sale of personal data is carried out."
+        ]
+      },
+      {
+        "id": "retention",
+        "heading": "Retention period",
+        "content": [
+          "Applications are retained for 24 months from submission to support artistic and operational follow-up.",
+          "After that period, data is deleted or anonymized unless legal obligations require a longer retention."
+        ]
+      },
+      {
+        "id": "security",
+        "heading": "Security measures",
+        "content": [
+          "We apply proportionate technical and organizational safeguards, including rate limiting, anti-spam protections, HTTP security hardening, and restricted data access.",
+          "Applications are stored in a dedicated SQLite database with operational logging suitable for service continuity."
+        ]
+      },
+      {
+        "id": "rights",
         "heading": "Your rights",
         "content": [
-          "You can request access, correction, deletion, or restriction regarding your personal data.",
-          "Requests are handled via contact@nyvoro-records.com."
+          "Under GDPR and applicable European laws, you may request access, rectification, erasure, restriction, objection, and portability where applicable.",
+          "You may also withdraw consent where consent is the legal basis, without affecting prior lawful processing.",
+          "To exercise your rights, contact contact@nyvoro-records.com."
+        ]
+      },
+      {
+        "id": "complaints",
+        "heading": "Complaints",
+        "content": [
+          "If you believe your rights are not respected, you may lodge a complaint with your competent supervisory authority (for France: CNIL) or your local EU authority."
+        ]
+      },
+      {
+        "id": "policy-updates",
+        "heading": "Policy updates",
+        "content": [
+          "This policy may evolve to reflect regulatory, technical, or organizational changes.",
+          "The last updated date displayed at the top of the document is authoritative."
         ]
       }
     ]
   },
   "terms": {
     "title": "Terms of Use",
+    "summary": "Rules for website access and use, liability boundaries, and legal framework for dispute handling.",
+    "lastUpdated": "2026-02-25",
+    "contactEmail": "contact@nyvoro-records.com",
     "sections": [
       {
+        "id": "scope",
         "heading": "Scope",
         "content": [
-          "These terms govern access to the Nyvoro Records website and related application services."
+          "These terms define access and usage conditions for the Nyvoro Records website, including the application service."
         ]
       },
       {
-        "heading": "User responsibilities",
+        "id": "service-access",
+        "heading": "Service availability",
         "content": [
-          "You agree to provide accurate information when submitting an application.",
-          "Automated abuse, spam, or malicious attempts are strictly prohibited."
+          "Website access is provided on a continuous basis, except during maintenance, technical incidents, or force majeure.",
+          "Nyvoro Records may modify, suspend, or discontinue all or part of the service for legitimate reasons."
         ]
       },
       {
-        "heading": "Intellectual property",
+        "id": "user-obligations",
+        "heading": "User obligations",
         "content": [
-          "Site content, branding, and editorial materials are protected and remain the property of Nyvoro Records or their respective owners."
+          "You agree to provide accurate, fair, and up-to-date information when submitting an application.",
+          "The following are prohibited: spam, intrusion attempts, abusive automated extraction, unlawful content distribution, or third-party rights violations."
+        ]
+      },
+      {
+        "id": "ip-rights",
+        "heading": "Intellectual property rights",
+        "content": [
+          "Website code, design, copy, visuals, and branding assets are protected.",
+          "No exploitation rights are granted beyond strictly personal and non-commercial use of the website."
+        ]
+      },
+      {
+        "id": "external-links",
+        "heading": "External services",
+        "content": [
+          "The website may include links to third-party services (streaming platforms, social networks, and others).",
+          "Nyvoro Records is not responsible for third-party content, policies, or practices."
+        ]
+      },
+      {
+        "id": "liability-limitations",
+        "heading": "Limitation of liability",
+        "content": [
+          "To the extent permitted by applicable law, Nyvoro Records cannot be held liable for indirect damages resulting from website usage.",
+          "Any liability remains limited to mandatory legal obligations."
+        ]
+      },
+      {
+        "id": "suspension-termination",
+        "heading": "Suspension or restriction",
+        "content": [
+          "Nyvoro Records may suspend or restrict access in case of abusive use, terms breach, or security risk."
+        ]
+      },
+      {
+        "id": "governing-law-disputes",
+        "heading": "Applicable law and disputes",
+        "content": [
+          "These terms are governed by applicable European rules and, subsidiarily, French law.",
+          "In case of dispute, parties will seek an amicable resolution before legal proceedings."
+        ]
+      },
+      {
+        "id": "contact",
+        "heading": "Contact",
+        "content": [
+          "For any question regarding these terms, contact contact@nyvoro-records.com."
         ]
       }
     ]

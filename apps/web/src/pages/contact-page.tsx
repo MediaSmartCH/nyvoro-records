@@ -19,6 +19,17 @@ export function ContactPage() {
   const responseLabel = locale === 'fr' ? 'Temps de réponse moyen' : 'Average response time';
   const coverageLabel = locale === 'fr' ? 'Couverture' : 'Coverage';
   const artistHint = locale === 'fr' ? 'Boîtes directes artistes' : 'Direct artist inboxes';
+  const routingLabel =
+    locale === 'fr' ? 'Routage intelligent' : 'Smart routing';
+  const routingValue =
+    locale === 'fr'
+      ? 'Chaque message arrive directement dans la bonne boîte.'
+      : 'Each request lands directly in the right inbox.';
+  const artistCountLabel =
+    locale === 'fr'
+      ? `${artists.length} boîtes actives`
+      : `${artists.length} active inboxes`;
+  const artistMailListClassName = artists.length > 1 ? 'artist-mail-list artist-mail-list--multi' : 'artist-mail-list';
 
   const primaryChannels = [
     {
@@ -48,39 +59,47 @@ export function ContactPage() {
   ];
 
   return (
-    <section className="stacked-section">
-      <header className="section-header">
+    <section className="stacked-section contact-page">
+      <header className="section-header contact-header">
         <h1>{messages.contact.title}</h1>
         <p>{messages.contact.subtitle}</p>
       </header>
 
       <article className="card contact-showcase">
-        <div>
+        <div className="contact-showcase-main">
           <p className="contact-kicker">Nyvoro Mailroom</p>
           <h2>{contactShowcaseTitle}</h2>
           <p>{contactShowcaseBody}</p>
         </div>
         <div className="contact-showcase-meta">
-          <div>
+          <div className="contact-showcase-meta-item">
             <p className="label">{responseLabel}</p>
             <p className="value">24-72h</p>
           </div>
-          <div>
+          <div className="contact-showcase-meta-item">
             <p className="label">{coverageLabel}</p>
             <p className="value">FR · EN</p>
+          </div>
+          <div className="contact-showcase-meta-item">
+            <p className="label">{routingLabel}</p>
+            <p className="value">{routingValue}</p>
           </div>
         </div>
       </article>
 
       <div className="cards-grid contact-grid contact-grid--premium">
-        {primaryChannels.map((channel) => (
-          <article key={channel.key} className="card contact-card contact-card--primary">
+        {primaryChannels.map((channel, index) => (
+          <a
+            key={channel.key}
+            className="card contact-card contact-card--primary contact-card-link"
+            href={`mailto:${channel.email}`}
+            aria-label={`${channel.label}: ${channel.email}`}
+          >
+            <p className="contact-card-step">{String(index + 1).padStart(2, '0')}</p>
             <p className="contact-channel-label">{channel.label}</p>
-            <p className="contact-address">
-              <a href={`mailto:${channel.email}`}>{channel.email}</a>
-            </p>
+            <p className="contact-address">{channel.email}</p>
             <p className="contact-channel-hint">{channel.hint}</p>
-          </article>
+          </a>
         ))}
 
         <article className="card contact-card contact-card--muted">
@@ -102,14 +121,22 @@ export function ContactPage() {
         </article>
 
         <article className="card contact-card artist-inboxes">
-          <p className="contact-channel-label">{messages.contact.artistInboxes}</p>
+          <div className="artist-inbox-head">
+            <p className="contact-channel-label">{messages.contact.artistInboxes}</p>
+            <p className="contact-inline-count">{artistCountLabel}</p>
+          </div>
           <p className="contact-channel-hint">{artistHint}</p>
-          <div className="artist-mail-list">
+          <div className={artistMailListClassName}>
             {artists.map((artist) => {
               const inbox = `${artist.id}@nyvoro-records.com`;
               const avatar = artist.portrait ?? releases.find((release) => release.artistId === artist.id)?.artwork ?? '';
               return (
-                <p key={artist.id} className="artist-mail-item">
+                <a
+                  key={artist.id}
+                  className="artist-mail-item artist-mail-item-link"
+                  href={`mailto:${inbox}`}
+                  aria-label={`${artist.name}: ${inbox}`}
+                >
                   <span className="artist-mail-profile">
                     <span
                       className={`artist-mail-avatar ${avatar ? '' : 'fallback'}`.trim()}
@@ -123,8 +150,8 @@ export function ContactPage() {
                       <strong>{artist.name}</strong> · {artistEmailLabel}
                     </span>
                   </span>
-                  <a href={`mailto:${inbox}`}>{inbox}</a>
-                </p>
+                  <span className="artist-mail-pill">{inbox}</span>
+                </a>
               );
             })}
           </div>

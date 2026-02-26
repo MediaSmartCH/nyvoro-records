@@ -1,77 +1,223 @@
 {
   "imprint": {
     "title": "Mentions légales",
+    "summary": "Informations légales de l'éditeur, de l'hébergement et des responsabilités applicables au site Nyvoro Records.",
+    "lastUpdated": "2026-02-25",
+    "contactEmail": "contact@nyvoro-records.com",
     "sections": [
       {
-        "heading": "Éditeur",
+        "id": "publisher-identity",
+        "heading": "Identité de l'éditeur",
         "content": [
-          "Nyvoro Records",
-          "Label indépendant créé en 2026.",
-          "Email de contact : contact@nyvoro-records.com"
+          "Raison sociale : [TO_COMPLETE_LEGAL_NAME]",
+          "Forme juridique : [TO_COMPLETE_LEGAL_FORM]",
+          "Adresse du siège : [TO_COMPLETE_ADDRESS]",
+          "Numéro d'immatriculation : [TO_COMPLETE_REGISTER_ID]",
+          "Numéro TVA intracommunautaire : [TO_COMPLETE_VAT_ID]"
         ]
       },
       {
+        "id": "publishing-director",
+        "heading": "Direction de publication",
+        "content": [
+          "Directeur ou directrice de publication : [TO_COMPLETE_PUBLISHING_DIRECTOR].",
+          "Pour toute demande légale, conformité ou signalement, écrire à contact@nyvoro-records.com."
+        ]
+      },
+      {
+        "id": "hosting-provider",
         "heading": "Hébergement",
         "content": [
-          "Site hébergé chez Infomaniak.",
-          "Infrastructure et runtime Node.js administrés via les services d'hébergement Infomaniak."
+          "Hébergeur principal : Infomaniak.",
+          "Adresse de l'hébergeur : [TO_COMPLETE_HOST_ADDRESS].",
+          "L'infrastructure technique du site (runtime Node.js, stockage et services associés) est exploitée via cet hébergeur et des sous-traitants techniques nécessaires."
+        ]
+      },
+      {
+        "id": "intellectual-property",
+        "heading": "Propriété intellectuelle",
+        "content": [
+          "Les marques, textes, visuels, contenus éditoriaux, maquettes et éléments audio présents sur le site sont protégés par les législations applicables.",
+          "Sauf mention contraire, ces éléments restent la propriété de Nyvoro Records ou de leurs ayants droit.",
+          "Toute reproduction, diffusion ou exploitation sans autorisation écrite préalable est interdite."
+        ]
+      },
+      {
+        "id": "liability",
+        "heading": "Responsabilité",
+        "content": [
+          "Nyvoro Records met en oeuvre des moyens raisonnables pour assurer l'exactitude et la disponibilité du site.",
+          "Aucune garantie absolue n'est donnée quant à l'absence d'erreur, d'interruption ou d'anomalie technique.",
+          "L'utilisateur reste responsable de l'usage qu'il fait des informations publiées et de la sécurisation de ses équipements."
+        ]
+      },
+      {
+        "id": "governing-law",
+        "heading": "Droit applicable",
+        "content": [
+          "Les présentes mentions sont interprétées conformément aux règles européennes applicables et, lorsque pertinent, au droit français.",
+          "En cas de litige, une résolution amiable est recherchée avant toute procédure contentieuse."
         ]
       }
     ]
   },
   "privacy": {
     "title": "Politique de confidentialité",
+    "summary": "Cette politique explique quelles données sont traitées via le site, pourquoi, pendant combien de temps et quels sont vos droits.",
+    "lastUpdated": "2026-02-25",
+    "contactEmail": "contact@nyvoro-records.com",
     "sections": [
       {
+        "id": "data-controller",
+        "heading": "Responsable du traitement",
+        "content": [
+          "Le responsable du traitement des données du site est [TO_COMPLETE_LEGAL_NAME].",
+          "Pour toute question relative à la protection des données, vous pouvez écrire à contact@nyvoro-records.com."
+        ]
+      },
+      {
+        "id": "data-collected",
         "heading": "Données collectées",
         "content": [
-          "Lors d'une candidature, nous collectons les informations de profil, projet, audience et contact saisies dans le formulaire.",
-          "Nous traitons également des données techniques anti-spam comme le résultat captcha et un hash IP anonymisé."
+          "Lorsque vous candidatez via le formulaire, nous collectons les données que vous saisissez: identité artistique, contact, informations de projet, historique de sorties, audience, ressources et message libre.",
+          "Nous traitons également des données techniques anti-spam: résultat de vérification Turnstile (Cloudflare), valeur honeypot et empreinte IP pseudonymisée (hash salé).",
+          "Nous n'exploitons pas de pixels publicitaires ni d'outils de tracking marketing dans le parcours de candidature.",
+          "Le site stocke uniquement une préférence locale de thème (clair/sombre/auto) dans votre navigateur pour le confort d'affichage."
         ]
       },
       {
-        "heading": "Finalité et base légale",
+        "id": "purpose-legal-basis",
+        "heading": "Finalités et bases légales",
         "content": [
-          "Les données servent à évaluer les candidatures artistiques et à échanger sur une potentielle collaboration.",
-          "Le traitement repose sur l'intérêt légitime et votre consentement explicite au moment de l'envoi."
+          "Les données de candidature sont utilisées pour évaluer la compatibilité artistique, organiser le suivi éditorial et répondre aux candidats.",
+          "Les traitements anti-spam et de sécurité servent à protéger le service contre les abus automatisés et les tentatives malveillantes.",
+          "La base légale principale est l'intérêt légitime de Nyvoro Records; le dépôt volontaire de candidature matérialise également votre demande explicite de contact."
         ]
       },
       {
-        "heading": "Conservation",
+        "id": "data-recipients-transfers",
+        "heading": "Destinataires et transferts",
         "content": [
-          "Les candidatures sont archivées dans une base SQLite sécurisée pour le suivi opérationnel.",
-          "Vous pouvez demander la suppression ou l'export de vos données via l'email du label."
+          "Les données sont accessibles uniquement aux personnes habilitées au sein de Nyvoro Records et à ses sous-traitants techniques strictement nécessaires (hébergement, anti-spam, routage email).",
+          "Selon la configuration des prestataires, certains traitements peuvent impliquer des transferts hors EEE avec garanties appropriées (clauses contractuelles types ou mécanismes équivalents).",
+          "Aucune vente de données personnelles à des tiers n'est réalisée."
         ]
       },
       {
+        "id": "retention",
+        "heading": "Durée de conservation",
+        "content": [
+          "Les candidatures sont conservées pendant 24 mois à compter de leur réception pour assurer le suivi artistique et opérationnel.",
+          "Au terme de cette période, les données sont supprimées ou anonymisées, sauf obligation légale contraire."
+        ]
+      },
+      {
+        "id": "security",
+        "heading": "Mesures de sécurité",
+        "content": [
+          "Nous appliquons des mesures techniques et organisationnelles proportionnées: limitation de débit, protections anti-spam, configuration de sécurité HTTP et accès restreint aux données.",
+          "Les candidatures sont stockées dans une base SQLite dédiée au service, avec journalisation adaptée au suivi opérationnel."
+        ]
+      },
+      {
+        "id": "rights",
         "heading": "Vos droits",
         "content": [
-          "Vous pouvez demander l'accès, la rectification, la suppression ou la limitation du traitement de vos données personnelles.",
-          "Les demandes sont traitées via contact@nyvoro-records.com."
+          "Conformément au RGPD et aux législations européennes applicables, vous pouvez demander l'accès, la rectification, l'effacement, la limitation, l'opposition et la portabilité de vos données selon les cas.",
+          "Vous pouvez aussi retirer votre consentement lorsqu'il constitue la base juridique du traitement, sans effet rétroactif sur les traitements déjà réalisés.",
+          "Pour exercer vos droits, contactez contact@nyvoro-records.com."
+        ]
+      },
+      {
+        "id": "complaints",
+        "heading": "Réclamation",
+        "content": [
+          "Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de l'autorité de contrôle compétente (en France, la CNIL) ou de votre autorité locale au sein de l'UE."
+        ]
+      },
+      {
+        "id": "policy-updates",
+        "heading": "Mise à jour de la politique",
+        "content": [
+          "Cette politique peut évoluer pour refléter des changements réglementaires, techniques ou organisationnels.",
+          "La date de dernière mise à jour affichée en tête du document fait foi."
         ]
       }
     ]
   },
   "terms": {
-    "title": "Conditions générales d'utilisation",
+    "title": "Conditions d'utilisation",
+    "summary": "Règles d'accès et d'utilisation du site, limites de responsabilité et cadre applicable en cas de différend.",
+    "lastUpdated": "2026-02-25",
+    "contactEmail": "contact@nyvoro-records.com",
     "sections": [
       {
-        "heading": "Périmètre",
+        "id": "scope",
+        "heading": "Objet",
         "content": [
-          "Ces conditions régissent l'accès au site Nyvoro Records et aux services associés de candidature."
+          "Les présentes conditions définissent les modalités d'accès et d'utilisation du site Nyvoro Records, y compris le service de candidature."
         ]
       },
       {
-        "heading": "Responsabilités utilisateur",
+        "id": "service-access",
+        "heading": "Accès au service",
         "content": [
-          "Vous vous engagez à fournir des informations exactes lors de l'envoi d'une candidature.",
-          "Les usages automatisés abusifs, spam ou tentatives malveillantes sont strictement interdits."
+          "Le site est accessible en continu sauf maintenance, incident technique ou cas de force majeure.",
+          "Nyvoro Records peut faire évoluer, suspendre ou retirer tout ou partie du service sans préavis pour motif légitime."
         ]
       },
       {
-        "heading": "Propriété intellectuelle",
+        "id": "user-obligations",
+        "heading": "Obligations utilisateur",
         "content": [
-          "Les contenus, la marque et les éléments éditoriaux du site sont protégés et restent la propriété de Nyvoro Records ou de leurs ayants droit."
+          "Vous vous engagez à transmettre des informations exactes, loyales et à jour lors d'une candidature.",
+          "Sont interdits: spam, tentative d'intrusion, extraction automatisée abusive, diffusion de contenus illicites ou atteinte aux droits de tiers."
+        ]
+      },
+      {
+        "id": "ip-rights",
+        "heading": "Droits de propriété intellectuelle",
+        "content": [
+          "Le code, le design, les textes, les visuels et les éléments de marque du site sont protégés.",
+          "Aucun droit d'exploitation n'est concédé en dehors d'un usage strictement personnel et non commercial du site."
+        ]
+      },
+      {
+        "id": "external-links",
+        "heading": "Liens externes",
+        "content": [
+          "Le site peut contenir des liens vers des services tiers (plateformes musicales, réseaux sociaux, etc.).",
+          "Nyvoro Records n'est pas responsable des contenus, politiques ou pratiques de ces services externes."
+        ]
+      },
+      {
+        "id": "liability-limitations",
+        "heading": "Limitation de responsabilité",
+        "content": [
+          "Dans les limites autorisées par le droit applicable, Nyvoro Records ne pourra être tenu responsable des dommages indirects liés à l'utilisation du site.",
+          "La responsabilité éventuelle est en tout état de cause limitée aux obligations légales impératives."
+        ]
+      },
+      {
+        "id": "suspension-termination",
+        "heading": "Suspension ou restriction",
+        "content": [
+          "Nyvoro Records peut suspendre ou restreindre l'accès en cas d'usage abusif, de violation des présentes conditions ou de risque de sécurité."
+        ]
+      },
+      {
+        "id": "governing-law-disputes",
+        "heading": "Droit applicable et litiges",
+        "content": [
+          "Ces conditions sont régies par les règles européennes applicables et, à titre supplétif, par le droit français.",
+          "En cas de litige, les parties s'efforcent de parvenir à une résolution amiable avant toute action judiciaire."
+        ]
+      },
+      {
+        "id": "contact",
+        "heading": "Contact",
+        "content": [
+          "Pour toute question relative aux présentes conditions, vous pouvez nous écrire à contact@nyvoro-records.com."
         ]
       }
     ]

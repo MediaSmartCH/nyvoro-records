@@ -31,6 +31,7 @@ export function ArtistsPage() {
           openReleases: 'Voir plus',
           statusLive: 'Disponible',
           statusUpcoming: 'À venir',
+          openReleaseDetails: 'Voir les détails de la sortie',
           noUpcoming: "Aucune sortie à venir pour l'instant."
         }
       : {
@@ -40,6 +41,7 @@ export function ArtistsPage() {
           openReleases: 'View more',
           statusLive: 'Available',
           statusUpcoming: 'Upcoming',
+          openReleaseDetails: 'Open release details',
           noUpcoming: 'No upcoming releases yet.'
         };
 
@@ -83,7 +85,14 @@ export function ArtistsPage() {
 
         <div className="artist-latest-stream-list">
           {latestSectionReleases.map((release) => (
-            <article key={release.id} className="artist-latest-stream-item">
+            <Link
+              key={release.id}
+              to={`/${locale}/releases?release=${encodeURIComponent(release.id)}`}
+              className="artist-latest-stream-item artist-latest-stream-item-link"
+              aria-label={`${release.title[locale]} · ${
+                artistNameById.get(release.artistId) ?? ''
+              } · ${labels.openReleaseDetails}`}
+            >
               <figure className="artist-latest-stream-thumb">
                 <img src={release.artwork} alt={release.title[locale]} loading="lazy" />
               </figure>
@@ -94,7 +103,7 @@ export function ArtistsPage() {
                 <p className="muted">{formatReleaseDate(release.releaseDate, locale)}</p>
                 <p className="artist-latest-stream-status is-live">{labels.statusLive}</p>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>
@@ -110,7 +119,14 @@ export function ArtistsPage() {
         <div className="artist-latest-stream-list">
           {upcomingReleases.length > 0 ? (
             upcomingReleases.slice(0, 4).map((release) => (
-              <article key={release.id} className="artist-latest-stream-item upcoming">
+              <Link
+                key={release.id}
+                to={`/${locale}/releases?release=${encodeURIComponent(release.id)}`}
+                className="artist-latest-stream-item artist-latest-stream-item-link upcoming"
+                aria-label={`${release.title[locale]} · ${
+                  artistNameById.get(release.artistId) ?? ''
+                } · ${labels.openReleaseDetails}`}
+              >
                 <figure className="artist-latest-stream-thumb">
                   <img src={release.artwork} alt={release.title[locale]} loading="lazy" />
                 </figure>
@@ -121,7 +137,7 @@ export function ArtistsPage() {
                   <p className="muted">{formatReleaseDate(release.releaseDate, locale)}</p>
                   <p className="artist-latest-stream-status is-upcoming">{labels.statusUpcoming}</p>
                 </div>
-              </article>
+              </Link>
             ))
           ) : (
             <p className="artist-calendar-empty">{labels.noUpcoming}</p>
