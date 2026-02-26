@@ -111,8 +111,12 @@ jobs:
         run: |
           set -eu
 
-          if [ -z "${POST_DEPLOY_COMMAND}" ]; then
-            POST_DEPLOY_COMMAND="npm install --include=dev && npm run --workspace @nyvoro/api build"
+          # npm workspace installs can fail on some Infomaniak Node runtimes.
+          # Use a package-scoped install/build command by default.
+          DEFAULT_POST_DEPLOY_COMMAND="npm install --prefix apps/api --include=dev && npm --prefix apps/api run build"
+
+          if [ -z "${POST_DEPLOY_COMMAND}" ] || [ "${POST_DEPLOY_COMMAND}" = "npm install --include=dev && npm run --workspace @nyvoro/api build" ]; then
+            POST_DEPLOY_COMMAND="${DEFAULT_POST_DEPLOY_COMMAND}"
           fi
 
           if [ -n "${SSH_PRIVATE_KEY}" ]; then

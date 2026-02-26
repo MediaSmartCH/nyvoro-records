@@ -201,7 +201,7 @@ Required GitHub repository secrets:
 - `INFOMANIAK_SSH_HOST` (example: `57-108184.ssh.hosting-ik.com`)
 - `INFOMANIAK_SSH_PORT` (usually `22`)
 - `INFOMANIAK_SSH_USERNAME`
-- `INFOMANIAK_TARGET_DIR` (absolute path on remote host where files should be mirrored, for example `/sites/api.nyvoro-records.com`)
+- `INFOMANIAK_TARGET_DIR` (absolute path on remote host where files should be mirrored, for example `/srv/customer/sites/api.nyvoro-records.com`)
 
 Authentication:
 - Recommended: `INFOMANIAK_SSH_PRIVATE_KEY` (private key for the SSH user)
@@ -212,12 +212,12 @@ Optional secret:
 
 Default post-deploy command (used automatically when the secret is empty):
 ```bash
-npm install --include=dev && npm run --workspace @nyvoro/api build
+npm install --prefix apps/api --include=dev && npm --prefix apps/api run build
 ```
 
 Custom post-deploy command example:
 ```bash
-npm install --include=dev && npm run --workspace @nyvoro/api build
+npm install --prefix apps/api --include=dev && npm --prefix apps/api run build
 ```
 
 Then configure your Infomaniak Node.js runtime entrypoint to:
