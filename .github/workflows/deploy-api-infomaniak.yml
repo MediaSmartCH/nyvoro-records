@@ -60,9 +60,18 @@ jobs:
           echo "Running post-deploy in: $(pwd)"
           node -v
           npm -v
-          rm -rf apps/api/node_modules apps/api/package-lock.json
-          npm install --prefix apps/api --include=dev
-          npm --prefix apps/api run build
+          if command -v corepack >/dev/null 2>&1; then
+            corepack enable
+          fi
+          rm -rf node_modules apps/api/node_modules packages/shared-types/node_modules package-lock.json
+          if command -v pnpm >/dev/null 2>&1; then
+            pnpm -v
+            pnpm install --frozen-lockfile
+            pnpm --filter @nyvoro/api build
+          else
+            npm install --workspaces --include-workspace-root
+            npm run --workspace @nyvoro/api build
+          fi
           EOF
           chmod +x .deploy/api/.post-deploy.sh
 

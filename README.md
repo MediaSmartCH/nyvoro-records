@@ -209,7 +209,7 @@ Authentication:
 
 Post-deploy command executed automatically over SSH:
 ```bash
-rm -rf apps/api/node_modules apps/api/package-lock.json && npm install --prefix apps/api --include=dev && npm --prefix apps/api run build
+corepack enable && rm -rf node_modules apps/api/node_modules packages/shared-types/node_modules package-lock.json && pnpm install --frozen-lockfile && pnpm --filter @nyvoro/api build
 ```
 
 Then configure your Infomaniak Node.js runtime entrypoint to:

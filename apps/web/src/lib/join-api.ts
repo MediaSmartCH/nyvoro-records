@@ -40,6 +40,88 @@ export type JoinFormState = {
   turnstileToken: string;
 };
 
+type SubmitJoinApplicationResponse = {
+  ok: boolean;
+  status: number;
+  body: {
+    status?: string;
+    code?: string;
+    [key: string]: unknown;
+  };
+};
+
+function normalizeApiBaseUrl(value: string): string {
+  return value.replace(/\/+$/, '');
+}
+
+function isLocalHostname(hostname: string): boolean {
+  return hostname === 'localhost' || hostname === '127.0.0.1';
+}
+
+function resolveConfiguredApiBaseUrl(): string | undefined {
+  const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+  if (!configuredApiBaseUrl) {
+    return undefined;
+  }
+
+  const normalizedConfiguredApiBaseUrl = normalizeApiBaseUrl(configuredApiBaseUrl);
+
+  if (typeof window === 'undefined') {
+    return normalizedConfiguredApiBaseUrl;
+  }
+
+  const currentHostname = window.location.hostname;
+
+  try {
+    const configuredHostname = new URL(normalizedConfiguredApiBaseUrl).hostname;
+
+    // Guardrail: a production browser should never use a localhost API URL.
+    if (!isLocalHostname(currentHostname) && isLocalHostname(configuredHostname)) {
+      console.warn(
+        '[join-api] Ignoring VITE_API_BASE_URL pointing to localhost in non-local runtime.'
+      );
+      return undefined;
+    }
+  } catch {
+    if (!isLocalHostname(currentHostname)) {
+      console.warn('[join-api] Invalid VITE_API_BASE_URL. Falling back to runtime defaults.');
+      return undefined;
+    }
+  }
+
+  return normalizedConfiguredApiBaseUrl;
+}
+
+function resolveApiBaseUrl(): string {
+  const configuredApiBaseUrl = resolveConfiguredApiBaseUrl();
+  if (configuredApiBaseUrl) {
+    return configuredApiBaseUrl;
+  }
+
+  if (typeof window !== 'undefined') {
+    const { hostname, origin } = window.location;
+    if (isLocalHostname(hostname)) {
+      return 'http://localhost:4000';
+    }
+
+    if (hostname === 'nyvoro-records.com' || hostname === 'www.nyvoro-records.com') {
+      return 'https://api.nyvoro-records.com';
+    }
+
+    return origin;
+  }
+
+  return '';
+}
+
+function buildApiUrl(path: string): string {
+  const apiBaseUrl = resolveApiBaseUrl();
+  if (!apiBaseUrl) {
+    return path;
+  }
+  return `${apiBaseUrl}${path}`;
+}
+
 function parseList(raw: string): string[] {
   return raw
     .split(',')
@@ -56,7 +138,10 @@ function parseNumber(raw: string): number | '' {
   return Number.isNaN(parsed) ? '' : parsed;
 }
 
-export async function submitJoinApplication(input: { locale: Locale; values: JoinFormState }) {
+export async function submitJoinApplication(input: {
+  locale: Locale;
+  values: JoinFormState;
+}): Promise<SubmitJoinApplicationResponse> {
   const { locale, values } = input;
 
   const payload = {
@@ -116,14 +201,27 @@ export async function submitJoinApplication(input: { locale: Locale; values: Joi
     consent: values.consent
   };
 
-  const apiBase = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000';
-  const response = await fetch(`${apiBase}/api/v1/applications`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(buildApiUrl('/api/v1/applications'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      body: {
+        status: 'error',
+        code: 'network_error',
+        message: 'Network request failed.'
+      }
+    };
+  }
 
   const body = await response.json().catch(() => ({}));
 
