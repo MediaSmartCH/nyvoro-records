@@ -139,6 +139,7 @@ describe('API health endpoint', () => {
     expect(response.text).toContain('Nyvoro Records');
     expect(response.text).toContain('/api/v1/health');
     expect(response.text).toContain('/api/v1/applications');
+    expect(response.text).toContain('/api-assets/favicon-api.svg');
   });
 
   it('returns status ok', async () => {

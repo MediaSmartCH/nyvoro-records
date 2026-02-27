@@ -25,6 +25,10 @@ export function renderApiPageShell(input: RenderApiPageShellInput): string {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="${description}" />
+    <meta name="theme-color" content="#101215" />
+    <link rel="icon" type="image/svg+xml" href="/api-assets/favicon-api.svg" />
+    <link rel="shortcut icon" href="/api-assets/favicon-api.svg" />
+    <link rel="apple-touch-icon" href="/api-assets/favicon-api.svg" />
     <title>${title}</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600;700&display=swap');

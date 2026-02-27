@@ -218,6 +218,11 @@ export function createApp(options: CreateAppOptions = {}) {
 
   app.use(express.json({ limit: '1mb' }));
 
+  const apiPublicDir = path.resolve(process.cwd(), 'apps/api/public');
+  if (existsSync(apiPublicDir)) {
+    app.use('/api-assets', express.static(apiPublicDir, { index: false }));
+  }
+
   function sendErrorResponse(input: {
     req: express.Request;
     res: express.Response;
