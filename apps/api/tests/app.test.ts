@@ -93,6 +93,24 @@ function buildPayload() {
 }
 
 describe('API health endpoint', () => {
+  it('returns an API landing page on root path when web dist is missing', async () => {
+    const db = createDatabase(':memory:');
+    const { app } = createApp({
+      config: baseConfig,
+      db,
+      verifyCaptcha: async () => ({ success: true, errors: [] }),
+      sendApplicationNotification: async () => undefined
+    });
+
+    const response = await request(app).get('/');
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toContain('text/html');
+    expect(response.text).toContain('Nyvoro Records');
+    expect(response.text).toContain('/api/v1/health');
+    expect(response.text).toContain('/api/v1/applications');
+  });
+
   it('returns status ok', async () => {
     const db = createDatabase(':memory:');
     const { app } = createApp({

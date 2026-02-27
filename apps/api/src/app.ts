@@ -1,7 +1,6 @@
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -18,6 +17,7 @@ import {
 import { createMailer } from './mailer.js';
 import { getClientIp, hashIpAddress } from './security.js';
 import { verifyTurnstileToken } from './turnstile.js';
+import { renderApiHomePage } from './api-home-page.js';
 
 type CreateAppOptions = {
   config?: AppConfig;
@@ -164,11 +164,12 @@ export function createApp(options: CreateAppOptions = {}) {
     }
   });
 
-  const runtimeDir = path.dirname(fileURLToPath(import.meta.url));
-  const webDistDir = path.resolve(runtimeDir, '../../web/dist');
+  const webDistDir = path.isAbsolute(config.webDistDir)
+    ? config.webDistDir
+    : path.resolve(process.cwd(), config.webDistDir);
   const webIndexPath = path.resolve(webDistDir, 'index.html');
 
-  if (existsSync(webIndexPath)) {
+  if (config.serveWebDist && existsSync(webIndexPath)) {
     app.use(express.static(webDistDir, { index: false }));
 
     app.get('*', (req, res, next) => {
@@ -183,8 +184,20 @@ export function createApp(options: CreateAppOptions = {}) {
         }
       });
     });
-  } else if (config.nodeEnv !== 'test') {
-    console.warn(`[api] web dist not found at ${webDistDir}. Only API routes will be served.`);
+  } else {
+    app.get('/', (_req, res) => {
+      res.status(200).type('html').send(
+        renderApiHomePage({
+          environment: config.nodeEnv
+        })
+      );
+    });
+
+    if (config.nodeEnv !== 'test') {
+      console.warn(
+        `[api] web dist not served. serveWebDist=${config.serveWebDist}, path=${webDistDir}`
+      );
+    }
   }
 
   app.use((error: Error, _req: express.Request, res: express.Response, next: express.NextFunction) => {
