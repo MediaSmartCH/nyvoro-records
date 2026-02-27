@@ -61,7 +61,7 @@ jobs:
           node -v
           npm -v
           if command -v corepack >/dev/null 2>&1; then
-            corepack enable
+            corepack enable || echo "corepack enable skipped (read-only filesystem)"
           fi
           rm -rf node_modules apps/api/node_modules packages/shared-types/node_modules package-lock.json
           if command -v pnpm >/dev/null 2>&1; then
