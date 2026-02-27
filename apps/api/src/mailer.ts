@@ -1,6 +1,10 @@
 import nodemailer from 'nodemailer';
 import type { JoinApplicationInput } from '@nyvoro/shared-types';
-import { buildApplicationNotificationEmail } from './application-email-template.js';
+import {
+  buildApplicantAcknowledgementEmail,
+  buildApplicationNotificationEmail,
+  type ApplicationProfileLinks
+} from './application-email-template.js';
 
 type MailerConfig = {
   host: string;
@@ -10,6 +14,7 @@ type MailerConfig = {
   pass: string;
   from: string;
   recipientEmail: string;
+  logoUrl: string;
 };
 
 export function createMailer(config: MailerConfig) {
@@ -26,20 +31,38 @@ export function createMailer(config: MailerConfig) {
   async function sendApplicationNotification(input: {
     applicationId: string;
     payload: JoinApplicationInput;
+    profileLinks: ApplicationProfileLinks;
   }): Promise<void> {
-    const { applicationId, payload } = input;
-    const emailContent = buildApplicationNotificationEmail({
+    const { applicationId, payload, profileLinks } = input;
+    const internalEmailContent = buildApplicationNotificationEmail({
       applicationId,
-      payload
+      payload,
+      profileLinks,
+      logoUrl: config.logoUrl
+    });
+    const applicantEmailContent = buildApplicantAcknowledgementEmail({
+      applicationId,
+      payload,
+      profileLinks,
+      logoUrl: config.logoUrl
     });
 
     await transporter.sendMail({
       from: config.from,
       to: config.recipientEmail,
       replyTo: payload.profile.email,
-      subject: emailContent.subject,
-      text: emailContent.text,
-      html: emailContent.html
+      subject: internalEmailContent.subject,
+      text: internalEmailContent.text,
+      html: internalEmailContent.html
+    });
+
+    await transporter.sendMail({
+      from: config.from,
+      to: payload.profile.email,
+      replyTo: config.recipientEmail,
+      subject: applicantEmailContent.subject,
+      text: applicantEmailContent.text,
+      html: applicantEmailContent.html
     });
   }
 

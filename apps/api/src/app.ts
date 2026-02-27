@@ -5,19 +5,32 @@ import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
-import { joinApplicationSchema } from '@nyvoro/shared-types';
+import {
+  joinApplicationEditableSchema,
+  joinApplicationSchema,
+  type JoinApplicationEditableInput,
+  type JoinApplicationInput
+} from '@nyvoro/shared-types';
 import type Database from 'better-sqlite3';
 import { appConfig, type AppConfig } from './config.js';
 import {
   createDatabase,
   getApplicationById,
   insertApplication,
-  updateApplicationEmailStatus
+  updateApplicationEmailStatus,
+  updateApplicationPayload
 } from './db.js';
 import { createMailer } from './mailer.js';
-import { getClientIp, hashIpAddress } from './security.js';
+import {
+  generateMagicLinkToken,
+  getClientIp,
+  hashIpAddress,
+  hashMagicLinkToken,
+  secureCompareHash
+} from './security.js';
 import { verifyTurnstileToken } from './turnstile.js';
 import { renderApiHomePage } from './api-home-page.js';
+import type { ApplicationProfileLinks } from './application-email-template.js';
 
 type CreateAppOptions = {
   config?: AppConfig;
@@ -26,8 +39,117 @@ type CreateAppOptions = {
   sendApplicationNotification?: (input: {
     applicationId: string;
     payload: ReturnType<typeof joinApplicationSchema.parse>;
+    profileLinks: ApplicationProfileLinks;
   }) => Promise<void>;
 };
+
+function normalizeBaseUrl(value: string): string {
+  return value.replace(/\/+$/, '');
+}
+
+function resolvePublicWebBaseUrl(req: express.Request, fallbackBaseUrl: string): string {
+  const originHeader = req.headers.origin;
+  if (typeof originHeader !== 'string') {
+    return fallbackBaseUrl;
+  }
+
+  try {
+    const parsedOrigin = new URL(originHeader);
+    if (parsedOrigin.protocol !== 'http:' && parsedOrigin.protocol !== 'https:') {
+      return fallbackBaseUrl;
+    }
+
+    return normalizeBaseUrl(parsedOrigin.origin);
+  } catch {
+    return fallbackBaseUrl;
+  }
+}
+
+function buildProfileLinks(input: {
+  baseUrl: string;
+  locale: JoinApplicationInput['locale'];
+  applicationId: string;
+  viewToken: string;
+  editToken: string;
+}): ApplicationProfileLinks {
+  const { baseUrl, locale, applicationId, viewToken, editToken } = input;
+  const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
+
+  return {
+    viewUrl: `${normalizedBaseUrl}/${locale}/application-profile/${applicationId}?token=${encodeURIComponent(viewToken)}`,
+    editUrl: `${normalizedBaseUrl}/${locale}/join?applicationId=${applicationId}&editToken=${encodeURIComponent(editToken)}`
+  };
+}
+
+function extractToken(queryValue: unknown): string | undefined {
+  if (typeof queryValue !== 'string') {
+    return undefined;
+  }
+
+  const trimmed = queryValue.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function toEditablePayload(payload: JoinApplicationInput): JoinApplicationEditableInput {
+  return {
+    locale: payload.locale,
+    profile: payload.profile,
+    socialLinks: payload.socialLinks,
+    streamingLinks: payload.streamingLinks,
+    releaseHistory: payload.releaseHistory,
+    audienceAnalytics: payload.audienceAnalytics,
+    budgetAndResources: payload.budgetAndResources,
+    planning: payload.planning,
+    objectives: payload.objectives,
+    message: payload.message,
+    consent: payload.consent
+  };
+}
+
+function toStoredPayload(payload: JoinApplicationEditableInput): JoinApplicationInput {
+  return {
+    ...payload,
+    turnstileToken: 'profile_edit_token_1234567890',
+    honeypot: ''
+  };
+}
+
+function parseStoredPayload(payloadJson: string): JoinApplicationInput | undefined {
+  let parsedPayload: unknown;
+
+  try {
+    parsedPayload = JSON.parse(payloadJson);
+  } catch {
+    return undefined;
+  }
+
+  const parsed = joinApplicationSchema.safeParse(parsedPayload);
+  if (!parsed.success) {
+    return undefined;
+  }
+
+  return parsed.data;
+}
+
+function resolveMagicAccessLevel(input: {
+  token: string;
+  viewTokenHash: string;
+  editTokenHash: string;
+  salt: string;
+}): 'none' | 'view' | 'edit' {
+  const { token, viewTokenHash, editTokenHash, salt } = input;
+  const tokenHash = hashMagicLinkToken(token, salt);
+
+  if (secureCompareHash(editTokenHash, tokenHash)) {
+    return 'edit';
+  }
+
+  if (secureCompareHash(viewTokenHash, tokenHash)) {
+    return 'view';
+  }
+
+  return 'none';
+}
 
 export function createApp(options: CreateAppOptions = {}) {
   const config = options.config ?? appConfig;
@@ -82,6 +204,128 @@ export function createApp(options: CreateAppOptions = {}) {
     });
   });
 
+  app.get('/api/v1/applications/:applicationId/profile', (req, res) => {
+    const applicationId = req.params.applicationId;
+    const token = extractToken(req.query.token);
+
+    if (!token) {
+      res.status(400).json({
+        status: 'error',
+        code: 'token_required',
+        message: 'Magic link token is required.'
+      });
+      return;
+    }
+
+    const application = getApplicationById(db, applicationId);
+    if (!application) {
+      res.status(404).json({
+        status: 'error',
+        code: 'not_found',
+        message: 'Application not found.'
+      });
+      return;
+    }
+
+    const accessLevel = resolveMagicAccessLevel({
+      token,
+      viewTokenHash: application.view_token_hash,
+      editTokenHash: application.edit_token_hash,
+      salt: config.magicLinkSalt
+    });
+
+    if (accessLevel === 'none') {
+      res.status(401).json({
+        status: 'error',
+        code: 'invalid_token',
+        message: 'Invalid or expired magic link token.'
+      });
+      return;
+    }
+
+    const storedPayload = parseStoredPayload(application.payload_json);
+    if (!storedPayload) {
+      res.status(500).json({
+        status: 'error',
+        code: 'payload_corrupted',
+        message: 'Stored application payload is invalid.'
+      });
+      return;
+    }
+
+    res.status(200).json({
+      status: 'ok',
+      applicationId: application.id,
+      createdAt: application.created_at,
+      updatedAt: application.updated_at,
+      canEdit: accessLevel === 'edit',
+      payload: toEditablePayload(storedPayload)
+    });
+  });
+
+  app.put('/api/v1/applications/:applicationId/profile', async (req, res) => {
+    const applicationId = req.params.applicationId;
+    const token = extractToken(req.query.token);
+
+    if (!token) {
+      res.status(400).json({
+        status: 'error',
+        code: 'token_required',
+        message: 'Magic link token is required.'
+      });
+      return;
+    }
+
+    const application = getApplicationById(db, applicationId);
+    if (!application) {
+      res.status(404).json({
+        status: 'error',
+        code: 'not_found',
+        message: 'Application not found.'
+      });
+      return;
+    }
+
+    const accessLevel = resolveMagicAccessLevel({
+      token,
+      viewTokenHash: application.view_token_hash,
+      editTokenHash: application.edit_token_hash,
+      salt: config.magicLinkSalt
+    });
+
+    if (accessLevel !== 'edit') {
+      res.status(401).json({
+        status: 'error',
+        code: 'invalid_token',
+        message: 'Edit token is required to modify this profile.'
+      });
+      return;
+    }
+
+    const parsed = joinApplicationEditableSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({
+        status: 'error',
+        code: 'validation_error',
+        details: parsed.error.flatten()
+      });
+      return;
+    }
+
+    const updatedPayload = toStoredPayload(parsed.data);
+
+    updateApplicationPayload(db, {
+      id: applicationId,
+      locale: parsed.data.locale,
+      payload_json: JSON.stringify(updatedPayload)
+    });
+
+    res.status(200).json({
+      status: 'ok',
+      applicationId
+    });
+  });
+
   app.post('/api/v1/applications', applicationRateLimiter, async (req, res) => {
     const parsed = joinApplicationSchema.safeParse(req.body);
 
@@ -105,7 +349,7 @@ export function createApp(options: CreateAppOptions = {}) {
       return;
     }
 
-    const ipAddress = getClientIp(req.headers['x-forwarded-for'] as string | undefined ?? req.ip);
+    const ipAddress = getClientIp((req.headers['x-forwarded-for'] as string | undefined) ?? req.ip);
     const captchaResult = await verifyCaptcha({
       token: payload.turnstileToken,
       secretKey: config.turnstileSecretKey,
@@ -126,26 +370,43 @@ export function createApp(options: CreateAppOptions = {}) {
 
     const applicationId = crypto.randomUUID();
     const ipHash = hashIpAddress(ipAddress, config.ipHashSalt);
+    const viewToken = generateMagicLinkToken();
+    const editToken = generateMagicLinkToken();
+    const viewTokenHash = hashMagicLinkToken(viewToken, config.magicLinkSalt);
+    const editTokenHash = hashMagicLinkToken(editToken, config.magicLinkSalt);
+
+    const publicWebBaseUrl = resolvePublicWebBaseUrl(req, config.publicWebBaseUrl);
+    const profileLinks = buildProfileLinks({
+      baseUrl: publicWebBaseUrl,
+      locale: payload.locale,
+      applicationId,
+      viewToken,
+      editToken
+    });
 
     insertApplication(db, {
       id: applicationId,
       locale: payload.locale,
       payload_json: JSON.stringify(payload),
       email_status: 'pending',
-      ip_hash: ipHash
+      ip_hash: ipHash,
+      view_token_hash: viewTokenHash,
+      edit_token_hash: editTokenHash
     });
 
     try {
       await sendNotification({
         applicationId,
-        payload
+        payload,
+        profileLinks
       });
 
       updateApplicationEmailStatus(db, applicationId, 'sent');
 
       res.status(201).json({
         status: 'ok',
-        applicationId
+        applicationId,
+        profileLinks
       });
       return;
     } catch (error) {
@@ -154,6 +415,7 @@ export function createApp(options: CreateAppOptions = {}) {
       res.status(202).json({
         status: 'stored_with_email_error',
         applicationId,
+        profileLinks,
         message: 'Application stored, notification email failed.'
       });
 

@@ -21,9 +21,12 @@ const baseConfig: AppConfig = {
     user: 'test',
     pass: 'test',
     from: 'no-reply@nyvoro-records.com',
-    recipientEmail: 'contact@nyvoro-records.com'
+    recipientEmail: 'contact@nyvoro-records.com',
+    logoUrl: 'https://www.nyvoro-records.com/favicon.svg'
   },
   ipHashSalt: 'test-salt',
+  magicLinkSalt: 'test-magic-salt',
+  publicWebBaseUrl: 'https://www.nyvoro-records.com',
   webDistDir: '/tmp/does-not-exist',
   serveWebDist: false
 };
@@ -89,6 +92,33 @@ function buildPayload() {
     },
     message: 'I am ready to build a long-term project with a clear release and growth discipline.',
     consent: true
+  };
+}
+
+function extractQueryParamFromLink(link: string, key: string): string {
+  const value = new URL(link).searchParams.get(key);
+  if (!value) {
+    throw new Error(`Query param "${key}" missing in link: ${link}`);
+  }
+
+  return value;
+}
+
+function toEditablePayloadForTest() {
+  const payload = buildPayload();
+
+  return {
+    locale: payload.locale,
+    profile: payload.profile,
+    socialLinks: payload.socialLinks,
+    streamingLinks: payload.streamingLinks,
+    releaseHistory: payload.releaseHistory,
+    audienceAnalytics: payload.audienceAnalytics,
+    budgetAndResources: payload.budgetAndResources,
+    planning: payload.planning,
+    objectives: payload.objectives,
+    message: payload.message,
+    consent: payload.consent
   };
 }
 
@@ -174,6 +204,8 @@ describe('POST /api/v1/applications', () => {
 
     expect(response.status).toBe(201);
     expect(response.body.status).toBe('ok');
+    expect(response.body.profileLinks.viewUrl).toContain('/en/application-profile/');
+    expect(response.body.profileLinks.editUrl).toContain('/en/join?applicationId=');
 
     const stored = getApplicationById(response.body.applicationId);
     expect(stored?.email_status).toBe('sent');
@@ -219,5 +251,89 @@ describe('POST /api/v1/applications', () => {
 
     expect(first.status).toBe(201);
     expect(second.status).toBe(429);
+  });
+});
+
+describe('Application profile magic links', () => {
+  it('allows view with a view token and update with an edit token', async () => {
+    const db = createDatabase(':memory:');
+    const { app } = createApp({
+      config: baseConfig,
+      db,
+      verifyCaptcha: async () => ({ success: true, errors: [] }),
+      sendApplicationNotification: async () => undefined
+    });
+
+    const createResponse = await request(app).post('/api/v1/applications').send(buildPayload());
+    expect(createResponse.status).toBe(201);
+
+    const applicationId = createResponse.body.applicationId as string;
+    const viewToken = extractQueryParamFromLink(
+      createResponse.body.profileLinks.viewUrl as string,
+      'token'
+    );
+    const editToken = extractQueryParamFromLink(
+      createResponse.body.profileLinks.editUrl as string,
+      'editToken'
+    );
+
+    const viewResponse = await request(app)
+      .get(`/api/v1/applications/${applicationId}/profile`)
+      .query({ token: viewToken });
+
+    expect(viewResponse.status).toBe(200);
+    expect(viewResponse.body.status).toBe('ok');
+    expect(viewResponse.body.canEdit).toBe(false);
+    expect(viewResponse.body.payload.profile.artistName).toBe('Lumina Nova');
+
+    const editablePayload = toEditablePayloadForTest();
+    editablePayload.profile.artistName = 'Lumina Nova Updated';
+    editablePayload.message = 'Updated profile from magic link.';
+
+    const updateWithViewToken = await request(app)
+      .put(`/api/v1/applications/${applicationId}/profile`)
+      .query({ token: viewToken })
+      .send(editablePayload);
+
+    expect(updateWithViewToken.status).toBe(401);
+
+    const updateWithEditToken = await request(app)
+      .put(`/api/v1/applications/${applicationId}/profile`)
+      .query({ token: editToken })
+      .send(editablePayload);
+
+    expect(updateWithEditToken.status).toBe(200);
+    expect(updateWithEditToken.body.status).toBe('ok');
+
+    const viewWithEditToken = await request(app)
+      .get(`/api/v1/applications/${applicationId}/profile`)
+      .query({ token: editToken });
+
+    expect(viewWithEditToken.status).toBe(200);
+    expect(viewWithEditToken.body.canEdit).toBe(true);
+    expect(viewWithEditToken.body.payload.profile.artistName).toBe('Lumina Nova Updated');
+    expect(viewWithEditToken.body.payload.message).toBe('Updated profile from magic link.');
+  });
+
+  it('rejects access with an invalid token', async () => {
+    const db = createDatabase(':memory:');
+    const { app } = createApp({
+      config: baseConfig,
+      db,
+      verifyCaptcha: async () => ({ success: true, errors: [] }),
+      sendApplicationNotification: async () => undefined
+    });
+
+    const createResponse = await request(app).post('/api/v1/applications').send(buildPayload());
+    expect(createResponse.status).toBe(201);
+
+    const applicationId = createResponse.body.applicationId as string;
+
+    const response = await request(app)
+      .get(`/api/v1/applications/${applicationId}/profile`)
+      .query({ token: 'invalid-token' });
+
+    expect(response.status).toBe(401);
+    expect(response.body.code).toBe('invalid_token');
   });
 });

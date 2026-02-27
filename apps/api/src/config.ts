@@ -8,6 +8,14 @@ const defaultDatabaseUrl = process.env.VERCEL
   ? '/tmp/nyvoro.db'
   : path.resolve(process.cwd(), 'apps/api/data/nyvoro.db');
 
+const defaultPublicWebBaseUrl = process.env.NODE_ENV === 'production'
+  ? 'https://www.nyvoro-records.com'
+  : 'http://localhost:5173';
+
+function normalizeBaseUrl(value: string): string {
+  return value.replace(/\/+$/, '');
+}
+
 function parseBoolean(value: string | undefined, defaultValue: boolean): boolean {
   if (value === undefined) {
     return defaultValue;
@@ -37,7 +45,10 @@ const envSchema = z.object({
   SMTP_PASS: z.string().default('placeholder_password'),
   SMTP_FROM: z.string().email().default('no-reply@nyvoro-records.com'),
   APPLICATION_RECIPIENT_EMAIL: z.string().email().default('demo@nyvoro-records.com'),
+  MAIL_LOGO_URL: z.string().url().optional(),
   IP_HASH_SALT: z.string().default('change-this-in-production'),
+  MAGIC_LINK_SALT: z.string().optional(),
+  PUBLIC_WEB_BASE_URL: z.string().url().default(defaultPublicWebBaseUrl),
   WEB_DIST_DIR: z.string().default(path.resolve(process.cwd(), 'apps/web/dist')),
   SERVE_WEB_DIST: z.string().optional()
 });
@@ -61,9 +72,12 @@ export const appConfig = {
     user: parsed.SMTP_USER,
     pass: parsed.SMTP_PASS,
     from: parsed.SMTP_FROM,
-    recipientEmail: parsed.APPLICATION_RECIPIENT_EMAIL
+    recipientEmail: parsed.APPLICATION_RECIPIENT_EMAIL,
+    logoUrl: parsed.MAIL_LOGO_URL ?? `${normalizeBaseUrl(parsed.PUBLIC_WEB_BASE_URL)}/favicon.svg`
   },
   ipHashSalt: parsed.IP_HASH_SALT,
+  magicLinkSalt: parsed.MAGIC_LINK_SALT ?? parsed.IP_HASH_SALT,
+  publicWebBaseUrl: normalizeBaseUrl(parsed.PUBLIC_WEB_BASE_URL),
   webDistDir: parsed.WEB_DIST_DIR,
   serveWebDist: parseBoolean(parsed.SERVE_WEB_DIST, parsed.NODE_ENV === 'production')
 };

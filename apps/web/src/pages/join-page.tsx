@@ -1,6 +1,14 @@
 import { FormEvent, ReactNode, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useLocaleContext } from '../context/locale-context';
-import { submitJoinApplication, type JoinFormState } from '../lib/join-api';
+import {
+  fetchApplicationProfile,
+  submitJoinApplication,
+  toJoinFormState,
+  updateApplicationProfile,
+  type ApplicationProfileLinks,
+  type JoinFormState
+} from '../lib/join-api';
 
 declare global {
   interface Window {
@@ -100,6 +108,16 @@ const joinFormCopy: Record<
       whyNyvoro: string;
       message: string;
     };
+    editMode: {
+      notice: string;
+      loading: string;
+      invalidToken: string;
+      loadError: string;
+      updateSuccess: string;
+      submit: string;
+      viewProfile: string;
+      editProfile: string;
+    };
   }
 > = {
   fr: {
@@ -147,6 +165,16 @@ const joinFormCopy: Record<
       whyNyvoro: 'Pourquoi Nyvoro est-il le bon partenaire pour ton projet en ce moment ?',
       message:
         'Ajoute tout contexte utile (contraintes, calendrier, attentes, liens complémentaires).'
+    },
+    editMode: {
+      notice: 'Mode edition active. Le lien magique permet de modifier ton profil existant.',
+      loading: 'Chargement du profil en cours...',
+      invalidToken: 'Lien magique invalide ou expire.',
+      loadError: 'Impossible de charger le profil pour edition.',
+      updateSuccess: 'Profil mis a jour avec succes.',
+      submit: 'Mettre a jour le profil',
+      viewProfile: 'Voir le profil public',
+      editProfile: 'Rouvrir le lien d\'edition'
     }
   },
   en: {
@@ -192,6 +220,16 @@ const joinFormCopy: Record<
         'What concrete outcomes do you target over 12 months (audience, catalog, live, territories)?',
       whyNyvoro: 'Why is Nyvoro the right partner for your project right now?',
       message: 'Add any useful context (constraints, timeline, expectations, extra links).'
+    },
+    editMode: {
+      notice: 'Edit mode is active. This magic link lets you update your existing profile.',
+      loading: 'Loading profile...',
+      invalidToken: 'Invalid or expired magic link.',
+      loadError: 'Unable to load profile for editing.',
+      updateSuccess: 'Profile updated successfully.',
+      submit: 'Update profile',
+      viewProfile: 'Open public profile',
+      editProfile: 'Reopen edit link'
     }
   }
 };
@@ -488,15 +526,45 @@ function JoinField({ label, required = false, hint, fullWidth = false, children 
   );
 }
 
+function parseProfileLinks(value: unknown): ApplicationProfileLinks | null {
+  if (typeof value !== 'object' || value === null) {
+    return null;
+  }
+
+  const maybeLinks = value as Record<string, unknown>;
+  if (typeof maybeLinks.viewUrl !== 'string' || typeof maybeLinks.editUrl !== 'string') {
+    return null;
+  }
+
+  return {
+    viewUrl: maybeLinks.viewUrl,
+    editUrl: maybeLinks.editUrl
+  };
+}
+
 export function JoinPage() {
+  const [searchParams] = useSearchParams();
   const { locale, messages } = useLocaleContext();
   const [values, setValues] = useState<JoinFormState>(initialState);
   const [status, setStatus] = useState<
-    'idle' | 'submitting' | 'success' | 'stored' | 'error' | 'captcha'
+    | 'idle'
+    | 'loading'
+    | 'submitting'
+    | 'success'
+    | 'stored'
+    | 'updated'
+    | 'error'
+    | 'captcha'
+    | 'invalidToken'
+    | 'loadError'
   >('idle');
+  const [profileLinks, setProfileLinks] = useState<ApplicationProfileLinks | null>(null);
 
   const localizedLocale: LocaleKey = locale === 'fr' ? 'fr' : 'en';
   const copy = joinFormCopy[localizedLocale];
+  const editApplicationId = searchParams.get('applicationId')?.trim() ?? '';
+  const editToken = searchParams.get('editToken')?.trim() ?? '';
+  const isEditMode = editApplicationId.length > 0 && editToken.length > 0;
   const yearsActiveOptions = useMemo(
     () => buildYearsActiveOptions(localizedLocale),
     [localizedLocale]
@@ -513,6 +581,55 @@ export function JoinPage() {
   }
 
   useEffect(() => {
+    if (!isEditMode) {
+      return;
+    }
+
+    let isMounted = true;
+    setStatus('loading');
+
+    void (async () => {
+      const response = await fetchApplicationProfile({
+        applicationId: editApplicationId,
+        token: editToken
+      });
+
+      if (!isMounted) {
+        return;
+      }
+
+      if (!response.ok) {
+        if (response.body.code === 'invalid_token') {
+          setStatus('invalidToken');
+        } else {
+          setStatus('loadError');
+        }
+        return;
+      }
+
+      if (!response.body.payload) {
+        setStatus('loadError');
+        return;
+      }
+
+      setValues(toJoinFormState(response.body.payload));
+      setProfileLinks({
+        viewUrl: `${window.location.origin}/${locale}/application-profile/${encodeURIComponent(editApplicationId)}?token=${encodeURIComponent(editToken)}`,
+        editUrl: window.location.href
+      });
+      setStatus('idle');
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [editApplicationId, editToken, isEditMode, locale]);
+
+  useEffect(() => {
+    if (isEditMode) {
+      return;
+    }
+
     if (turnstileSiteKey.includes('placeholder')) {
       updateField('turnstileToken', 'dev_bypass_token_1234567890');
       return;
@@ -541,21 +658,42 @@ export function JoinPage() {
     return () => {
       script.remove();
     };
-  }, [turnstileSiteKey]);
+  }, [isEditMode, turnstileSiteKey]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus('submitting');
-
-    const response = await submitJoinApplication({ locale, values });
+    if (!isEditMode) {
+      setProfileLinks(null);
+    }
+    const response = isEditMode
+      ? await updateApplicationProfile({
+          applicationId: editApplicationId,
+          token: editToken,
+          locale,
+          values
+        })
+      : await submitJoinApplication({ locale, values });
 
     if (!response.ok) {
       if (response.body?.code === 'captcha_invalid') {
         setStatus('captcha');
+      } else if (response.body?.code === 'invalid_token') {
+        setStatus('invalidToken');
       } else {
         setStatus('error');
       }
       return;
+    }
+
+    if (isEditMode) {
+      setStatus('updated');
+      return;
+    }
+
+    const responseProfileLinks = parseProfileLinks(response.body.profileLinks);
+    if (responseProfileLinks) {
+      setProfileLinks(responseProfileLinks);
     }
 
     if (response.body.status === 'stored_with_email_error') {
@@ -587,6 +725,8 @@ export function JoinPage() {
             </span>{' '}
             {copy.requiredLegend}
           </p>
+          {isEditMode ? <p className="form-note">{copy.editMode.notice}</p> : null}
+          {status === 'loading' ? <p className="form-status warning">{copy.editMode.loading}</p> : null}
         </div>
 
         <JoinSection
@@ -943,20 +1083,43 @@ export function JoinPage() {
           </span>
         </label>
 
-        <div className="captcha-wrapper">
-          <div id="nyvoro-turnstile" />
-        </div>
+        {!isEditMode ? (
+          <div className="captcha-wrapper">
+            <div id="nyvoro-turnstile" />
+          </div>
+        ) : null}
 
-        <button className="btn primary" type="submit" disabled={status === 'submitting'}>
-          {status === 'submitting' ? '...' : messages.join.submit}
+        <button
+          className="btn primary"
+          type="submit"
+          disabled={status === 'submitting' || status === 'loading'}
+        >
+          {status === 'submitting' ? '...' : isEditMode ? copy.editMode.submit : messages.join.submit}
         </button>
 
         {status === 'success' && <p className="form-status success">{messages.join.success}</p>}
         {status === 'stored' && (
           <p className="form-status warning">{messages.join.storedWithEmailError}</p>
         )}
+        {status === 'updated' && <p className="form-status success">{copy.editMode.updateSuccess}</p>}
         {status === 'error' && <p className="form-status error">{messages.join.error}</p>}
         {status === 'captcha' && <p className="form-status error">{messages.join.captchaError}</p>}
+        {status === 'invalidToken' && (
+          <p className="form-status error">{copy.editMode.invalidToken}</p>
+        )}
+        {status === 'loadError' && <p className="form-status error">{copy.editMode.loadError}</p>}
+
+        {profileLinks ? (
+          <p className="form-status success">
+            <a href={profileLinks.viewUrl} target="_blank" rel="noreferrer">
+              {copy.editMode.viewProfile}
+            </a>{' '}
+            ·{' '}
+            <a href={profileLinks.editUrl} target="_blank" rel="noreferrer">
+              {copy.editMode.editProfile}
+            </a>
+          </p>
+        ) : null}
       </form>
     </section>
   );

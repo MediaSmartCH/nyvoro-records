@@ -1,4 +1,8 @@
-import type { Locale } from '@nyvoro/shared-types';
+import type {
+  JoinApplicationEditableInput,
+  JoinApplicationInput,
+  Locale
+} from '@nyvoro/shared-types';
 
 export type JoinFormState = {
   legalName: string;
@@ -40,14 +44,39 @@ export type JoinFormState = {
   turnstileToken: string;
 };
 
-type SubmitJoinApplicationResponse = {
+export type ApplicationProfileLinks = {
+  viewUrl: string;
+  editUrl: string;
+};
+
+type ApiBody = {
+  status?: string;
+  code?: string;
+  message?: string;
+  [key: string]: unknown;
+};
+
+type ApiResponse<TBody extends ApiBody> = {
   ok: boolean;
   status: number;
-  body: {
-    status?: string;
-    code?: string;
-    [key: string]: unknown;
-  };
+  body: TBody;
+};
+
+type SubmitJoinApplicationBody = ApiBody & {
+  applicationId?: string;
+  profileLinks?: ApplicationProfileLinks;
+};
+
+type FetchApplicationProfileBody = ApiBody & {
+  applicationId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  canEdit?: boolean;
+  payload?: JoinApplicationEditableInput;
+};
+
+type UpdateApplicationProfileBody = ApiBody & {
+  applicationId?: string;
 };
 
 function normalizeApiBaseUrl(value: string): string {
@@ -129,25 +158,32 @@ function parseList(raw: string): string[] {
     .filter(Boolean);
 }
 
-function parseNumber(raw: string): number | '' {
+function parseRequiredNumber(raw: string): number {
+  const parsed = Number(raw);
+  return Number.isNaN(parsed) ? Number.NaN : parsed;
+}
+
+function parseOptionalNumber(raw: string): number | undefined {
   if (raw.trim().length === 0) {
-    return '';
+    return undefined;
   }
 
   const parsed = Number(raw);
-  return Number.isNaN(parsed) ? '' : parsed;
+  return Number.isNaN(parsed) ? undefined : parsed;
 }
 
-export async function submitJoinApplication(input: {
+function numberToString(value: number | undefined): string {
+  return typeof value === 'number' ? String(value) : '';
+}
+
+function buildEditablePayload(input: {
   locale: Locale;
   values: JoinFormState;
-}): Promise<SubmitJoinApplicationResponse> {
+}): JoinApplicationEditableInput {
   const { locale, values } = input;
 
-  const payload = {
+  return {
     locale,
-    turnstileToken: values.turnstileToken,
-    honeypot: values.honeypot,
     profile: {
       legalName: values.legalName,
       artistName: values.artistName,
@@ -156,7 +192,7 @@ export async function submitJoinApplication(input: {
       city: values.city,
       country: values.country,
       projectType: values.projectType,
-      yearsActive: parseNumber(values.yearsActive),
+      yearsActive: parseRequiredNumber(values.yearsActive),
       primaryGenre: values.primaryGenre,
       secondaryGenres: parseList(values.secondaryGenres)
     },
@@ -179,14 +215,14 @@ export async function submitJoinApplication(input: {
       releaseSummary: values.releaseSummary
     },
     audienceAnalytics: {
-      monthlyListeners: parseNumber(values.monthlyListeners),
-      totalFollowers: parseNumber(values.totalFollowers),
-      averageStreamsPerRelease: parseNumber(values.averageStreamsPerRelease),
+      monthlyListeners: parseOptionalNumber(values.monthlyListeners),
+      totalFollowers: parseOptionalNumber(values.totalFollowers),
+      averageStreamsPerRelease: parseOptionalNumber(values.averageStreamsPerRelease),
       topMarkets: parseList(values.topMarkets)
     },
     budgetAndResources: {
-      monthlyMarketingBudgetEur: parseNumber(values.monthlyMarketingBudgetEur),
-      productionBudgetPerTrackEur: parseNumber(values.productionBudgetPerTrackEur),
+      monthlyMarketingBudgetEur: parseOptionalNumber(values.monthlyMarketingBudgetEur),
+      productionBudgetPerTrackEur: parseOptionalNumber(values.productionBudgetPerTrackEur),
       teamDescription: values.teamDescription
     },
     planning: {
@@ -198,8 +234,85 @@ export async function submitJoinApplication(input: {
       whyNyvoro: values.whyNyvoro
     },
     message: values.message,
-    consent: values.consent
+    consent: values.consent as true
   };
+}
+
+function buildSubmissionPayload(input: {
+  locale: Locale;
+  values: JoinFormState;
+}): JoinApplicationInput {
+  const { locale, values } = input;
+  const editablePayload = buildEditablePayload({ locale, values });
+
+  return {
+    ...editablePayload,
+    turnstileToken: values.turnstileToken,
+    honeypot: values.honeypot
+  };
+}
+
+async function parseResponseBody(response: Response): Promise<ApiBody> {
+  return response.json().catch(() => ({}));
+}
+
+function buildNetworkErrorResponse<TBody extends ApiBody>(body: TBody): ApiResponse<TBody> {
+  return {
+    ok: false,
+    status: 0,
+    body
+  };
+}
+
+export function toJoinFormState(payload: JoinApplicationEditableInput): JoinFormState {
+  return {
+    legalName: payload.profile.legalName,
+    artistName: payload.profile.artistName,
+    email: payload.profile.email,
+    phone: payload.profile.phone ?? '',
+    city: payload.profile.city,
+    country: payload.profile.country,
+    projectType: payload.profile.projectType,
+    yearsActive: numberToString(payload.profile.yearsActive),
+    primaryGenre: payload.profile.primaryGenre,
+    secondaryGenres: payload.profile.secondaryGenres.join(', '),
+    instagram: payload.socialLinks.instagram ?? '',
+    tiktok: payload.socialLinks.tiktok ?? '',
+    youtube: payload.socialLinks.youtube ?? '',
+    x: payload.socialLinks.x ?? '',
+    website: payload.socialLinks.website ?? '',
+    spotify: payload.streamingLinks.spotify ?? '',
+    appleMusic: payload.streamingLinks.appleMusic ?? '',
+    soundCloud: payload.streamingLinks.soundCloud ?? '',
+    deezer: payload.streamingLinks.deezer ?? '',
+    beatport: payload.streamingLinks.beatport ?? '',
+    notableReleases: payload.releaseHistory.notableReleases.join(', '),
+    releaseSummary: payload.releaseHistory.releaseSummary,
+    monthlyListeners: numberToString(payload.audienceAnalytics.monthlyListeners),
+    totalFollowers: numberToString(payload.audienceAnalytics.totalFollowers),
+    averageStreamsPerRelease: numberToString(payload.audienceAnalytics.averageStreamsPerRelease),
+    topMarkets: payload.audienceAnalytics.topMarkets.join(', '),
+    monthlyMarketingBudgetEur: numberToString(payload.budgetAndResources.monthlyMarketingBudgetEur),
+    productionBudgetPerTrackEur: numberToString(
+      payload.budgetAndResources.productionBudgetPerTrackEur
+    ),
+    teamDescription: payload.budgetAndResources.teamDescription,
+    releaseFrequency: payload.planning.releaseFrequency,
+    roadmap90Days: payload.planning.roadmap90Days,
+    goals12Months: payload.objectives.goals12Months,
+    whyNyvoro: payload.objectives.whyNyvoro,
+    message: payload.message,
+    consent: payload.consent,
+    honeypot: '',
+    turnstileToken: ''
+  };
+}
+
+export async function submitJoinApplication(input: {
+  locale: Locale;
+  values: JoinFormState;
+}): Promise<ApiResponse<SubmitJoinApplicationBody>> {
+  const payload = buildSubmissionPayload(input);
 
   let response: Response;
 
@@ -212,18 +325,102 @@ export async function submitJoinApplication(input: {
       body: JSON.stringify(payload)
     });
   } catch {
+    return buildNetworkErrorResponse({
+      status: 'error',
+      code: 'network_error',
+      message: 'Network request failed.'
+    });
+  }
+
+  const body = (await parseResponseBody(response)) as SubmitJoinApplicationBody;
+
+  if (!response.ok) {
     return {
       ok: false,
-      status: 0,
-      body: {
-        status: 'error',
-        code: 'network_error',
-        message: 'Network request failed.'
-      }
+      status: response.status,
+      body
     };
   }
 
-  const body = await response.json().catch(() => ({}));
+  return {
+    ok: true,
+    status: response.status,
+    body
+  };
+}
+
+export async function fetchApplicationProfile(input: {
+  applicationId: string;
+  token: string;
+}): Promise<ApiResponse<FetchApplicationProfileBody>> {
+  const { applicationId, token } = input;
+
+  let response: Response;
+
+  try {
+    response = await fetch(
+      buildApiUrl(
+        `/api/v1/applications/${encodeURIComponent(applicationId)}/profile?token=${encodeURIComponent(token)}`
+      )
+    );
+  } catch {
+    return buildNetworkErrorResponse({
+      status: 'error',
+      code: 'network_error',
+      message: 'Network request failed.'
+    });
+  }
+
+  const body = (await parseResponseBody(response)) as FetchApplicationProfileBody;
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      body
+    };
+  }
+
+  return {
+    ok: true,
+    status: response.status,
+    body
+  };
+}
+
+export async function updateApplicationProfile(input: {
+  applicationId: string;
+  token: string;
+  locale: Locale;
+  values: JoinFormState;
+}): Promise<ApiResponse<UpdateApplicationProfileBody>> {
+  const { applicationId, token, locale, values } = input;
+  const payload = buildEditablePayload({ locale, values });
+
+  let response: Response;
+
+  try {
+    response = await fetch(
+      buildApiUrl(
+        `/api/v1/applications/${encodeURIComponent(applicationId)}/profile?token=${encodeURIComponent(token)}`
+      ),
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+    );
+  } catch {
+    return buildNetworkErrorResponse({
+      status: 'error',
+      code: 'network_error',
+      message: 'Network request failed.'
+    });
+  }
+
+  const body = (await parseResponseBody(response)) as UpdateApplicationProfileBody;
 
   if (!response.ok) {
     return {

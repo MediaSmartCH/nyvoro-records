@@ -80,6 +80,13 @@ export const joinApplicationSchema = z.object({
 
 export type JoinApplicationInput = z.infer<typeof joinApplicationSchema>;
 
+export const joinApplicationEditableSchema = joinApplicationSchema.omit({
+  turnstileToken: true,
+  honeypot: true
+});
+
+export type JoinApplicationEditableInput = z.infer<typeof joinApplicationEditableSchema>;
+
 export type ArtistDiscographyEntry = {
   title: string;
   year: number;

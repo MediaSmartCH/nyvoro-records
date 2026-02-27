@@ -7,6 +7,7 @@ import { LocaleErrorBoundary } from './components/locale-error-boundary';
 import { LocaleLayout } from './components/locale-layout';
 import { ArtistDetailPage } from './pages/artist-detail-page';
 import { ArtistsPage } from './pages/artists-page';
+import { ApplicationProfilePage } from './pages/application-profile-page';
 import { ContactPage } from './pages/contact-page';
 import { ErrorStatusPage } from './pages/error-status-page';
 import { GlobalNotFoundRedirectPage } from './pages/global-not-found-redirect';
@@ -46,6 +47,10 @@ export const routeTree: RouteObject[] = [
       {
         path: 'join',
         element: <JoinPage />
+      },
+      {
+        path: 'application-profile/:applicationId',
+        element: <ApplicationProfilePage />
       },
       {
         path: 'contact',

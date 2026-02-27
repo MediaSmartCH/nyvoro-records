@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import type { JoinApplicationInput } from '@nyvoro/shared-types';
-import { buildApplicationNotificationEmail } from '../src/application-email-template.js';
+import {
+  buildApplicantAcknowledgementEmail,
+  buildApplicationNotificationEmail
+} from '../src/application-email-template.js';
+
+const profileLinks = {
+  viewUrl: 'https://www.nyvoro-records.com/fr/application-profile/app_123?token=view_token',
+  editUrl: 'https://www.nyvoro-records.com/fr/join?applicationId=app_123&editToken=edit_token'
+};
+
+const logoUrl = 'https://www.nyvoro-records.com/favicon.svg';
 
 function buildPayload(): JoinApplicationInput {
   return {
@@ -67,6 +77,8 @@ describe('buildApplicationNotificationEmail', () => {
     const email = buildApplicationNotificationEmail({
       applicationId: 'app_123',
       payload,
+      profileLinks,
+      logoUrl,
       submittedAt: new Date('2026-02-20T10:11:12.000Z')
     });
 
@@ -82,6 +94,8 @@ describe('buildApplicationNotificationEmail', () => {
     expect(email.text).toContain('Project type: DJ');
     expect(email.text).toContain('Monthly marketing budget: EUR 1,500');
     expect(email.text).toContain('Spotify: https://open.spotify.com/artist/example');
+    expect(email.text).toContain(`Public profile: ${profileLinks.viewUrl}`);
+    expect(email.text).toContain(`Edit profile: ${profileLinks.editUrl}`);
     expect(email.text).toContain('Roadmap (90 days): Finalize two tracks.');
   });
 
@@ -93,12 +107,33 @@ describe('buildApplicationNotificationEmail', () => {
     const email = buildApplicationNotificationEmail({
       applicationId: 'app_456',
       payload,
+      profileLinks,
+      logoUrl,
       submittedAt: new Date('2026-02-20T10:11:12.000Z')
     });
 
     expect(email.html).toContain('&lt;script&gt;alert(1)&lt;/script&gt;');
     expect(email.html).not.toContain('<script>alert(1)</script>');
     expect(email.html).toContain('href="https://instagram.com/luminanova"');
+    expect(email.html).toContain('Open public profile');
     expect(email.html).toContain('Line 1<br />Line 2 &lt;b&gt;unsafe&lt;/b&gt;');
+  });
+
+  it('builds an acknowledgement email with edit and view links', () => {
+    const payload = buildPayload();
+    const email = buildApplicantAcknowledgementEmail({
+      applicationId: 'app_789',
+      payload,
+      profileLinks,
+      logoUrl,
+      submittedAt: new Date('2026-02-20T10:11:12.000Z')
+    });
+
+    expect(email.subject).toContain('Application received');
+    expect(email.text).toContain(profileLinks.viewUrl);
+    expect(email.text).toContain(profileLinks.editUrl);
+    expect(email.html).toContain('View profile');
+    expect(email.html).toContain('Edit profile');
+    expect(email.html).toContain(`src="${logoUrl}"`);
   });
 });

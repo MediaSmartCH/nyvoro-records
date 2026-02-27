@@ -5,6 +5,8 @@ Nyvoro Records is a bilingual (EN/FR) Node.js web platform for an independent mu
 The V1 includes:
 - artist and release showcase,
 - a detailed "Join the Label" application form,
+- dual transactional emails on submission (internal structured review + applicant acknowledgement),
+- magic-link application profiles (public view link + private edit link),
 - anti-spam protections (Turnstile + honeypot + rate limiting),
 - legal pages (legal notice, privacy policy, terms).
 
@@ -90,7 +92,10 @@ Key variables:
 - `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX`: API anti-abuse settings
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`
 - `APPLICATION_RECIPIENT_EMAIL`: destination inbox for label applications (default `demo@nyvoro-records.com`)
+- `MAIL_LOGO_URL`: public logo URL rendered in notification emails
 - `IP_HASH_SALT`: salt for anonymized IP hashing
+- `MAGIC_LINK_SALT`: salt used to hash application magic-link tokens
+- `PUBLIC_WEB_BASE_URL`: base URL used to generate magic-link profile URLs
 - `VITE_API_BASE_URL`: API base URL used by frontend
 - `VITE_TURNSTILE_SITE_KEY`: same site key exposed to frontend
 - `VITE_CONTACT_EMAIL`, `VITE_PRESS_EMAIL`, `VITE_DEMO_EMAIL`: public label emails shown on the contact page
@@ -230,6 +235,7 @@ make build
 - **`pnpm` not found**: run `corepack enable` then retry.
 - **Captcha fails locally**: set `TURNSTILE_BYPASS=true` in `.env`.
 - **No email received**: verify SMTP credentials and check API logs.
+- **Old/plain email template still received**: confirm the API runtime was redeployed (web-only deployments do not update API email templates).
 - **CORS error**: ensure frontend origin is present in `API_ALLOWED_ORIGINS`.
 - **SQLite permission error**: verify write access to `apps/api/data/`.
 
