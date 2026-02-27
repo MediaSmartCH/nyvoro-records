@@ -14,7 +14,7 @@ import {
   type ThemePreference
 } from '../lib/theme';
 
-function LocaleSwitch({ locale }: { locale: Locale }) {
+function LocaleSwitch({ locale, onNavigate }: { locale: Locale; onNavigate?: () => void }) {
   const location = useLocation();
 
   const frenchPath = getLocaleSwitchPath(location.pathname, 'fr');
@@ -22,10 +22,10 @@ function LocaleSwitch({ locale }: { locale: Locale }) {
 
   return (
     <div className="locale-switch" aria-label="Language switch">
-      <Link to={englishPath} className={locale === 'en' ? 'active' : ''}>
+      <Link to={englishPath} className={locale === 'en' ? 'active' : ''} onClick={onNavigate}>
         EN
       </Link>
-      <Link to={frenchPath} className={locale === 'fr' ? 'active' : ''}>
+      <Link to={frenchPath} className={locale === 'fr' ? 'active' : ''} onClick={onNavigate}>
         FR
       </Link>
     </div>
@@ -59,12 +59,14 @@ function ThemeIcon({ mode }: { mode: ThemePreference }) {
 }
 
 export function PageShell({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
   const { locale, messages } = useLocaleContext();
   const [themePreference, setThemePreference] = useState<ThemePreference>(() =>
     getInitialThemePreference()
   );
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() => getSystemTheme());
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const resolvedTheme = resolveThemePreference(themePreference, systemTheme);
 
@@ -121,7 +123,19 @@ export function PageShell({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const themeAriaLabel = locale === 'fr' ? 'Choix du thème' : 'Theme selection';
+  const mobileMenuAriaLabel =
+    locale === 'fr'
+      ? isMobileMenuOpen
+        ? 'Fermer le menu'
+        : 'Ouvrir le menu'
+      : isMobileMenuOpen
+        ? 'Close menu'
+        : 'Open menu';
   const themeOptions: { mode: ThemePreference; label: string }[] =
     locale === 'fr'
       ? [
@@ -137,7 +151,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="site-root">
-      <header className={`site-header ${isScrolled ? 'is-scrolled' : ''}`}>
+      <header className={`site-header ${isScrolled ? 'is-scrolled' : ''} ${isMobileMenuOpen ? 'menu-open' : ''}`}>
         <div className="brand-block">
           <p className="brand-kicker">
             {locale === 'fr' ? 'Label indépendant' : 'Independent Label'} · {labelMetadata.foundedYear}
@@ -149,11 +163,24 @@ export function PageShell({ children }: { children: React.ReactNode }) {
           <p className="brand-subtitle">{labelMetadata.mission[locale]}</p>
         </div>
 
-        <nav className="main-nav" aria-label="Main navigation">
+        <button
+          type="button"
+          className={`mobile-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="site-mobile-nav"
+          aria-label={mobileMenuAriaLabel}
+          onClick={() => setIsMobileMenuOpen((current) => !current)}
+        >
+          <span className="mobile-menu-toggle-bar bar-1" aria-hidden="true" />
+          <span className="mobile-menu-toggle-bar bar-2" aria-hidden="true" />
+          <span className="mobile-menu-toggle-bar bar-3" aria-hidden="true" />
+        </button>
+
+        <nav className="main-nav" aria-label="Main navigation" id="site-mobile-nav">
           {navigation.map((item) => {
             const to = item.path ? `/${locale}/${item.path}` : `/${locale}`;
             return (
-              <NavLink key={item.key} to={to} end={item.path === ''}>
+              <NavLink key={item.key} to={to} end={item.path === ''} onClick={() => setIsMobileMenuOpen(false)}>
                 {item.label}
               </NavLink>
             );
@@ -176,7 +203,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
               </button>
             ))}
           </div>
-          <LocaleSwitch locale={locale} />
+          <LocaleSwitch locale={locale} onNavigate={() => setIsMobileMenuOpen(false)} />
         </div>
       </header>
 

@@ -22,7 +22,7 @@ export function LegalPage({ documentKey }: { documentKey: LegalDocumentKey }) {
   const formattedDate = formatLegalDate(document.lastUpdated, locale);
 
   return (
-    <section className="stacked-section">
+    <section className="stacked-section legal-page-shell">
       <header className="section-header">
         <h1>{document.title}</h1>
       </header>
