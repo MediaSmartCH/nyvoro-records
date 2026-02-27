@@ -4,6 +4,10 @@ import { z } from 'zod';
 
 loadDotenv();
 
+const defaultDatabaseUrl = process.env.VERCEL
+  ? '/tmp/nyvoro.db'
+  : path.resolve(process.cwd(), 'apps/api/data/nyvoro.db');
+
 function parseBoolean(value: string | undefined, defaultValue: boolean): boolean {
   if (value === undefined) {
     return defaultValue;
@@ -16,7 +20,8 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(4000),
   API_ALLOWED_ORIGINS: z.string().default('http://localhost:5173,http://localhost:4173'),
-  DATABASE_URL: z.string().default(path.resolve(process.cwd(), 'apps/api/data/nyvoro.db')),
+  // Vercel functions run on a read-only filesystem, so SQLite needs /tmp by default.
+  DATABASE_URL: z.string().default(defaultDatabaseUrl),
   TURNSTILE_SECRET_KEY: z.string().default('turnstile_secret_placeholder'),
   TURNSTILE_VERIFY_URL: z
     .string()
