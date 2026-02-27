@@ -1,6 +1,7 @@
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import cors from 'cors';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -185,6 +186,23 @@ function createAsyncRouteHandler(
   };
 }
 
+function resolveApiPublicDir(): string | undefined {
+  const currentFileDir = path.dirname(fileURLToPath(import.meta.url));
+  const candidates = [
+    path.resolve(process.cwd(), 'apps/api/public'),
+    path.resolve(process.cwd(), 'public'),
+    path.resolve(currentFileDir, '../public')
+  ];
+
+  for (const candidate of candidates) {
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return undefined;
+}
+
 export function createApp(options: CreateAppOptions = {}) {
   const config = options.config ?? appConfig;
   const db = options.db ?? createDatabase(config.databaseUrl);
@@ -218,8 +236,8 @@ export function createApp(options: CreateAppOptions = {}) {
 
   app.use(express.json({ limit: '1mb' }));
 
-  const apiPublicDir = path.resolve(process.cwd(), 'apps/api/public');
-  if (existsSync(apiPublicDir)) {
+  const apiPublicDir = resolveApiPublicDir();
+  if (apiPublicDir) {
     app.use('/api-assets', express.static(apiPublicDir, { index: false }));
   }
 

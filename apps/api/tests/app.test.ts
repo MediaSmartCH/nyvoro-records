@@ -156,6 +156,22 @@ describe('API health endpoint', () => {
     expect(response.status).toBe(200);
     expect(response.body.status).toBe('ok');
   });
+
+  it('serves the API favicon asset', async () => {
+    const db = createDatabase(':memory:');
+    const { app } = createApp({
+      config: baseConfig,
+      db,
+      verifyCaptcha: async () => ({ success: true, errors: [] }),
+      sendApplicationNotification: async () => undefined
+    });
+
+    const response = await request(app).get('/api-assets/favicon-api.svg');
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toContain('image/svg+xml');
+    expect(response.body.toString()).toContain('API');
+  });
 });
 
 describe('POST /api/v1/applications', () => {
