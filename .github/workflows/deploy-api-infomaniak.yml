@@ -102,7 +102,7 @@ jobs:
         if: ${{ env.SSH_PRIVATE_KEY == '' && env.SSH_PASSWORD != '' }}
         run: |
           sudo apt-get update
-          sudo apt-get install -y sshpass
+          sudo apt-get install -y sshpass expect
 
       - name: Upload over SSH
         run: |
@@ -132,9 +132,23 @@ jobs:
             exit 0
           fi
 
-          sshpass -p "${SSH_PASSWORD}" ssh \
-            -p "${SSH_PORT}" \
-            -o StrictHostKeyChecking=no \
-            -o UserKnownHostsFile=/dev/null \
-            "${SSH_USERNAME}@${SSH_HOST}" \
-            "${TARGET_DIR}/.post-deploy.sh"
+          expect <<'EOF'
+          set timeout -1
+          set ssh_host $env(SSH_HOST)
+          set ssh_port $env(SSH_PORT)
+          set ssh_username $env(SSH_USERNAME)
+          set ssh_password $env(SSH_PASSWORD)
+          set target_dir $env(TARGET_DIR)
+
+          spawn ssh -p $ssh_port -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$ssh_username@$ssh_host" "$target_dir/.post-deploy.sh"
+          expect {
+            -re "(?i)password:" {
+              send -- "$ssh_password\r"
+              exp_continue
+            }
+            eof
+          }
+          catch wait result
+          set exit_status [lindex $result 3]
+          exit $exit_status
+          EOF
