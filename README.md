@@ -212,6 +212,9 @@ Authentication:
 - Recommended: `INFOMANIAK_SSH_PRIVATE_KEY` (private key for the SSH user)
 - Fallback: `INFOMANIAK_SSH_PASSWORD` (used only if private key is not set)
 
+Optional secret:
+- `INFOMANIAK_RESTART_COMMAND` (shell command executed remotely after successful post-deploy build, for automatic runtime reload)
+
 Post-deploy command executed automatically over SSH:
 ```bash
 corepack enable && rm -rf node_modules apps/api/node_modules packages/shared-types/node_modules package-lock.json && pnpm install --frozen-lockfile && pnpm --filter @nyvoro/api build
@@ -221,6 +224,8 @@ Then configure your Infomaniak Node.js runtime entrypoint to:
 ```bash
 node apps/api/dist/server.js
 ```
+
+If your runtime does not auto-reload new builds, set `INFOMANIAK_RESTART_COMMAND` with the command required by your Infomaniak setup (examples: process restart command, reload script, or panel-compatible restart hook).
 
 ## Testing
 Run all checks:

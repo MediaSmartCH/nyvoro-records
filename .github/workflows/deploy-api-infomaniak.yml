@@ -20,6 +20,7 @@ jobs:
       SSH_PRIVATE_KEY: ${{ secrets.INFOMANIAK_SSH_PRIVATE_KEY }}
       SSH_PASSWORD: ${{ secrets.INFOMANIAK_SSH_PASSWORD }}
       TARGET_DIR: ${{ secrets.INFOMANIAK_TARGET_DIR }}
+      RESTART_COMMAND: ${{ secrets.INFOMANIAK_RESTART_COMMAND }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -150,6 +151,42 @@ jobs:
           set target_dir $env(TARGET_DIR)
 
           spawn ssh -p $ssh_port -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$ssh_username@$ssh_host" "$target_dir/.post-deploy.sh"
+          expect {
+            -re "(?i)password:" {
+              send -- "$ssh_password\r"
+              exp_continue
+            }
+            eof
+          }
+          catch wait result
+          set exit_status [lindex $result 3]
+          exit $exit_status
+          EOF
+
+      - name: Run optional restart command over SSH
+        if: ${{ env.RESTART_COMMAND != '' }}
+        run: |
+          set -eu
+
+          if [ -n "${SSH_PRIVATE_KEY}" ]; then
+            ssh -i "${HOME}/.ssh/infomaniak_deploy_key" \
+              -p "${SSH_PORT}" \
+              -o StrictHostKeyChecking=accept-new \
+              "${SSH_USERNAME}@${SSH_HOST}" \
+              "cd '${TARGET_DIR}' && ${RESTART_COMMAND}"
+            exit 0
+          fi
+
+          expect <<'EOF'
+          set timeout -1
+          set ssh_host $env(SSH_HOST)
+          set ssh_port $env(SSH_PORT)
+          set ssh_username $env(SSH_USERNAME)
+          set ssh_password $env(SSH_PASSWORD)
+          set target_dir $env(TARGET_DIR)
+          set restart_command $env(RESTART_COMMAND)
+
+          spawn ssh -p $ssh_port -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$ssh_username@$ssh_host" "cd '$target_dir' && $restart_command"
           expect {
             -re "(?i)password:" {
               send -- "$ssh_password\r"
