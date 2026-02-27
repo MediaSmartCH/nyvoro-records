@@ -30,6 +30,7 @@ import {
 } from './security.js';
 import { verifyTurnstileToken } from './turnstile.js';
 import { renderApiHomePage } from './api-home-page.js';
+import { renderApiErrorPage } from './api-error-page.js';
 import type { ApplicationProfileLinks } from './application-email-template.js';
 
 type CreateAppOptions = {
@@ -151,6 +152,39 @@ function resolveMagicAccessLevel(input: {
   return 'none';
 }
 
+function requestWantsHtml(req: express.Request): boolean {
+  const acceptHeader = req.headers.accept;
+  if (typeof acceptHeader !== 'string') {
+    return false;
+  }
+
+  return acceptHeader.toLowerCase().includes('text/html');
+}
+
+function mapUnhandledError(error: Error): { statusCode: number; code: string; message: string } {
+  if (error.message === 'CORS origin is not allowed.') {
+    return {
+      statusCode: 403,
+      code: 'cors_blocked',
+      message: 'Request origin is not allowed by this API.'
+    };
+  }
+
+  return {
+    statusCode: 500,
+    code: 'internal_error',
+    message: 'Unexpected server error.'
+  };
+}
+
+function createAsyncRouteHandler(
+  handler: (req: express.Request, res: express.Response) => Promise<void>
+): express.RequestHandler {
+  return (req, res, next) => {
+    void handler(req, res).catch(next);
+  };
+}
+
 export function createApp(options: CreateAppOptions = {}) {
   const config = options.config ?? appConfig;
   const db = options.db ?? createDatabase(config.databaseUrl);
@@ -184,6 +218,36 @@ export function createApp(options: CreateAppOptions = {}) {
 
   app.use(express.json({ limit: '1mb' }));
 
+  function sendErrorResponse(input: {
+    req: express.Request;
+    res: express.Response;
+    statusCode: number;
+    code: string;
+    message: string;
+    details?: unknown;
+  }): void {
+    const { req, res, statusCode, code, message, details } = input;
+
+    if (requestWantsHtml(req)) {
+      res.status(statusCode).type('html').send(
+        renderApiErrorPage({
+          statusCode,
+          environment: config.nodeEnv,
+          message,
+          requestPath: req.originalUrl
+        })
+      );
+      return;
+    }
+
+    res.status(statusCode).json({
+      status: 'error',
+      code,
+      message,
+      ...(details !== undefined ? { details } : {})
+    });
+  }
+
   const applicationRateLimiter = rateLimit({
     windowMs: config.rateLimitWindowMs,
     max: config.rateLimitMax,
@@ -206,6 +270,15 @@ export function createApp(options: CreateAppOptions = {}) {
 
   app.get('/api/v1/applications/:applicationId/profile', (req, res) => {
     const applicationId = req.params.applicationId;
+    if (!applicationId) {
+      res.status(400).json({
+        status: 'error',
+        code: 'application_id_required',
+        message: 'Application id is required.'
+      });
+      return;
+    }
+
     const token = extractToken(req.query.token);
 
     if (!token) {
@@ -263,168 +336,184 @@ export function createApp(options: CreateAppOptions = {}) {
     });
   });
 
-  app.put('/api/v1/applications/:applicationId/profile', async (req, res) => {
-    const applicationId = req.params.applicationId;
-    const token = extractToken(req.query.token);
-
-    if (!token) {
-      res.status(400).json({
-        status: 'error',
-        code: 'token_required',
-        message: 'Magic link token is required.'
-      });
-      return;
-    }
-
-    const application = getApplicationById(db, applicationId);
-    if (!application) {
-      res.status(404).json({
-        status: 'error',
-        code: 'not_found',
-        message: 'Application not found.'
-      });
-      return;
-    }
-
-    const accessLevel = resolveMagicAccessLevel({
-      token,
-      viewTokenHash: application.view_token_hash,
-      editTokenHash: application.edit_token_hash,
-      salt: config.magicLinkSalt
-    });
-
-    if (accessLevel !== 'edit') {
-      res.status(401).json({
-        status: 'error',
-        code: 'invalid_token',
-        message: 'Edit token is required to modify this profile.'
-      });
-      return;
-    }
-
-    const parsed = joinApplicationEditableSchema.safeParse(req.body);
-    if (!parsed.success) {
-      res.status(400).json({
-        status: 'error',
-        code: 'validation_error',
-        details: parsed.error.flatten()
-      });
-      return;
-    }
-
-    const updatedPayload = toStoredPayload(parsed.data);
-
-    updateApplicationPayload(db, {
-      id: applicationId,
-      locale: parsed.data.locale,
-      payload_json: JSON.stringify(updatedPayload)
-    });
-
-    res.status(200).json({
-      status: 'ok',
-      applicationId
-    });
-  });
-
-  app.post('/api/v1/applications', applicationRateLimiter, async (req, res) => {
-    const parsed = joinApplicationSchema.safeParse(req.body);
-
-    if (!parsed.success) {
-      res.status(400).json({
-        status: 'error',
-        code: 'validation_error',
-        details: parsed.error.flatten()
-      });
-      return;
-    }
-
-    const payload = parsed.data;
-
-    if (payload.honeypot && payload.honeypot.trim().length > 0) {
-      res.status(400).json({
-        status: 'error',
-        code: 'spam_detected',
-        message: 'Spam detected.'
-      });
-      return;
-    }
-
-    const ipAddress = getClientIp((req.headers['x-forwarded-for'] as string | undefined) ?? req.ip);
-    const captchaResult = await verifyCaptcha({
-      token: payload.turnstileToken,
-      secretKey: config.turnstileSecretKey,
-      verificationUrl: config.turnstileVerifyUrl,
-      ipAddress,
-      bypass: config.turnstileBypass
-    });
-
-    if (!captchaResult.success) {
-      res.status(400).json({
-        status: 'error',
-        code: 'captcha_invalid',
-        message: 'Captcha verification failed.',
-        errors: captchaResult.errors
-      });
-      return;
-    }
-
-    const applicationId = crypto.randomUUID();
-    const ipHash = hashIpAddress(ipAddress, config.ipHashSalt);
-    const viewToken = generateMagicLinkToken();
-    const editToken = generateMagicLinkToken();
-    const viewTokenHash = hashMagicLinkToken(viewToken, config.magicLinkSalt);
-    const editTokenHash = hashMagicLinkToken(editToken, config.magicLinkSalt);
-
-    const publicWebBaseUrl = resolvePublicWebBaseUrl(req, config.publicWebBaseUrl);
-    const profileLinks = buildProfileLinks({
-      baseUrl: publicWebBaseUrl,
-      locale: payload.locale,
-      applicationId,
-      viewToken,
-      editToken
-    });
-
-    insertApplication(db, {
-      id: applicationId,
-      locale: payload.locale,
-      payload_json: JSON.stringify(payload),
-      email_status: 'pending',
-      ip_hash: ipHash,
-      view_token_hash: viewTokenHash,
-      edit_token_hash: editTokenHash
-    });
-
-    try {
-      await sendNotification({
-        applicationId,
-        payload,
-        profileLinks
-      });
-
-      updateApplicationEmailStatus(db, applicationId, 'sent');
-
-      res.status(201).json({
-        status: 'ok',
-        applicationId,
-        profileLinks
-      });
-      return;
-    } catch (error) {
-      updateApplicationEmailStatus(db, applicationId, 'failed');
-
-      res.status(202).json({
-        status: 'stored_with_email_error',
-        applicationId,
-        profileLinks,
-        message: 'Application stored, notification email failed.'
-      });
-
-      if (config.nodeEnv !== 'test') {
-        // We keep the submission successful because data persistence is the primary requirement.
-        console.error('[application-email] failed to send notification', error);
+  app.put(
+    '/api/v1/applications/:applicationId/profile',
+    createAsyncRouteHandler(async (req, res) => {
+      const applicationId = req.params.applicationId;
+      if (!applicationId) {
+        res.status(400).json({
+          status: 'error',
+          code: 'application_id_required',
+          message: 'Application id is required.'
+        });
+        return;
       }
-    }
-  });
+
+      const token = extractToken(req.query.token);
+
+      if (!token) {
+        res.status(400).json({
+          status: 'error',
+          code: 'token_required',
+          message: 'Magic link token is required.'
+        });
+        return;
+      }
+
+      const application = getApplicationById(db, applicationId);
+      if (!application) {
+        res.status(404).json({
+          status: 'error',
+          code: 'not_found',
+          message: 'Application not found.'
+        });
+        return;
+      }
+
+      const accessLevel = resolveMagicAccessLevel({
+        token,
+        viewTokenHash: application.view_token_hash,
+        editTokenHash: application.edit_token_hash,
+        salt: config.magicLinkSalt
+      });
+
+      if (accessLevel !== 'edit') {
+        res.status(401).json({
+          status: 'error',
+          code: 'invalid_token',
+          message: 'Edit token is required to modify this profile.'
+        });
+        return;
+      }
+
+      const parsed = joinApplicationEditableSchema.safeParse(req.body);
+      if (!parsed.success) {
+        res.status(400).json({
+          status: 'error',
+          code: 'validation_error',
+          details: parsed.error.flatten()
+        });
+        return;
+      }
+
+      const updatedPayload = toStoredPayload(parsed.data);
+
+      updateApplicationPayload(db, {
+        id: applicationId,
+        locale: parsed.data.locale,
+        payload_json: JSON.stringify(updatedPayload)
+      });
+
+      res.status(200).json({
+        status: 'ok',
+        applicationId
+      });
+    })
+  );
+
+  app.post(
+    '/api/v1/applications',
+    applicationRateLimiter,
+    createAsyncRouteHandler(async (req, res) => {
+      const parsed = joinApplicationSchema.safeParse(req.body);
+
+      if (!parsed.success) {
+        res.status(400).json({
+          status: 'error',
+          code: 'validation_error',
+          details: parsed.error.flatten()
+        });
+        return;
+      }
+
+      const payload = parsed.data;
+
+      if (payload.honeypot && payload.honeypot.trim().length > 0) {
+        res.status(400).json({
+          status: 'error',
+          code: 'spam_detected',
+          message: 'Spam detected.'
+        });
+        return;
+      }
+
+      const ipAddress = getClientIp((req.headers['x-forwarded-for'] as string | undefined) ?? req.ip);
+      const captchaResult = await verifyCaptcha({
+        token: payload.turnstileToken,
+        secretKey: config.turnstileSecretKey,
+        verificationUrl: config.turnstileVerifyUrl,
+        ipAddress,
+        bypass: config.turnstileBypass
+      });
+
+      if (!captchaResult.success) {
+        res.status(400).json({
+          status: 'error',
+          code: 'captcha_invalid',
+          message: 'Captcha verification failed.',
+          errors: captchaResult.errors
+        });
+        return;
+      }
+
+      const applicationId = crypto.randomUUID();
+      const ipHash = hashIpAddress(ipAddress, config.ipHashSalt);
+      const viewToken = generateMagicLinkToken();
+      const editToken = generateMagicLinkToken();
+      const viewTokenHash = hashMagicLinkToken(viewToken, config.magicLinkSalt);
+      const editTokenHash = hashMagicLinkToken(editToken, config.magicLinkSalt);
+
+      const publicWebBaseUrl = resolvePublicWebBaseUrl(req, config.publicWebBaseUrl);
+      const profileLinks = buildProfileLinks({
+        baseUrl: publicWebBaseUrl,
+        locale: payload.locale,
+        applicationId,
+        viewToken,
+        editToken
+      });
+
+      insertApplication(db, {
+        id: applicationId,
+        locale: payload.locale,
+        payload_json: JSON.stringify(payload),
+        email_status: 'pending',
+        ip_hash: ipHash,
+        view_token_hash: viewTokenHash,
+        edit_token_hash: editTokenHash
+      });
+
+      try {
+        await sendNotification({
+          applicationId,
+          payload,
+          profileLinks
+        });
+
+        updateApplicationEmailStatus(db, applicationId, 'sent');
+
+        res.status(201).json({
+          status: 'ok',
+          applicationId,
+          profileLinks
+        });
+        return;
+      } catch (error) {
+        updateApplicationEmailStatus(db, applicationId, 'failed');
+
+        res.status(202).json({
+          status: 'stored_with_email_error',
+          applicationId,
+          profileLinks,
+          message: 'Application stored, notification email failed.'
+        });
+
+        if (config.nodeEnv !== 'test') {
+          // We keep the submission successful because data persistence is the primary requirement.
+          console.error('[application-email] failed to send notification', error);
+        }
+      }
+    })
+  );
 
   const webDistDir = path.isAbsolute(config.webDistDir)
     ? config.webDistDir
@@ -462,16 +551,34 @@ export function createApp(options: CreateAppOptions = {}) {
     }
   }
 
-  app.use((error: Error, _req: express.Request, res: express.Response, next: express.NextFunction) => {
-    void next;
+  app.use((req, res) => {
+    sendErrorResponse({
+      req,
+      res,
+      statusCode: 404,
+      code: 'route_not_found',
+      message: 'Requested route does not exist.'
+    });
+  });
+
+  app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (res.headersSent) {
+      next(error);
+      return;
+    }
+
     if (config.nodeEnv !== 'test') {
       console.error('[api] unhandled error', error);
     }
 
-    res.status(500).json({
-      status: 'error',
-      code: 'internal_error',
-      message: 'Unexpected server error.'
+    const mappedError = mapUnhandledError(error);
+
+    sendErrorResponse({
+      req,
+      res,
+      statusCode: mappedError.statusCode,
+      code: mappedError.code,
+      message: mappedError.message
     });
   });
 

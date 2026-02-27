@@ -337,3 +337,95 @@ describe('Application profile magic links', () => {
     expect(response.body.code).toBe('invalid_token');
   });
 });
+
+describe('Global error handling', () => {
+  it('returns JSON for unknown routes', async () => {
+    const db = createDatabase(':memory:');
+    const { app } = createApp({
+      config: baseConfig,
+      db,
+      verifyCaptcha: async () => ({ success: true, errors: [] }),
+      sendApplicationNotification: async () => undefined
+    });
+
+    const response = await request(app).get('/api/v1/unknown-route').set('Accept', 'application/json');
+
+    expect(response.status).toBe(404);
+    expect(response.body.code).toBe('route_not_found');
+  });
+
+  it('returns HTML for unknown routes when browser accepts HTML', async () => {
+    const db = createDatabase(':memory:');
+    const { app } = createApp({
+      config: baseConfig,
+      db,
+      verifyCaptcha: async () => ({ success: true, errors: [] }),
+      sendApplicationNotification: async () => undefined
+    });
+
+    const response = await request(app).get('/api/v1/unknown-route').set('Accept', 'text/html');
+
+    expect(response.status).toBe(404);
+    expect(response.headers['content-type']).toContain('text/html');
+    expect(response.text).toContain('Route not found.');
+  });
+
+  it('returns JSON 500 for unhandled server errors', async () => {
+    const db = createDatabase(':memory:');
+    const { app } = createApp({
+      config: baseConfig,
+      db,
+      verifyCaptcha: async () => {
+        throw new Error('turnstile service unavailable');
+      },
+      sendApplicationNotification: async () => undefined
+    });
+
+    const response = await request(app)
+      .post('/api/v1/applications')
+      .set('Accept', 'application/json')
+      .send(buildPayload());
+
+    expect(response.status).toBe(500);
+    expect(response.body.code).toBe('internal_error');
+  });
+
+  it('returns HTML 500 for unhandled errors when browser accepts HTML', async () => {
+    const db = createDatabase(':memory:');
+    const { app } = createApp({
+      config: baseConfig,
+      db,
+      verifyCaptcha: async () => {
+        throw new Error('turnstile service unavailable');
+      },
+      sendApplicationNotification: async () => undefined
+    });
+
+    const response = await request(app)
+      .post('/api/v1/applications')
+      .set('Accept', 'text/html')
+      .send(buildPayload());
+
+    expect(response.status).toBe(500);
+    expect(response.headers['content-type']).toContain('text/html');
+    expect(response.text).toContain('Unexpected server error.');
+  });
+
+  it('returns 403 when CORS origin is not allowed', async () => {
+    const db = createDatabase(':memory:');
+    const { app } = createApp({
+      config: baseConfig,
+      db,
+      verifyCaptcha: async () => ({ success: true, errors: [] }),
+      sendApplicationNotification: async () => undefined
+    });
+
+    const response = await request(app)
+      .get('/api/v1/health')
+      .set('Origin', 'https://forbidden-origin.example')
+      .set('Accept', 'application/json');
+
+    expect(response.status).toBe(403);
+    expect(response.body.code).toBe('cors_blocked');
+  });
+});

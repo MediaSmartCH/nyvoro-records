@@ -1,173 +1,122 @@
+import { renderApiPageShell } from './api-page-shell.js';
+
 type ApiHomePageInput = {
   environment: string;
 };
 
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
 export function renderApiHomePage(input: ApiHomePageInput): string {
-  const environment = escapeHtml(input.environment);
+  const content = `
+    <section class="hero card">
+      <p class="eyebrow">Nyvoro Records · Public API</p>
+      <h1>API gateway aligned with the main website design.</h1>
+      <p class="hero-copy">
+        The API remains machine-first with JSON endpoints, while this page provides a polished visual layer for
+        humans: status visibility, key routes, and operational behavior in one place.
+      </p>
+      <div class="hero-actions">
+        <a class="action primary" href="/api/v1/health">Open /api/v1/health</a>
+        <a class="action secondary" href="https://www.nyvoro-records.com" target="_blank" rel="noreferrer">
+          Visit nyvoro-records.com
+        </a>
+      </div>
+    </section>
 
-  return `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nyvoro Records API</title>
-    <style>
-      :root {
-        --bg: #0b1220;
-        --panel: #111a2b;
-        --panel-border: #2a3956;
-        --text: #e8eefb;
-        --muted: #a8b6d6;
-        --accent: #5fd3bc;
-        --accent-2: #7ea8ff;
-        --code-bg: #0f1728;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        color: var(--text);
-        background:
-          radial-gradient(circle at 20% -10%, rgba(126, 168, 255, 0.22), transparent 45%),
-          radial-gradient(circle at 95% 20%, rgba(95, 211, 188, 0.18), transparent 38%),
-          var(--bg);
-      }
-      .container {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 56px 20px 72px;
-      }
-      .hero {
-        background: linear-gradient(155deg, rgba(126, 168, 255, 0.15), rgba(95, 211, 188, 0.12));
-        border: 1px solid var(--panel-border);
-        border-radius: 18px;
-        padding: 28px;
-        box-shadow: 0 18px 40px rgba(8, 13, 23, 0.45);
-      }
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--panel-border);
-        color: var(--muted);
-        font-size: 12px;
-        letter-spacing: 0.02em;
-      }
-      h1 {
-        margin: 16px 0 8px;
-        font-size: clamp(1.8rem, 2.8vw, 2.5rem);
-      }
-      p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.55;
-      }
-      .grid {
-        margin-top: 22px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 14px;
-      }
-      .card {
-        background: rgba(17, 26, 43, 0.82);
-        border: 1px solid var(--panel-border);
-        border-radius: 14px;
-        padding: 16px;
-      }
-      h2 {
-        margin: 0 0 10px;
-        font-size: 1.02rem;
-      }
-      ul {
-        margin: 0;
-        padding-left: 18px;
-        color: var(--muted);
-      }
-      li {
-        margin: 8px 0;
-      }
-      code {
-        display: inline-block;
-        margin-top: 6px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        background: var(--code-bg);
-        color: #dbe8ff;
-        border: 1px solid var(--panel-border);
-        border-radius: 8px;
-        padding: 6px 8px;
-        font-size: 0.86rem;
-      }
-      .status {
-        margin-top: 22px;
-        font-size: 0.88rem;
-        color: var(--muted);
-      }
-      .status strong {
-        color: var(--accent);
-      }
-      a {
-        color: var(--accent-2);
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-  <body>
-    <main class="container">
-      <section class="hero">
-        <span class="badge">Nyvoro Records · Public API</span>
-        <h1>API Gateway</h1>
+    <section class="feature-grid">
+      <article class="feature-card card">
+        <h2>Core endpoints</h2>
+        <ul class="list">
+          <li class="endpoint">
+            <span>Health check</span>
+            <code>GET /api/v1/health</code>
+          </li>
+          <li class="endpoint">
+            <span>Join application intake</span>
+            <code>POST /api/v1/applications</code>
+          </li>
+          <li class="endpoint">
+            <span>Profile access via magic link</span>
+            <code>GET /api/v1/applications/:applicationId/profile?token=...</code>
+          </li>
+        </ul>
+      </article>
+
+      <article class="feature-card card">
+        <h2>Visual web rendering</h2>
+        <p class="status-line">
+          <span id="health-dot" class="status-dot" aria-hidden="true"></span>
+          <strong id="health-label">Checking live API status...</strong>
+        </p>
         <p>
-          This service powers the Nyvoro Records application pipeline, including join-form ingestion,
-          anti-spam validation, secure persistence, and notification dispatch.
+          This preview keeps the endpoint behavior unchanged while exposing a browser-friendly status view.
         </p>
-        <div class="grid">
-          <article class="card">
-            <h2>Core Endpoints</h2>
-            <ul>
-              <li>
-                Health check
-                <br />
-                <code>GET /api/v1/health</code>
-              </li>
-              <li>
-                Join application intake
-                <br />
-                <code>POST /api/v1/applications</code>
-              </li>
-            </ul>
-          </article>
-          <article class="card">
-            <h2>Security and Delivery</h2>
-            <ul>
-              <li>Cloudflare Turnstile token verification</li>
-              <li>Honeypot and request rate limiting</li>
-              <li>CORS allowlist + security headers (Helmet)</li>
-              <li>SQLite persistence with SMTP notifications</li>
-            </ul>
-          </article>
-        </div>
-        <p class="status">
-          Environment: <strong>${environment}</strong> · Domain:
-          <a href="https://nyvoro-records.com">nyvoro-records.com</a>
-        </p>
-      </section>
-    </main>
-  </body>
-</html>`;
+        <pre class="json-preview" id="health-preview" aria-live="polite">Loading /api/v1/health ...</pre>
+      </article>
+    </section>
+
+    <section class="feature-grid">
+      <article class="feature-card card">
+        <h2>Security and delivery pipeline</h2>
+        <p class="method">Cloudflare Turnstile token verification before any persistence.</p>
+        <p class="method">Honeypot + IP-based rate limiting to reduce automated abuse.</p>
+        <p class="method">CORS allowlist and security headers via Helmet.</p>
+        <p class="method">SQLite persistence with SMTP notifications and failure fallback.</p>
+      </article>
+
+      <article class="feature-card card">
+        <h2>Error management</h2>
+        <p class="method"><code>404</code> unknown routes return structured API errors.</p>
+        <p class="method"><code>403</code> disallowed origins are explicitly mapped.</p>
+        <p class="method"><code>500</code> unhandled failures return standardized payloads.</p>
+        <p class="method">Browsers receive a styled error page, API clients keep JSON responses.</p>
+      </article>
+    </section>
+
+    <script>
+      (async function loadHealthPreview() {
+        const statusDot = document.getElementById('health-dot');
+        const statusLabel = document.getElementById('health-label');
+        const jsonPreview = document.getElementById('health-preview');
+
+        if (!statusDot || !statusLabel || !jsonPreview) {
+          return;
+        }
+
+        try {
+          const response = await fetch('/api/v1/health', {
+            headers: { Accept: 'application/json' }
+          });
+
+          const payload = await response.json();
+
+          if (response.ok) {
+            statusDot.classList.add('ok');
+            statusLabel.textContent = 'Operational';
+          } else {
+            statusDot.classList.add('error');
+            statusLabel.textContent = 'Degraded';
+          }
+
+          jsonPreview.textContent = JSON.stringify(payload, null, 2);
+        } catch (error) {
+          statusDot.classList.add('error');
+          statusLabel.textContent = 'Unavailable';
+          jsonPreview.textContent = JSON.stringify(
+            {
+              status: 'error',
+              message: error instanceof Error ? error.message : 'Health request failed.'
+            },
+            null,
+            2
+          );
+        }
+      })();
+    </script>
+  `;
+
+  return renderApiPageShell({
+    title: 'Nyvoro Records API',
+    description: 'Nyvoro Records public API gateway with operational health and endpoint overview.',
+    environment: input.environment,
+    content
+  });
 }
