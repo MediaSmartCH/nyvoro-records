@@ -56,9 +56,18 @@ export function createDatabase(databasePath: string): Database.Database {
     );
   `);
 
-  ensureColumn(db, 'applications', 'updated_at', "TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP");
+  // SQLite does not allow adding a column with a non-constant default (e.g. CURRENT_TIMESTAMP)
+  // through ALTER TABLE, so we add it as plain TEXT for migrated databases.
+  ensureColumn(db, 'applications', 'updated_at', 'TEXT');
   ensureColumn(db, 'applications', 'view_token_hash', "TEXT NOT NULL DEFAULT ''");
   ensureColumn(db, 'applications', 'edit_token_hash', "TEXT NOT NULL DEFAULT ''");
+
+  // Backfill legacy rows so updated_at is always populated.
+  db.exec(`
+    UPDATE applications
+    SET updated_at = COALESCE(NULLIF(updated_at, ''), created_at, CURRENT_TIMESTAMP)
+    WHERE updated_at IS NULL OR updated_at = '';
+  `);
 
   return db;
 }
