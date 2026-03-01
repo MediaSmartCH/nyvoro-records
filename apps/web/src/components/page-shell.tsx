@@ -127,6 +127,18 @@ export function PageShell({ children }: { children: React.ReactNode }) {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    } catch {
+      // Ignore environments where scrolling is not implemented (for example JSDOM).
+    }
+  }, [location.pathname, location.search]);
+
   const themeAriaLabel = locale === 'fr' ? 'Choix du thème' : 'Theme selection';
   const mobileMenuAriaLabel =
     locale === 'fr'
