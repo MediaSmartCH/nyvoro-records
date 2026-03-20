@@ -7,7 +7,6 @@
       "Reggaeton Suave"
     ],
     "basedIn": "Latino market / international Spanish-speaking",
-    "portrait": "/images/lumeno-profile.png",
     "profile": {
       "mainLanguage": {
         "en": "Spanish",
@@ -97,182 +96,247 @@
       "fr": "Lúmeno est un projet Latin Pop / Reggaeton suave orienté narration émotionnelle nocturne. Ce n'est pas un reggaeton agressif, ni un projet de club bruyant. C'est un projet de sensation, construit autour d'un rythme minimal, d'une tension maîtrisée et d'une mise en scène cinématographique cohérente."
     },
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "discography": [
       {
-        "title": "Noche Que Se Repite",
+        "title": "Title to be announced",
         "year": 2026,
-        "format": "Single",
+        "format": "SINGLE",
         "platforms": {
-          "youtube": "https://www.youtube.com/watch?v=FGTHtjt3zSQ",
-          "spotify": "https://open.spotify.com/intl-fr/track/4UucsW9j0SOydbJw4MnLMO",
-          "appleMusic": "https://music.apple.com/us/song/noche-que-se-repite/1870574254",
-          "tidal": "https://tidal.com/album/491069291",
-          "amazonMusic": "https://music.amazon.fr/tracks/B0GHS8999D",
-          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j"
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
         }
       },
       {
-        "title": "Media Noche con Lúmeno",
+        "title": "Title to be announced",
         "year": 2026,
-        "format": "Single",
+        "format": "SINGLE",
         "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
           "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
           "deezer": "https://www.deezer.com/fr/album/901208792",
           "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
         }
       },
       {
-        "title": "Entre Tú y Yo",
+        "title": "Title to be announced",
         "year": 2026,
-        "format": "Single",
+        "format": "SINGLE",
         "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
           "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
           "deezer": "https://www.deezer.com/fr/album/901208792",
           "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
         }
       },
       {
-        "title": "Conexión De Madrugada",
+        "title": "Title to be announced",
         "year": 2026,
-        "format": "Single",
+        "format": "SINGLE",
         "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
           "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
           "deezer": "https://www.deezer.com/fr/album/901208792",
           "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
+        }
+      },
+      {
+        "title": "Title to be announced",
+        "year": 2026,
+        "format": "SINGLE",
+        "platforms": {
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
+        }
+      },
+      {
+        "title": "Title to be announced",
+        "year": 2026,
+        "format": "SINGLE",
+        "platforms": {
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
+        }
+      },
+      {
+        "title": "Title to be announced",
+        "year": 2026,
+        "format": "SINGLE",
+        "platforms": {
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
+          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
+          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
         }
       },
       {
         "title": "Línea Roja",
         "year": 2026,
-        "format": "Single",
+        "format": "SINGLE",
         "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
           "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
           "deezer": "https://www.deezer.com/fr/album/901208792",
           "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
         }
       },
       {
-        "title": "Título por anunciar (Junio 2026)",
+        "title": "Conexión De Madrugada",
         "year": 2026,
-        "format": "Single",
+        "format": "SINGLE",
         "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
           "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
           "deezer": "https://www.deezer.com/fr/album/901208792",
           "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
         }
       },
       {
-        "title": "Título por anunciar (Julio 2026)",
+        "title": "Entre Tú y Yo",
         "year": 2026,
-        "format": "Single",
+        "format": "SINGLE",
         "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
           "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
           "deezer": "https://www.deezer.com/fr/album/901208792",
           "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
         }
       },
       {
-        "title": "Título por anunciar (Agosto 2026)",
+        "title": "Media Noche con Lúmeno",
         "year": 2026,
-        "format": "Single",
+        "format": "SINGLE",
         "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
           "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
           "deezer": "https://www.deezer.com/fr/album/901208792",
           "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+          "tidal": "https://tidal.com/artist/73328686",
+          "youtube": "https://www.youtube.com/@lumeno_music"
         }
       },
       {
-        "title": "Título por anunciar (Septiembre 2026)",
+        "title": "Noche Que Se Repite",
         "year": 2026,
-        "format": "Single",
+        "format": "SINGLE",
         "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
-          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
-          "deezer": "https://www.deezer.com/fr/album/901208792",
+          "amazonMusic": "https://music.amazon.fr/tracks/B0GHS8999D",
+          "appleMusic": "https://music.apple.com/us/song/noche-que-se-repite/1870574254",
           "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
-        }
-      },
-      {
-        "title": "Título por anunciar (Octubre 2026)",
-        "year": 2026,
-        "format": "Single",
-        "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
-          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
-          "deezer": "https://www.deezer.com/fr/album/901208792",
-          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
-        }
-      },
-      {
-        "title": "Título por anunciar (Noviembre 2026)",
-        "year": 2026,
-        "format": "Single",
-        "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
-          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
-          "deezer": "https://www.deezer.com/fr/album/901208792",
-          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
-        }
-      },
-      {
-        "title": "Título por anunciar (Décembre 2026)",
-        "year": 2026,
-        "format": "Single",
-        "platforms": {
-          "youtube": "https://www.youtube.com/@lumeno_music",
-          "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
-          "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-          "tidal": "https://tidal.com/artist/73328686",
-          "deezer": "https://www.deezer.com/fr/album/901208792",
-          "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-          "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+          "spotify": "https://open.spotify.com/intl-fr/track/4UucsW9j0SOydbJw4MnLMO",
+          "tidal": "https://tidal.com/album/491069291",
+          "youtube": "https://www.youtube.com/watch?v=FGTHtjt3zSQ"
         }
       }
-    ]
+    ],
+    "portrait": "/images/lumeno-profile.png"
+  },
+  {
+    "id": "nova-kid",
+    "name": "NØVA KID",
+    "genres": [
+      "Hindie"
+    ],
+    "basedIn": "Europe",
+    "profile": {
+      "mainLanguage": {
+        "en": "English",
+        "fr": "Anglais"
+      },
+      "targetTerritory": {
+        "en": "Europe",
+        "fr": "Europe"
+      },
+      "positioning": {
+        "en": "Define the artistic angle.",
+        "fr": "Definir l angle artistique."
+      },
+      "conceptSummary": {
+        "en": "Describe the project arc.",
+        "fr": "Decrire l arc du projet."
+      },
+      "conceptAxes": {
+        "en": [
+          "Narrative axis"
+        ],
+        "fr": [
+          "Axe narratif"
+        ]
+      },
+      "soundDna": {
+        "en": [
+          "Production trait"
+        ],
+        "fr": [
+          "Trait de production"
+        ]
+      },
+      "visualUniverse": {
+        "en": [
+          "Visual cue"
+        ],
+        "fr": [
+          "Repere visuel"
+        ]
+      },
+      "keyThemes": {
+        "en": [
+          "Theme"
+        ],
+        "fr": [
+          "Theme"
+        ]
+      }
+    },
+    "bio": {
+      "en": "Add the English artist bio here.",
+      "fr": "Ajoute ici la bio artiste en francais."
+    },
+    "links": {},
+    "discography": []
   }
 ]

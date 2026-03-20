@@ -7,6 +7,9 @@ The V1 includes:
 - a detailed "Join the Label" application form,
 - dual transactional emails on submission (internal structured review + applicant acknowledgement),
 - magic-link application profiles (public view link + private edit link),
+- role-based login with artist self-registration and internal admin provisioning (password hash + Turnstile + HttpOnly session cookie),
+- protected dashboards for admins and artists,
+- admin MFA challenge at login when MFA is enabled, with optional artist MFA from account settings,
 - anti-spam protections (Turnstile + honeypot + rate limiting),
 - legal pages (legal notice, privacy policy, terms).
 
@@ -21,7 +24,7 @@ The V1 includes:
 - CI: GitHub Actions
 
 ## Architecture
-- `apps/web`: UI, localized routes (`/en`, `/fr`), join form
+- `apps/web`: UI, localized routes (`/en`, `/fr`), join form, login/register pages, and protected dashboards (`/:locale/admin/dashboard`, `/:locale/artist/dashboard`)
 - `apps/api`: REST API, security middleware, SQLite storage, SMTP notifications
 - `packages/content`: JSON-driven content (artists, releases, translations, legal pages)
 - `packages/shared-types`: shared schemas and TypeScript types used by web and API
@@ -47,6 +50,10 @@ The API can serve the built frontend in production (`SERVE_WEB_DIST=true`), whic
    ```bash
    make check-env
    ```
+5. Create at least one admin account explicitly:
+   ```bash
+   make auth-create-user ROLE=admin EMAIL='admin@nyvoro-records.com' PASSWORD='AdminStrongPassword!2026'
+   ```
 
 ## Run (Local)
 1. Start web + API in development:
@@ -56,6 +63,15 @@ The API can serve the built frontend in production (`SERVE_WEB_DIST=true`), whic
 2. Open frontend: `http://localhost:5173`
 3. API health check: `http://localhost:4000/api/v1/health`
 4. MailHog UI (if using Docker SMTP target): `http://localhost:8025`
+5. Login page: `http://localhost:5173/en/login`
+6. Artist self-registration page: `http://localhost:5173/en/register`
+7. Admin dashboard (protected): `http://localhost:5173/en/admin/dashboard`
+8. Artist dashboard (protected): `http://localhost:5173/en/artist/dashboard`
+
+### Local Access Model
+- Admin accounts are created internally with `make auth-create-user`.
+- Artist accounts can be created from the public `/en/register` page.
+- If an admin enables MFA from account settings, the next login requires a 6-digit TOTP code.
 
 ## Run (Docker)
 1. Ensure `.env` exists:
@@ -70,11 +86,15 @@ The API can serve the built frontend in production (`SERVE_WEB_DIST=true`), whic
    ```bash
    make docker-logs
    ```
-4. Stop stack:
+4. Create an admin account inside the API container:
+   ```bash
+   docker compose exec api pnpm --filter @nyvoro/api auth:create-user -- --role admin --email admin@nyvoro-records.com --password AdminStrongPassword!2026
+   ```
+5. Stop stack:
    ```bash
    make docker-down
    ```
-5. Reset stack + volumes:
+6. Reset stack + volumes:
    ```bash
    make docker-reset
    ```
@@ -93,11 +113,18 @@ Key variables:
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`
 - `APPLICATION_RECIPIENT_EMAIL`: destination inbox for label applications (default `demo@nyvoro-records.com`)
 - `MAIL_LOGO_URL`: public logo URL rendered in notification emails
+- `TRUST_PROXY`: Express trusted proxy setting (`false` locally, or `1`/provider-specific value behind a reverse proxy)
 - `IP_HASH_SALT`: salt for anonymized IP hashing
 - `MAGIC_LINK_SALT`: salt used to hash application magic-link tokens
+- `AUTH_SESSION_SECRET`: secret used to sign secure auth session cookies (set a long random value in production)
+- `AUTH_SESSION_TTL_MINUTES`: secure session lifetime
+- `AUTH_RATE_LIMIT_WINDOW_MS`, `AUTH_RATE_LIMIT_MAX`: auth endpoint anti-bruteforce settings
+- Production startup now fails fast when placeholder values are kept for `TURNSTILE_SECRET_KEY`, `SMTP_USER`, `SMTP_PASS`, `IP_HASH_SALT`, `MAGIC_LINK_SALT`, or `AUTH_SESSION_SECRET`.
+- Admin and artist accounts are no longer seeded from environment variables. Create them explicitly with `make auth-create-user` or the public artist register page.
 - `PUBLIC_WEB_BASE_URL`: base URL used to generate magic-link profile URLs
 - `VITE_API_BASE_URL`: API base URL used by frontend
 - `VITE_TURNSTILE_SITE_KEY`: same site key exposed to frontend
+- `VITE_TURNSTILE_BYPASS`: set `true` in local development to hide Turnstile widgets on web forms
 - `VITE_CONTACT_EMAIL`, `VITE_PRESS_EMAIL`, `VITE_DEMO_EMAIL`: public label emails shown on the contact page
 - `VITE_APPLICATION_RECIPIENT_EMAIL`: frontend reference for the application inbox
 - Artist inboxes follow `<artist-id>@nyvoro-records.com` (example: `lumeno@nyvoro-records.com`)
@@ -123,6 +150,8 @@ Primary Make targets:
 - `make docker-reset`
 - `make env`
 - `make check-env`
+- `make auth-hash-password PASSWORD='YourStrongPassword123!'`
+- `make auth-create-user ROLE=admin EMAIL='admin@example.com' PASSWORD='YourStrongPassword123!'`
 - `make vercel-link`
 - `make vercel-env-pull`
 - `make vercel-env-pull-preview`
@@ -131,6 +160,17 @@ Primary Make targets:
 - `make vercel-pull-production`
 - `make vercel-deploy-preview`
 - `make vercel-deploy-production`
+
+Generate secure password hashes for manual verification or external integrations:
+```bash
+make auth-hash-password PASSWORD='YourStrongPassword123!'
+```
+
+Create explicit auth users from the CLI:
+```bash
+make auth-create-user ROLE=admin EMAIL='admin@example.com' PASSWORD='YourStrongPassword123!'
+make auth-create-user ROLE=artist EMAIL='artist@example.com' PASSWORD='YourStrongPassword123!'
+```
 
 ## Deployment (Vercel + GitHub)
 The repository now includes `vercel.json` at root to lock build/runtime behavior for Vercel:
@@ -234,6 +274,8 @@ make lint
 make typecheck
 make test
 make build
+pnpm audit --prod
+pnpm audit --dev
 ```
 
 ## Troubleshooting
@@ -243,6 +285,8 @@ make build
 - **Old/plain email template still received**: confirm the API runtime was redeployed (web-only deployments do not update API email templates).
 - **CORS error**: ensure frontend origin is present in `API_ALLOWED_ORIGINS`.
 - **SQLite permission error**: verify write access to `apps/api/data/`.
+- **Login always denied**: verify that the account was created with `make auth-create-user`, the selected role matches, and the API is reachable.
+- **Admin login asks for a code unexpectedly**: MFA is enabled for that admin account; complete the TOTP step or disable MFA from account settings after a successful login.
 
 ## Project Structure
 ```text

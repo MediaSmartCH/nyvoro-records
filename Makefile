@@ -3,7 +3,7 @@ SHELL := /bin/sh
 PNPM := pnpm
 DC := docker compose -f compose.yaml
 
-.PHONY: help setup install update dev start build clean test lint format typecheck docker-up docker-down docker-logs docker-rebuild docker-reset env check-env vercel-link vercel-env-pull vercel-env-pull-preview vercel-env-pull-production vercel-pull-preview vercel-pull-production vercel-deploy-preview vercel-deploy-production
+.PHONY: help setup install update dev start build clean test lint format typecheck docker-up docker-down docker-logs docker-rebuild docker-reset env check-env auth-hash-password auth-create-user vercel-link vercel-env-pull vercel-env-pull-preview vercel-env-pull-production vercel-pull-preview vercel-pull-production vercel-deploy-preview vercel-deploy-production
 
 help: ## Show available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "%-16s %s\n", $$1, $$2}'
@@ -60,6 +60,14 @@ env: ## Create .env from .env.example when absent
 
 check-env: ## Validate required environment variables
 	$(PNPM) check-env
+
+auth-hash-password: ## Generate an scrypt password hash (usage: make auth-hash-password PASSWORD='...')
+	@if [ -z "$(PASSWORD)" ]; then echo "Missing PASSWORD. Example: make auth-hash-password PASSWORD='MyStrongPassword123!'"; exit 1; fi
+	$(PNPM) --filter @nyvoro/api auth:hash-password -- "$(PASSWORD)"
+
+auth-create-user: ## Create an explicit auth user (usage: make auth-create-user ROLE=admin EMAIL='admin@example.com' PASSWORD='...')
+	@if [ -z "$(ROLE)" ] || [ -z "$(EMAIL)" ] || [ -z "$(PASSWORD)" ]; then echo "Missing ROLE, EMAIL, or PASSWORD. Example: make auth-create-user ROLE=admin EMAIL='admin@example.com' PASSWORD='MyStrongPassword123!'"; exit 1; fi
+	$(PNPM) --filter @nyvoro/api auth:create-user -- --role "$(ROLE)" --email "$(EMAIL)" --password "$(PASSWORD)"
 
 vercel-link: ## Link local repository to a Vercel project
 	$(PNPM) vercel:link

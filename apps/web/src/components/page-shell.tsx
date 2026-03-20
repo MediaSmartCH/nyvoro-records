@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { labelMetadata } from '@nyvoro/content';
 import type { Locale } from '@nyvoro/shared-types';
+import { AccountNavMenu } from './account-nav-menu';
 import { getLocaleSwitchPath } from '../lib/locale';
 import { useLocaleContext } from '../context/locale-context';
 import {
@@ -13,6 +14,11 @@ import {
   type ResolvedTheme,
   type ThemePreference
 } from '../lib/theme';
+import {
+  getCachedAuthSessionSnapshot,
+  subscribeAuthSessionSnapshot,
+  type AuthSessionSnapshot
+} from '../lib/auth-api';
 
 function LocaleSwitch({ locale, onNavigate }: { locale: Locale; onNavigate?: () => void }) {
   const location = useLocation();
@@ -60,6 +66,7 @@ function ThemeIcon({ mode }: { mode: ThemePreference }) {
 
 export function PageShell({ children }: { children: React.ReactNode }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { locale, messages } = useLocaleContext();
   const [themePreference, setThemePreference] = useState<ThemePreference>(() =>
     getInitialThemePreference()
@@ -67,13 +74,20 @@ export function PageShell({ children }: { children: React.ReactNode }) {
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() => getSystemTheme());
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [authSession, setAuthSession] = useState<AuthSessionSnapshot>(() => getCachedAuthSessionSnapshot());
+  const wasAuthenticatedRef = useRef(authSession.authenticated);
 
   const resolvedTheme = resolveThemePreference(themePreference, systemTheme);
 
-  const navigation = [
-    { key: 'home', path: '', label: messages.nav.home },
-    { key: 'artists', path: 'artists', label: messages.nav.artists },
-    { key: 'contact', path: 'contact', label: messages.nav.contact }
+  const navigation: Array<{
+    key: string;
+    to: string;
+    end: boolean;
+    label: string;
+  }> = [
+    { key: 'home', to: `/${locale}`, end: true, label: messages.nav.home },
+    { key: 'artists', to: `/${locale}/artists`, end: false, label: messages.nav.artists },
+    { key: 'contact', to: `/${locale}/contact`, end: false, label: messages.nav.contact }
   ];
 
   useEffect(() => {
@@ -126,6 +140,26 @@ export function PageShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    return subscribeAuthSessionSnapshot((snapshot) => {
+      setAuthSession(snapshot);
+    });
+  }, []);
+
+  useEffect(() => {
+    const wasAuthenticated = wasAuthenticatedRef.current;
+    const isProtectedRoute =
+      location.pathname.startsWith(`/${locale}/admin/dashboard`) ||
+      location.pathname.startsWith(`/${locale}/artist/dashboard`) ||
+      location.pathname.startsWith(`/${locale}/account/`);
+
+    if (wasAuthenticated && !authSession.authenticated && isProtectedRoute) {
+      navigate(`/${locale}/login`, { replace: true });
+    }
+
+    wasAuthenticatedRef.current = authSession.authenticated;
+  }, [authSession.authenticated, locale, location.pathname, navigate]);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -190,13 +224,23 @@ export function PageShell({ children }: { children: React.ReactNode }) {
 
         <nav className="main-nav" aria-label="Main navigation" id="site-mobile-nav">
           {navigation.map((item) => {
-            const to = item.path ? `/${locale}/${item.path}` : `/${locale}`;
             return (
-              <NavLink key={item.key} to={to} end={item.path === ''} onClick={() => setIsMobileMenuOpen(false)}>
+              <NavLink key={item.key} to={item.to} end={item.end} onClick={() => setIsMobileMenuOpen(false)}>
                 {item.label}
               </NavLink>
             );
           })}
+          {authSession.authenticated ? (
+            <AccountNavMenu
+              locale={locale}
+              role={authSession.role}
+              onNavigate={() => setIsMobileMenuOpen(false)}
+            />
+          ) : (
+            <NavLink to={`/${locale}/login`} end onClick={() => setIsMobileMenuOpen(false)}>
+              Login
+            </NavLink>
+          )}
         </nav>
 
         <div className="header-controls">

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
+    "auth:hash-password": "tsx src/hash-password.ts",
+    "auth:create-user": "tsx src/create-user.ts",
     "build": "tsup src/server.ts --format esm --target node20 --clean --out-dir dist --sourcemap --no-splitting --external better-sqlite3",
     "clean": "rimraf dist coverage",
     "test": "vitest run",

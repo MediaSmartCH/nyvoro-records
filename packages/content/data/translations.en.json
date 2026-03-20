@@ -82,7 +82,27 @@
     "press": "Press",
     "demos": "Demos",
     "artistInboxes": "Artist inboxes",
-    "distributor": "Distribution partner"
+    "distributor": "Distribution partner",
+    "formTitle": "Send a message",
+    "formSubtitle": "Share your request and our admin team can process it from the internal dashboard.",
+    "formSubmit": "Send message",
+    "formSubmitting": "Sending...",
+    "formSuccess": "Message sent successfully.",
+    "formBypass": "Bot verification is disabled in local development.",
+    "formFields": {
+      "channel": "Channel",
+      "fullName": "Full name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message"
+    },
+    "formErrors": {
+      "validation": "Please check your inputs and try again.",
+      "captcha": "Bot verification failed. Refresh the challenge and retry.",
+      "rateLimited": "Too many attempts. Try again in a few minutes.",
+      "network": "Network request failed. Verify API availability and retry.",
+      "generic": "Unable to send your message right now."
+    }
   },
   "legal": {
     "imprint": "Legal Notice",

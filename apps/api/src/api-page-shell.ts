@@ -31,8 +31,6 @@ export function renderApiPageShell(input: RenderApiPageShellInput): string {
     <link rel="apple-touch-icon" href="/api-assets/favicon-api.svg" />
     <title>${title}</title>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600;700&display=swap');
-
       :root {
         --bg: #e9e7e2;
         --surface: #f7f5f1;
@@ -73,7 +71,7 @@ export function renderApiPageShell(input: RenderApiPageShellInput): string {
         margin: 0;
         min-height: 100vh;
         color: var(--ink);
-        font-family: 'Sora', sans-serif;
+        font-family: 'Segoe UI', sans-serif;
         background:
           radial-gradient(circle at 12% 4%, rgba(24, 27, 33, 0.08), transparent 34%),
           radial-gradient(circle at 86% 22%, rgba(120, 112, 101, 0.13), transparent 32%),
@@ -122,7 +120,7 @@ export function renderApiPageShell(input: RenderApiPageShellInput): string {
       .brand-title {
         text-decoration: none;
         color: inherit;
-        font-family: 'Instrument Serif', serif;
+        font-family: Georgia, serif;
         font-size: clamp(1.6rem, 2.2vw, 2.25rem);
         line-height: 1;
       }
@@ -210,7 +208,7 @@ export function renderApiPageShell(input: RenderApiPageShellInput): string {
 
       .hero h1 {
         margin: 0.55rem 0 0;
-        font-family: 'Instrument Serif', serif;
+        font-family: Georgia, serif;
         font-weight: 400;
         font-size: clamp(2.1rem, 5vw, 3.95rem);
         line-height: 0.96;
@@ -276,7 +274,7 @@ export function renderApiPageShell(input: RenderApiPageShellInput): string {
 
       .feature-card h2 {
         margin: 0;
-        font-family: 'Instrument Serif', serif;
+        font-family: Georgia, serif;
         font-weight: 400;
         font-size: clamp(1.4rem, 2vw, 1.95rem);
       }
@@ -370,7 +368,7 @@ export function renderApiPageShell(input: RenderApiPageShellInput): string {
 
       .error-code {
         margin: 0;
-        font-family: 'Instrument Serif', serif;
+        font-family: Georgia, serif;
         font-size: clamp(4.2rem, 15vw, 10.6rem);
         line-height: 0.85;
         color: color-mix(in srgb, var(--accent), transparent 78%);
@@ -383,7 +381,7 @@ export function renderApiPageShell(input: RenderApiPageShellInput): string {
 
       .error-content h1 {
         margin: 0;
-        font-family: 'Instrument Serif', serif;
+        font-family: Georgia, serif;
         font-weight: 400;
         font-size: clamp(2rem, 4.7vw, 4.2rem);
         line-height: 0.95;

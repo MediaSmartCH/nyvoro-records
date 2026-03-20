@@ -9,17 +9,26 @@
     "releaseDate": "2026-02-20",
     "artwork": "https://s3.amazonaws.com/gather.fandalism.com/800x800-11314784--5B639A97-8CE6-4F19-8C63A41E186E5206--0--1783917--NocheQueSeRepiteThumbnail.jpg",
     "links": {
-      "youtube": "https://www.youtube.com/watch?v=FGTHtjt3zSQ",
-      "spotify": "https://open.spotify.com/intl-fr/track/4UucsW9j0SOydbJw4MnLMO",
-      "appleMusic": "https://music.apple.com/us/song/noche-que-se-repite/1870574254",
-      "tidal": "https://tidal.com/album/491069291",
       "amazonMusic": "https://music.amazon.fr/tracks/B0GHS8999D",
-      "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j"
+      "appleMusic": "https://music.apple.com/us/song/noche-que-se-repite/1870574254",
+      "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
+      "spotify": "https://open.spotify.com/intl-fr/track/4UucsW9j0SOydbJw4MnLMO",
+      "tidal": "https://tidal.com/album/491069291",
+      "youtube": "https://www.youtube.com/watch?v=FGTHtjt3zSQ"
     },
     "description": {
       "en": "Opening single of the 2026 cycle: nocturnal tension and controlled desire.",
       "fr": "Single d'ouverture du cycle 2026 : tension nocturne et désir maîtrisé."
-    }
+    },
+    "format": "single",
+    "status": "published",
+    "tracks": [
+      {
+        "id": "noche-que-se-repite-noche-que-se-repite",
+        "title": "Noche Que Se Repite",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "media-noche-con-lumeno",
@@ -31,18 +40,27 @@
     "releaseDate": "2026-03-06",
     "artwork": "https://s3.amazonaws.com/gather.fandalism.com/800x800%2D11314784%2D%2DA3580E76%2DD369%2D45E8%2D944131734D09D77A%2D%2D0%2D%2D1548880%2D%2DNuiturbaineenbokehlumineux%2Ejpg",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "Second implantation release, focused on intimate late-night atmosphere.",
       "fr": "Deuxième sortie d'implantation, centrée sur une intimité de fin de nuit."
-    }
+    },
+    "format": "single",
+    "status": "published",
+    "tracks": [
+      {
+        "id": "media-noche-con-lumeno-media-noche-con-lumeno",
+        "title": "Media Noche con Lúmeno",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "entre-tu-y-yo",
@@ -54,18 +72,27 @@
     "releaseDate": "2026-03-20",
     "artwork": "https://s3.amazonaws.com/gather.fandalism.com/800x800%2D11314784%2D%2DBC554E48%2DB503%2D4D95%2D9F5A321087B4D51B%2D%2D0%2D%2D1392269%2D%2DEntreTuyYo%2Ejpg",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "A restrained track about closeness, distance, and unfinished conversations.",
       "fr": "Un morceau retenu autour de la proximité, de la distance et des conversations inachevées."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "entre-tu-y-yo-entre-tu-y-yo",
+        "title": "Entre Tú y Yo",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "conexion-de-madrugada",
@@ -77,18 +104,27 @@
     "releaseDate": "2026-04-06",
     "artwork": "https://s3.amazonaws.com/gather.fandalism.com/800x800%2D11314784%2D%2DDF9E1C43%2D68EB%2D46DC%2D9169B7A0AC24B03E%2D%2D0%2D%2D1817110%2D%2DConexionDeMadrugadaThumbnail%2Ejpg",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "Last implantation single before the official monthly release cadence.",
       "fr": "Dernier single d'implantation avant le rythme mensuel officiel."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "conexion-de-madrugada-conexion-de-madrugada",
+        "title": "Conexión De Madrugada",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "linea-roja",
@@ -100,18 +136,27 @@
     "releaseDate": "2026-05-29",
     "artwork": "https://s3.amazonaws.com/gather.fandalism.com/11314784%2D%2D7783C953%2DBCC1%2D4DEB%2DA3EAAE01D21AB4BB%2D%2D0%2D%2D1625375%2D%2DLineaRoja%2Epng",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "First official monthly single, marking the red-line moment in the narrative.",
       "fr": "Premier single mensuel officiel, moment charnière de la narration."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "linea-roja-linea-roja",
+        "title": "Línea Roja",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "tba-june-2026",
@@ -123,18 +168,27 @@
     "releaseDate": "2026-06-26",
     "artwork": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "Official monthly release in the 2026 cycle.",
       "fr": "Sortie mensuelle officielle du cycle 2026."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "tba-june-2026-title-to-be-announced",
+        "title": "Title to be announced",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "tba-july-2026",
@@ -146,18 +200,27 @@
     "releaseDate": "2026-07-31",
     "artwork": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "Official monthly release in the 2026 cycle.",
       "fr": "Sortie mensuelle officielle du cycle 2026."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "tba-july-2026-title-to-be-announced",
+        "title": "Title to be announced",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "tba-august-2026",
@@ -169,18 +232,27 @@
     "releaseDate": "2026-08-28",
     "artwork": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "Official monthly release in the 2026 cycle.",
       "fr": "Sortie mensuelle officielle du cycle 2026."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "tba-august-2026-title-to-be-announced",
+        "title": "Title to be announced",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "tba-september-2026",
@@ -192,18 +264,27 @@
     "releaseDate": "2026-09-25",
     "artwork": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "Official monthly release in the 2026 cycle.",
       "fr": "Sortie mensuelle officielle du cycle 2026."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "tba-september-2026-title-to-be-announced",
+        "title": "Title to be announced",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "tba-october-2026",
@@ -215,18 +296,27 @@
     "releaseDate": "2026-10-30",
     "artwork": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "Official monthly release in the 2026 cycle.",
       "fr": "Sortie mensuelle officielle du cycle 2026."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "tba-october-2026-title-to-be-announced",
+        "title": "Title to be announced",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "tba-november-2026",
@@ -238,18 +328,27 @@
     "releaseDate": "2026-11-27",
     "artwork": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "Official monthly release in the 2026 cycle.",
       "fr": "Sortie mensuelle officielle du cycle 2026."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "tba-november-2026-title-to-be-announced",
+        "title": "Title to be announced",
+        "isFocusTrack": true
+      }
+    ]
   },
   {
     "id": "tba-december-2026",
@@ -261,17 +360,26 @@
     "releaseDate": "2026-12-18",
     "artwork": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80",
     "links": {
-      "youtube": "https://www.youtube.com/@lumeno_music",
-      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno",
       "appleMusic": "https://music.apple.com/us/artist/l%C3%BAmeno/1870516165",
-      "tidal": "https://tidal.com/artist/73328686",
       "deezer": "https://www.deezer.com/fr/album/901208792",
       "qobuz": "https://play.qobuz.com/album/g6v9u83z5bv9j",
-      "amazonMusic": "https://music.amazon.fr/artists/B0GHSBGZGV/l%C3%BAmeno"
+      "spotify": "https://open.spotify.com/intl-fr/artist/6DpKxbEYB3PltIfMZRIuQS",
+      "tidal": "https://tidal.com/artist/73328686",
+      "youtube": "https://www.youtube.com/@lumeno_music"
     },
     "description": {
       "en": "Final official release of the 2026 cycle.",
       "fr": "Dernière sortie officielle du cycle 2026."
-    }
+    },
+    "format": "single",
+    "status": "scheduled",
+    "tracks": [
+      {
+        "id": "tba-december-2026-title-to-be-announced",
+        "title": "Title to be announced",
+        "isFocusTrack": true
+      }
+    ]
   }
 ]

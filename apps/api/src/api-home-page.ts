@@ -37,6 +37,66 @@ export function renderApiHomePage(input: ApiHomePageInput): string {
             <span>Profile access via magic link</span>
             <code>GET /api/v1/applications/:applicationId/profile?token=...</code>
           </li>
+          <li class="endpoint">
+            <span>Secure role login (admin/artist)</span>
+            <code>POST /api/v1/auth/login</code>
+          </li>
+          <li class="endpoint">
+            <span>Complete admin MFA login challenge</span>
+            <code>POST /api/v1/auth/login/verify-mfa</code>
+          </li>
+          <li class="endpoint">
+            <span>Create artist account</span>
+            <code>POST /api/v1/auth/register</code>
+          </li>
+          <li class="endpoint">
+            <span>Current auth session</span>
+            <code>GET /api/v1/auth/session</code>
+          </li>
+          <li class="endpoint">
+            <span>Authenticated account profile</span>
+            <code>GET /api/v1/account/profile</code>
+          </li>
+          <li class="endpoint">
+            <span>Update account profile</span>
+            <code>PATCH /api/v1/account/profile</code>
+          </li>
+          <li class="endpoint">
+            <span>Update account password</span>
+            <code>POST /api/v1/account/password</code>
+          </li>
+          <li class="endpoint">
+            <span>Initialize MFA setup</span>
+            <code>POST /api/v1/account/mfa/setup</code>
+          </li>
+          <li class="endpoint">
+            <span>Verify and enable MFA</span>
+            <code>POST /api/v1/account/mfa/verify</code>
+          </li>
+          <li class="endpoint">
+            <span>Disable MFA</span>
+            <code>POST /api/v1/account/mfa/disable</code>
+          </li>
+          <li class="endpoint">
+            <span>Public contact message intake</span>
+            <code>POST /api/v1/contact-messages</code>
+          </li>
+          <li class="endpoint">
+            <span>Admin dashboard aggregate data</span>
+            <code>GET /api/v1/admin/dashboard</code>
+          </li>
+          <li class="endpoint">
+            <span>Admin catalog content snapshot</span>
+            <code>GET /api/v1/admin/catalog</code>
+          </li>
+          <li class="endpoint">
+            <span>Save admin catalog content</span>
+            <code>PUT /api/v1/admin/catalog</code>
+          </li>
+          <li class="endpoint">
+            <span>Resolve admin contact message</span>
+            <code>PATCH /api/v1/admin/contact-messages/:messageId</code>
+          </li>
         </ul>
       </article>
 

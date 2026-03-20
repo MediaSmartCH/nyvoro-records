@@ -26,10 +26,14 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
-    env_file:
-      - .env
     environment:
-      VITE_API_BASE_URL: http://localhost:4000
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:4000}
+      VITE_TURNSTILE_SITE_KEY: ${VITE_TURNSTILE_SITE_KEY:-1x00000000000000000000AA}
+      VITE_TURNSTILE_BYPASS: ${VITE_TURNSTILE_BYPASS:-true}
+      VITE_CONTACT_EMAIL: ${VITE_CONTACT_EMAIL:-contact@nyvoro-records.com}
+      VITE_PRESS_EMAIL: ${VITE_PRESS_EMAIL:-press@nyvoro-records.com}
+      VITE_DEMO_EMAIL: ${VITE_DEMO_EMAIL:-demo@nyvoro-records.com}
+      VITE_APPLICATION_RECIPIENT_EMAIL: ${VITE_APPLICATION_RECIPIENT_EMAIL:-demo@nyvoro-records.com}
     working_dir: /workspace
     command: >
       sh -c "pnpm install && pnpm --filter @nyvoro/web dev --host 0.0.0.0 --port 5173"

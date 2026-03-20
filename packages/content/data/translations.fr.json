@@ -82,7 +82,27 @@
     "press": "Presse",
     "demos": "Démos",
     "artistInboxes": "Boîtes artistes",
-    "distributor": "Partenaire distribution"
+    "distributor": "Partenaire distribution",
+    "formTitle": "Envoyer un message",
+    "formSubtitle": "Partage ta demande et l equipe admin pourra la traiter depuis le dashboard interne.",
+    "formSubmit": "Envoyer le message",
+    "formSubmitting": "Envoi...",
+    "formSuccess": "Message envoye avec succes.",
+    "formBypass": "Verification anti-bot desactivee en environnement local.",
+    "formFields": {
+      "channel": "Canal",
+      "fullName": "Nom complet",
+      "email": "Email",
+      "subject": "Objet",
+      "message": "Message"
+    },
+    "formErrors": {
+      "validation": "Verifie les champs puis reessaie.",
+      "captcha": "Verification anti-bot invalide. Recharge le challenge puis reessaie.",
+      "rateLimited": "Trop de tentatives. Reessaie dans quelques minutes.",
+      "network": "Connexion reseau impossible. Verifie l API puis reessaie.",
+      "generic": "Impossible d envoyer le message pour le moment."
+    }
   },
   "legal": {
     "imprint": "Mentions légales",

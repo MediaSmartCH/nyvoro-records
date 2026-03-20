@@ -6,16 +6,21 @@ import {
 import { LocaleErrorBoundary } from './components/locale-error-boundary';
 import { LocaleLayout } from './components/locale-layout';
 import { ArtistDetailPage } from './pages/artist-detail-page';
+import { ArtistDashboardPage } from './pages/artist-dashboard-page';
 import { ArtistsPage } from './pages/artists-page';
+import { AdminDashboardPage } from './pages/admin-dashboard-page';
 import { ApplicationProfilePage } from './pages/application-profile-page';
+import { AccountSettingsPage } from './pages/account-settings-page';
 import { ContactPage } from './pages/contact-page';
 import { ErrorStatusPage } from './pages/error-status-page';
 import { GlobalNotFoundRedirectPage } from './pages/global-not-found-redirect';
 import { HomePage } from './pages/home-page';
 import { JoinPage } from './pages/join-page';
 import { LegalPage } from './pages/legal-page';
+import { LoginPage } from './pages/login-page';
 import { LocaleRedirectPage } from './pages/locale-redirect';
 import { NotFoundPage } from './pages/not-found-page';
+import { RegisterPage } from './pages/register-page';
 import { ReleasesPage } from './pages/releases-page';
 
 export const routeTree: RouteObject[] = [
@@ -55,6 +60,30 @@ export const routeTree: RouteObject[] = [
       {
         path: 'contact',
         element: <ContactPage />
+      },
+      {
+        path: 'login',
+        element: <LoginPage />
+      },
+      {
+        path: 'register',
+        element: <RegisterPage />
+      },
+      {
+        path: 'account/settings',
+        element: <AccountSettingsPage />
+      },
+      {
+        path: 'admin/dashboard',
+        element: <AdminDashboardPage />
+      },
+      {
+        path: 'artist/dashboard',
+        element: <ArtistDashboardPage />
+      },
+      {
+        path: 'secure-access',
+        element: <LoginPage />
       },
       {
         path: 'legal/imprint',
